@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <TableCitizen />
+    <img src="./assets/svg/demoBar.svg" alt="" />
+    <div>
+      <TableCitizen />
+    </div>
   </div>
 </template>
 
@@ -15,6 +18,6 @@ export default {
 };
 </script>
 
-<style>
-/* @import url('./src/app.scss'); */
+<style lang="scss">
+@import './src/components/app.scss';
 </style>
