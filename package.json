@@ -8,9 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vue/composition-api": "^1.4.0",
+    "@vueuse/motion": "^2.0.0-beta.4",
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.6.5",
     "husky": "4",
+    "lodash": "^4.17.21",
     "sass": "^1.43.4",
     "sass-loader": "^10.1.1",
     "vue": "^2.6.11"

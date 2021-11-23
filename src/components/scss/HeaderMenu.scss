@@ -1,0 +1,10 @@
+.HeaderMenu {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    margin: 0;
+  }
+  transition: 0.4s;
+}

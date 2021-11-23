@@ -28,3 +28,10 @@ body {
 
 //component
 @import './scss/TableCitizen.scss';
+@import './scss/ProgressChart.scss';
+@import './scss/HeaderMenu.scss';
+p,
+div,
+span {
+  font-family: $font-roboto;
+}
