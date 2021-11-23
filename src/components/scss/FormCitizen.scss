@@ -1,0 +1,30 @@
+.FormCitizen {
+  width: 600px;
+  // height: 100vh;
+  border: 1px solid black;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  &-pair {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    p {
+      margin: 0;
+      display: inline-block;
+      width: 30%;
+      text-align: right;
+      // border: 1px solid black;
+      margin-right: 10px;
+    }
+    &-input {
+      width: 300px !important;
+      height: 35px !important;
+    }
+  }
+  &-submit {
+    display: block;
+    width: 100px !important;
+    margin: 10px auto 0 31% !important;
+  }
+}

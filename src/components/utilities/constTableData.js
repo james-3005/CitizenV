@@ -24,31 +24,12 @@ const columns = [
   {
     title: 'Họ và Tên',
     key: 'fullname',
-    // slots: { title: 'fullName' },
-    // scopedSlots: { customRender: 'name' },
-    children: [
-      {
-        title: 'Họ',
-        dataIndex: 'surname',
-        // key: 'surname',
-        slots: { title: 'surname' },
-        width: 100,
-      },
-      {
-        title: 'Tên',
-        dataIndex: 'lastname',
-        // slots: {title: 'name'}
-      },
-      {
-        title: 'Tên đầy đủ',
-        slots: { title: 'name' },
-        scopedSlots: { customRender: 'name' },
-        sorter: (a, b) => {
-          const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
-          return a1.localeCompare(b1);
-        },
-      },
-    ],
+    slots: { title: 'name' },
+    scopedSlots: { customRender: 'name' },
+    sorter: (a, b) => {
+      const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
+      return a1.localeCompare(b1);
+    },
   },
   {
     title: 'Giới tính',

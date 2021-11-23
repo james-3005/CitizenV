@@ -2,23 +2,30 @@ body {
   border: 0;
   margin: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 #app {
-  overflow: hidden;
   width: 100%;
   height: 100%;
   position: relative;
-  & > div {
-    position: absolute;
-    left: 280px;
-    top: 20px;
+  display: flex;
+  .leftSide {
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    flex: 1;
   }
   & > img {
-    position: absolute;
-    left: -60px;
+    height: 100%;
+    width: 100px;
+    float: left;
     background-color: black;
+    transition: 0.4s;
+    &:hover {
+      width: 200px;
+      transition: 0.4s;
+    }
   }
 }
 
@@ -30,6 +37,8 @@ body {
 @import './scss/TableCitizen.scss';
 @import './scss/ProgressChart.scss';
 @import './scss/HeaderMenu.scss';
+@import './scss/FormCitizen.scss';
+@import './scss/ListCitizen.scss';
 p,
 div,
 span {

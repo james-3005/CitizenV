@@ -14,9 +14,11 @@
     "core-js": "^3.6.5",
     "husky": "4",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "sass": "^1.43.4",
     "sass-loader": "^10.1.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.5.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -42,6 +44,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
+      "no-unused-vars": "off",
       "vue/no-unused-components": "off"
     }
   },

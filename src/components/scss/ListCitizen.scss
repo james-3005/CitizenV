@@ -1,0 +1,15 @@
+.ListCitizen {
+  width: 100%;
+  &-header {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    float: right;
+    position: relative;
+    z-index: 2;
+    &-button {
+      margin-left: 5px;
+    }
+  }
+}
