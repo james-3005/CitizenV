@@ -1,9 +1,14 @@
 <template>
   <div class="HeaderMenu">
     <h1>{{ header }}</h1>
-    <a-button type="default" icon="close" size="default" @click="onExit">{{
-      type === 'default' ? 'Trở về' : ''
-    }}</a-button>
+    <a-button
+      v-if="!notShow"
+      type="default"
+      icon="close"
+      size="default"
+      @click="onExit"
+      >{{ type === 'default' ? 'Trở về' : '' }}</a-button
+    >
   </div>
 </template>
 
@@ -13,6 +18,10 @@ export default {
     header: String,
     onExit: Function,
     type: String,
+    notShow: Boolean,
+  },
+  mounted() {
+    console.log(this.notShow);
   },
 };
 </script>

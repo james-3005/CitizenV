@@ -1,0 +1,26 @@
+.SideBar {
+  width: 70px;
+  background-color: black;
+  transition: 0.4s;
+  &:hover {
+    transition: 0.4s;
+    width: 170px;
+    & > img {
+      transition: 0.4s;
+      opacity: 1;
+    }
+  }
+  &-appLogo {
+    transition: 0.2s;
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 20px auto 0 auto;
+  }
+  &-textLogo {
+    @extend .SideBar-appLogo;
+    width: 100px;
+    opacity: 0;
+    margin: auto;
+  }
+}

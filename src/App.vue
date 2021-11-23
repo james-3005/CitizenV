@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/svg/demoBar.svg" alt="" />
+    <SideBar />
     <div class="leftSide">
       <router-view></router-view>
     </div>
@@ -10,10 +10,11 @@
 <script>
 import TableCitizen from './components/moreclues/TableCitizen.vue';
 import FormCitizen from './components/moreclues/FormCitizen.vue';
+import SideBar from './components/moreclues/SideBar.vue';
 export default {
   name: 'App',
   components: {
-    // HelloWorld,
+    SideBar,
     TableCitizen,
     FormCitizen,
   },

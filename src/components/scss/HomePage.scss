@@ -1,0 +1,38 @@
+.HomePage {
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+
+  &-grid {
+    border: 1px solid black;
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    margin: auto;
+  }
+  &-button {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    outline: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.4s;
+    color: rgb(59, 59, 59);
+    &:hover {
+      transition: 0.4s;
+      border-color: #40a9ff;
+      color: #40a9ff;
+      font-family: $font-roboto;
+    }
+  }
+}

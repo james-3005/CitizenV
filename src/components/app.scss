@@ -39,8 +39,15 @@ body {
 @import './scss/HeaderMenu.scss';
 @import './scss/FormCitizen.scss';
 @import './scss/ListCitizen.scss';
+@import './scss/Homepage.scss';
+@import './scss/SideBar.scss';
 p,
 div,
 span {
   font-family: $font-roboto;
+}
+
+router-link {
+  text-decoration: none !important;
+  color: black !important;
 }
