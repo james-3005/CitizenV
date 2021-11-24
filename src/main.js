@@ -13,6 +13,7 @@ Vue.use(MotionPlugin);
 
 import ListCitizen from './components/pages/ListCitizen';
 import HomePage from './components/pages/HomePage';
+import LoginPage from './components/pages/LoginPage';
 const routes = [
   {
     path: '/',
@@ -26,6 +27,10 @@ const routes = [
   //   { path: '/FormCitizen',
   //   component: TableCitizen
   //  },
+  {
+    path: '/login',
+    component: LoginPage,
+  },
 ];
 
 // 3. Create the router instance and pass the `routes` option
