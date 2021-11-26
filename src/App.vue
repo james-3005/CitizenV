@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <SideBar />
+    This is Nguyen Thanh Do
     <div class="leftSide">
       <router-view></router-view>
     </div>
