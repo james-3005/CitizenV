@@ -23,11 +23,14 @@
         <div class="SideBar-avatar">
           <img src="../../assets/avatar.png" alt="user_avatar" />
         </div>
+        <!-- <div class="SideBar-footer-logout"> -->
+
         <img
           src="../../assets/svg/logOutLogo.svg"
           alt=""
           class="SideBar-logOutIcon"
         />
+        <!-- </div> -->
       </div>
     </div>
   </div>
