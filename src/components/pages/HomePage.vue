@@ -2,7 +2,7 @@
   <div class="HomePage">
     <HeaderMenu header="Màn hình chính" type="default" :notShow="true" />
     <div class="HomePage-grid">
-      <router-link to="/ListCitizen" type="default">
+      <!-- <router-link to="/ListCitizen" type="default">
         <button class="HomePage-button">
           <a-icon type="file-text" /> Danh sách dân số
         </button>
@@ -18,7 +18,14 @@
       </button>
       <button class="HomePage-button">
         <a-icon type="rise" /> Quản lý tài khoản
-      </button>
+      </button> -->
+      <!-- asd -->
+      <!-- {{this.imgs[0]}} -->
+      <div v-for="imga in this.imgs" :key="imga">
+        {{ img }}
+        <div>{{ imga }}</div>
+        <img :src="require(`../../assets/svg/${imga}.svg`)" />
+      </div>
     </div>
   </div>
 </template>
@@ -27,10 +34,15 @@
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 export default {
   components: { HeaderMenu },
-  props: function () {
+  data: function () {
     return {
-      notShow: true,
+      imgs: ['appLogo', 'textLogo'],
     };
+  },
+  methods: {
+    returnUrl: function (index) {
+      return this.imgs[index];
+    },
   },
 };
 </script>
