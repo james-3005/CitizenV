@@ -10,8 +10,8 @@
         {{ data.surname + ' ' + data.lastname }}
       </span>
       <span slot="status" slot-scope="status">
-        <a-tag :color="status === 'Chưa điền' ? 'volcano' : 'green'">
-          {{ status }}
+        <a-tag :color="status ? 'volcano' : 'green'">
+          {{ status ? 'Hoàn thành' : 'Còn thiếu' }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">

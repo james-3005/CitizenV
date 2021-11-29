@@ -13,3 +13,28 @@
   text-align: left !important;
   font-family: $font-roboto;
 }
+.Table {
+  &-key {
+    width: 60px;
+  }
+  &-fullname {
+    max-width: 150px !important;
+  }
+  &-sex {
+    width: 65px;
+  }
+  &-dob {
+    width: 120px;
+  }
+  &-identification {
+    width: 150px;
+  }
+  &-address {
+  }
+  &-status {
+    width: 120px;
+  }
+  &-action {
+    width: 120px;
+  }
+}

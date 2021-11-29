@@ -49,11 +49,11 @@ export default {
     };
   },
   mounted() {
-    this.sign =
-      (this.list.filter((item) => item.status === 'Đã điền').length /
-        this.list.length) *
-      100;
-    this.notSign = 100 - this.sign;
+    this.sign = (
+      (this.list.filter((item) => item.status).length / this.list.length) *
+      100
+    ).toFixed(2);
+    this.notSign = (100 - this.sign).toFixed(2);
   },
   methods: {},
   components: {
