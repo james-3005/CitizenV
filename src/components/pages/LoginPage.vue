@@ -10,21 +10,29 @@
       <div class="LoginPage-form-title">
         <strong>Đăng nhập</strong>
       </div>
-      <div class="LoginPage-form-container">
+      <a-form class="LoginPage-form-container">
         <label for="email">Email</label>
-        <input type="text" placeholder="Enter Email" name="email" required />
-
+        <a-input
+          type="text"
+          placeholder="Nhập Email"
+          name="email"
+          required
+          v-model="email"
+          class="LoginPage-input"
+        />
         <label for="psw">Password</label>
-        <input
+        <a-input
           type="password"
-          placeholder="Enter Password"
+          placeholder="Nhập Password"
           name="psw"
           required
+          v-model="password"
+          class="LoginPage-input"
         />
-        <router-link to="/conference/home">
-          <button type="submit">Login</button>
-        </router-link>
-      </div>
+        <!-- <router-link to="/conference/home"> -->
+        <button type="submit">Đăng nhập</button>
+        <!-- </router-link> -->
+      </a-form>
       <div class="LoginPage-footer">CitizenV - Hệ thống điều tra dân số</div>
     </form>
   </div>
@@ -33,7 +41,10 @@
 <script>
 export default {
   props: {},
-  data: () => ({}),
+  data: () => ({
+    email: '',
+    password: '',
+  }),
   methods: {},
   components: {},
 };
