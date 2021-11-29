@@ -7,7 +7,9 @@
       <div class="LoginPage-form-logocontainer">
         <img src="../../assets/svg/appLogo.svg" alt="Logo" class="logo" />
       </div>
-      <h2><strong>Đăng nhập</strong></h2>
+      <div class="LoginPage-form-title">
+        <strong>Đăng nhập</strong>
+      </div>
       <div class="LoginPage-form-container">
         <label for="email">Email</label>
         <input type="text" placeholder="Enter Email" name="email" required />
@@ -21,11 +23,8 @@
         />
 
         <button type="submit">Login</button>
-        <label>
-          <input type="checkbox" checked="checked" name="remember" /> Remember
-          me
-        </label>
       </div>
+      <div class="LoginPage-footer">CitizenV - Hệ thống điều tra dân số</div>
     </form>
   </div>
 </template>
