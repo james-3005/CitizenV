@@ -21,8 +21,9 @@
           name="psw"
           required
         />
-
-        <button type="submit">Login</button>
+        <router-link to="/conference/home">
+          <button type="submit">Login</button>
+        </router-link>
       </div>
       <div class="LoginPage-footer">CitizenV - Hệ thống điều tra dân số</div>
     </form>

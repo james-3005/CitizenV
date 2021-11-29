@@ -14,19 +14,23 @@ Vue.use(MotionPlugin);
 import ListCitizen from './components/pages/ListCitizen';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
+import Conference from './components/pages/Conference';
 const routes = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/login',
   },
   {
-    path: '/home',
-    component: HomePage,
+    path: '/conference',
+    component: Conference,
+    children: [
+      {
+        path: 'home',
+        component: HomePage,
+      },
+      { path: '/ListCitizen', component: ListCitizen },
+    ],
   },
-  { path: '/ListCitizen', component: ListCitizen },
-  //   { path: '/FormCitizen',
-  //   component: TableCitizen
-  //  },
   {
     path: '/login',
     component: LoginPage,
