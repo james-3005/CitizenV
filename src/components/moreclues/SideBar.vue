@@ -21,7 +21,9 @@
               alt="fuck"
               class="SideBar-featureIcon"
             />
-            <a class="SideBar-featureText">{{ option.text }}</a>
+            <a :href="option.url" class="SideBar-featureText">{{
+              option.text
+            }}</a>
           </div>
         </li>
       </ul>
@@ -55,31 +57,37 @@ export default {
         id: 1,
         text: 'Trang chu',
         src: 'homeLogo',
+        url: './home',
       },
       {
         id: 2,
         text: 'Tinh/TP',
         src: 'citiesLogo',
+        url: './home',
       },
       {
         id: 3,
         text: 'Thong ke',
         src: 'analyticsLogo',
+        url: './home',
       },
       {
         id: 4,
         text: 'Cap A2',
         src: 'accountsLogo',
+        url: './home',
       },
       {
         id: 5,
         text: 'Ca nhan',
         src: 'accountLogo',
+        url: './PersonalPage',
       },
       {
         id: 6,
         text: 'Cai dat',
         src: 'settingLogo',
+        url: './home',
       },
     ],
   }),

@@ -13,6 +13,7 @@ Vue.use(MotionPlugin);
 
 import ListCitizen from './components/pages/ListCitizen';
 import HomePage from './components/pages/HomePage';
+import PersonalPage from './components/pages/PersonalPage';
 const routes = [
   {
     path: '/',
@@ -22,7 +23,14 @@ const routes = [
     path: '/home',
     component: HomePage,
   },
-  { path: '/ListCitizen', component: ListCitizen },
+  {
+    path: '/ListCitizen',
+    component: ListCitizen,
+  },
+  {
+    path: '/PersonalPage',
+    component: PersonalPage,
+  },
   //   { path: '/FormCitizen',
   //   component: TableCitizen
   //  },

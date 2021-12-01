@@ -1,0 +1,59 @@
+.PersonalPage {
+  margin: auto;
+  height: 100%;
+  padding: 0 60px 0 60px;
+  //   @media screen and (min-width: 1000px) {
+  //     transition: 0.4s;
+  //     width: 70%;
+  //   }
+  display: grid;
+  grid-template-rows: 60px 1fr 1fr;
+  grid-row-gap: 20px;
+
+  &-information,
+  &-resetPassword {
+    &-contents {
+      section {
+        padding: 10px;
+      }
+      form {
+        height: 100%;
+        padding: 2.5rem;
+        border-radius: 10px;
+        background-color: #f7f7f7;
+        label {
+          font-size: 1.2rem;
+        }
+        input {
+          width: 60%;
+          height: 30px;
+          border-radius: 5px;
+          margin-bottom: 15px;
+        }
+        #submit_btn {
+          width: 60px;
+          height: 30px;
+          background-color: rgb(3, 197, 197);
+        }
+      }
+
+      height: 90%;
+      display: grid;
+      grid-template-columns: 30% 70%;
+    }
+  }
+  &-information {
+    #myFile {
+      width: calc(60% - 60px);
+    }
+    .info-avatar {
+      img {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0.5rem;
+        border-radius: 50%;
+        border: 4px solid rgb(0, 150, 150);
+      }
+    }
+  }
+}
