@@ -30,10 +30,15 @@
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 export default {
   components: { HeaderMenu },
-  props: function () {
+  data: function () {
     return {
-      notShow: true,
+      imgs: ['appLogo', 'textLogo'],
     };
+  },
+  methods: {
+    returnUrl: function (index) {
+      return this.imgs[index];
+    },
   },
 };
 </script>

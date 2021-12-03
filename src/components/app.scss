@@ -49,10 +49,19 @@ body {
 @import './scss/HomePage.scss';
 @import './scss/LoginPage.scss';
 @import './scss/Conference.scss';
+@import './scss/PersonalPage.scss';
+@import './scss/AccountManagerPage.scss';
+@import './scss/AnalyticsPage.scss';
+@import './scss/CitizenPage.scss';
+@import './scss/SettingPage.scss';
+
 p,
 div,
-span {
+span,
+a,
+input {
   font-family: $font-roboto;
+  outline: none;
 }
 
 router-link {
