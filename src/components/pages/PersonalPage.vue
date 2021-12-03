@@ -13,14 +13,25 @@
             <div class="info-avatar">
               <img src="../../assets/avatar.png" alt="User avatar" />
             </div>
-            <input type="file" id="myFile" name="filename" /> <br />
+            <input type="file" name="filename" class="input" /> <br />
             <label for="name">Họ và tên:</label><br />
-            <a-input type="text" id="name" name="name" /><br />
+            <a-input
+              class="input"
+              type="text"
+              name="name"
+              disabled
+              value="Tran Nhat Huy"
+            /><br />
             <label for="email">Email:</label><br />
-            <a-input type="text" id="email" name="email" /><br />
-            <a-input type="submit" id="submit_btn" value="Save" /> <br />
-            <!-- <label for="phone">Số điện thoại:</label><br />
-            <input type="text" id="phone" name="phone" /> -->
+            <a-input
+              class="input"
+              type="text"
+              name="email"
+              disabled
+              value="1902xxxx@vnu.edu.vn"
+            /><br />
+            <a-button type="primary">Lưu</a-button>
+            <br />
           </form>
         </div>
       </div>
@@ -35,12 +46,13 @@
         <div class="reset">
           <form>
             <label for="currentPwd">Mật khẩu hiện tại:</label><br />
-            <input type="text" id="currentPwd" name="currentPwd" /><br />
+            <a-input class="input" type="text" name="currentPwd" /><br />
             <label for="newPwd">Mật khẩu mới:</label><br />
-            <input type="text" id="newPwd" name="newPwd" /><br />
+            <a-input class="input" type="text" name="newPwd" /><br />
             <label for="retypePwd">Nhập lại mật khẩu mới:</label><br />
-            <input type="text" id="retypePwd" name="retypePwd" /><br />
-            <input type="submit" id="submit_btn" value="Save" /> <br />
+            <a-input class="input" type="text" name="retypePwd" /><br />
+            <a-button type="primary"> Lưu </a-button>
+            <br />
           </form>
         </div>
       </div>

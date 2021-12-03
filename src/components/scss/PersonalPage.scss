@@ -21,18 +21,24 @@
         border-radius: 10px;
         background-color: #f7f7f7;
         label {
-          font-size: 1.2rem;
+          font-size: 15px;
         }
+        .input,
         input {
           width: 60%;
-          height: 30px;
+          height: 42px;
           border-radius: 5px;
           margin-bottom: 15px;
+          margin-top: 5px !important;
+          &[type='file'] {
+            border-radius: 0;
+          }
         }
         #submit_btn {
           width: 60px;
           height: 30px;
           background-color: rgb(3, 197, 197);
+          color: rgb(105, 100, 100);
         }
       }
 
@@ -42,6 +48,12 @@
     }
   }
   &-information {
+    &-contents {
+      input[disabled] {
+        color: rgb(105, 100, 100);
+        font-size: 1rem;
+      }
+    }
     #myFile {
       width: calc(60% - 60px);
     }
@@ -53,6 +65,11 @@
         border-radius: 50%;
         border: 4px solid rgb(0, 150, 150);
       }
+    }
+  }
+  &-resetPassword {
+    &-contents {
+      margin-bottom: 60px;
     }
   }
 }

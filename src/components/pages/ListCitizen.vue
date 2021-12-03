@@ -1,14 +1,5 @@
 <template>
   <div class="ListCitizen">
-    <HeaderMenu
-      header="Danh sách người dân"
-      :onExit="
-        () => {
-          this.$router.go(-1);
-        }
-      "
-      type="default"
-    />
     <div class="ListCitizen-header">
       <a-button
         type="primary"

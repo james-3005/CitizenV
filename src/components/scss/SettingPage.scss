@@ -1,4 +1,34 @@
 .SettingPage {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+}
+.a {
+  float: left;
+  white-space: nowrap;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  transition: 0.4s;
+  &[roll='true'] {
+    margin-left: -100%;
+    transition: 0.4s;
+  }
+}
+.b {
+  float: left;
+  white-space: nowrap;
+  @extend .a;
+  background-color: blue;
+}
+.c {
+  // display: flex;
+  // flex-wrap: nowrap;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+}
+.d {
+  width: 200%;
+  height: 100px;
 }

@@ -8,7 +8,11 @@ import VueRouter from 'vue-router';
 // import { routes } from './components/utilities/constRoute';
 // import Chartkick from 'vue-chartkick'
 // import Chart from 'chart.js'
+import VueLodash from 'vue-lodash';
+import lodash from 'lodash';
 
+// name is optional
+Vue.use(VueLodash, { lodash: lodash });
 // Vue.use(Chartkick.use(Chart))
 Vue.use(VueRouter);
 Vue.use(VueCompositionAPI);
