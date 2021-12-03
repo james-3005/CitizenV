@@ -7,9 +7,7 @@
       <div class="LoginPage-form-logocontainer">
         <img src="../../assets/svg/appLogo.svg" alt="Logo" class="logo" />
       </div>
-      <div class="LoginPage-form-title">
-        <strong>Đăng nhập</strong>
-      </div>
+      <div class="LoginPage-form-title">Đăng nhập</div>
       <a-form class="LoginPage-form-container">
         <label for="email">Email</label>
         <a-input
@@ -29,9 +27,9 @@
           v-model="password"
           class="LoginPage-input"
         />
-        <!-- <router-link to="/conference/home"> -->
-        <button type="submit">Đăng nhập</button>
-        <!-- </router-link> -->
+        <router-link to="/conference/home">
+          <button type="submit">Đăng nhập</button>
+        </router-link>
       </a-form>
       <div class="LoginPage-footer">CitizenV - Hệ thống điều tra dân số</div>
     </form>
@@ -47,5 +45,8 @@ export default {
   }),
   methods: {},
   components: {},
+  mounted() {
+    console.log(this.$route.query);
+  },
 };
 </script>

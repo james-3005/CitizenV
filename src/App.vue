@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <!-- <Loading /> -->
+    <!-- <fusioncharts
+        :type="type"
+        width="700"
+        height="400"
+        :dataFormat="dataFormat"
+        :dataSource="dataSource"
+        ref="fc"
+        ></fusioncharts> -->
     <router-view></router-view>
   </div>
 </template>

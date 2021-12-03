@@ -1,24 +1,27 @@
 <template>
   <div class="HomePage">
     <HeaderMenu header="Màn hình chính" type="default" :notShow="true" />
-    <div class="HomePage-grid">
-      <router-link to="/ListCitizen" type="default">
-        <button class="HomePage-button">
-          <a-icon type="file-text" /> Danh sách dân số
-        </button>
-      </router-link>
-      <button class="HomePage-button">
-        <a-icon type="rise" /> Quản lý tài khoản
-      </button>
-      <button class="HomePage-button">
-        <a-icon type="rise" /> Quản lý tài khoản
-      </button>
-      <button class="HomePage-button">
-        <a-icon type="rise" /> Quản lý tài khoản
-      </button>
-      <button class="HomePage-button">
-        <a-icon type="rise" /> Quản lý tài khoản
-      </button>
+    <div class="HomePage-wrapper">
+      <div class="HomePage-wrapper-leftSide">
+        <div class="HomePage-wrapper-leftSide__center">
+          <p class="header">CitizenV</p>
+          <p class="subheader">
+            Hệ thống điều tra dân số dành cho người Việt Nam
+          </p>
+
+          <a-avatar :size="150" icon="user" class="avatar" />
+          <div>
+            <p>Nguyễn Thành Đô</p>
+            <p>A1</p>
+          </div>
+          <a-button type="primary"
+            >Bắt đầu làm việc ngay<a-icon type="right"
+          /></a-button>
+        </div>
+      </div>
+      <div class="HomePage-wrapper-rightSide">
+        <img src="../../assets/svg/thumb1.svg" alt="" />
+      </div>
     </div>
   </div>
 </template>

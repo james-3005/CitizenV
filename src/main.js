@@ -6,6 +6,10 @@ import { MotionPlugin } from '@vueuse/motion';
 import VueCompositionAPI from '@vue/composition-api';
 import VueRouter from 'vue-router';
 
+// import Chartkick from 'vue-chartkick'
+// import Chart from 'chart.js'
+
+// Vue.use(Chartkick.use(Chart))
 Vue.use(VueRouter);
 Vue.use(VueCompositionAPI);
 Vue.use(Antd);
