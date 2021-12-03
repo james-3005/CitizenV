@@ -15,12 +15,30 @@
             </div>
             <input type="file" id="myFile" name="filename" /> <br />
             <label for="name">Họ và tên:</label><br />
-            <input type="text" id="name" name="name" /><br />
+            <a-input
+              class="input"
+              type="text"
+              id="name"
+              name="name"
+              disabled
+              value="Tran Nhat Huy"
+            /><br />
             <label for="email">Email:</label><br />
-            <input type="text" id="email" name="email" /><br />
-            <input type="submit" id="submit_btn" value="Save" /> <br />
-            <!-- <label for="phone">Số điện thoại:</label><br />
-            <input type="text" id="phone" name="phone" /> -->
+            <a-input
+              class="input"
+              type="text"
+              id="email"
+              name="email"
+              disabled
+              value="1902xxxx@vnu.edu.vn"
+            /><br />
+            <a-button
+              class="input"
+              type="submit"
+              id="submit_btn"
+              value="Save"
+            />
+            <br />
           </form>
         </div>
       </div>
@@ -34,12 +52,33 @@
         <div class="reset">
           <form>
             <label for="currentPwd">Mật khẩu hiện tại:</label><br />
-            <input type="text" id="currentPwd" name="currentPwd" /><br />
+            <a-input
+              class="input"
+              type="text"
+              id="currentPwd"
+              name="currentPwd"
+            /><br />
             <label for="newPwd">Mật khẩu mới:</label><br />
-            <input type="text" id="newPwd" name="newPwd" /><br />
+            <a-input
+              class="input"
+              type="text"
+              id="newPwd"
+              name="newPwd"
+            /><br />
             <label for="retypePwd">Nhập lại mật khẩu mới:</label><br />
-            <input type="text" id="retypePwd" name="retypePwd" /><br />
-            <input type="submit" id="submit_btn" value="Save" /> <br />
+            <a-input
+              class="input"
+              type="text"
+              id="retypePwd"
+              name="retypePwd"
+            /><br />
+            <a-button
+              class="input"
+              type="submit"
+              id="submit_btn"
+              value="Save"
+            />
+            <br />
           </form>
         </div>
       </div>
