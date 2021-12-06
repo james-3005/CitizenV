@@ -12,5 +12,8 @@ export default {
     return {};
   },
   methods: {},
+  mounted() {
+    // this.renderChart(this.data, this.options)
+  },
 };
 </script>

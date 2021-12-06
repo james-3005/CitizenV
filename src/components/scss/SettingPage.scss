@@ -3,32 +3,17 @@
   height: 100%;
   overflow: hidden;
 }
-.a {
-  float: left;
-  white-space: nowrap;
+.blue {
+  cursor: pointer;
+  color: #39a4f5;
+  margin-bottom: 0;
+}
+.button {
   width: 100px;
-  height: 100px;
-  background-color: red;
-  transition: 0.4s;
-  &[roll='true'] {
-    margin-left: -100%;
-    transition: 0.4s;
-  }
 }
-.b {
-  float: left;
-  white-space: nowrap;
-  @extend .a;
-  background-color: blue;
+.button2 {
+  width: 300px;
 }
-.c {
-  // display: flex;
-  // flex-wrap: nowrap;
-  overflow: hidden;
-  width: 100px;
-  height: 100px;
-}
-.d {
-  width: 200%;
-  height: 100px;
+.flex {
+  display: flex;
 }

@@ -11,6 +11,8 @@
     "@vue/composition-api": "^1.4.0",
     "@vueuse/motion": "^2.0.0-beta.4",
     "ant-design-vue": "^1.7.8",
+    "axios": "^0.24.0",
+    "chart.js": "^3.6.2",
     "core-js": "^3.6.5",
     "echarts": "^5.2.2",
     "husky": "4",
@@ -19,7 +21,7 @@
     "sass": "^1.43.4",
     "sass-loader": "^10.1.1",
     "vue": "^2.6.11",
-    "vue-echarts": "^6.0.0",
+    "vue-chartjs": "^3.5.1",
     "vue-lodash": "^2.1.2",
     "vue-router": "^3.5.3"
   },

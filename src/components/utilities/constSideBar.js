@@ -1,37 +1,37 @@
 const options = [
   {
     id: 1,
-    text: 'Trang chu',
+    text: 'Trang chủ',
     src: 'homeLogo',
     url: '/conference/home',
   },
   {
     id: 2,
-    text: 'Tinh/TP',
+    text: 'Danh sách',
     src: 'citiesLogo',
     url: '/conference/citizen',
   },
   {
     id: 3,
-    text: 'Thong ke',
+    text: 'Thống kê',
     src: 'analyticsLogo',
     url: '/conference/analytics',
   },
   {
     id: 4,
-    text: 'Cap A2',
+    text: 'Quản lý',
     src: 'accountsLogo',
     url: '/conference/accountManager',
   },
   {
     id: 5,
-    text: 'Ca nhan',
+    text: 'Cá nhân',
     src: 'accountLogo',
     url: '/conference/personal',
   },
   {
     id: 6,
-    text: 'Cai dat',
+    text: 'Cài đặt',
     src: 'settingLogo',
     url: '/conference/setting',
   },

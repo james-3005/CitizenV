@@ -14,9 +14,11 @@
             <p>Nguyễn Thành Đô</p>
             <p>A1</p>
           </div>
-          <a-button type="primary"
-            >Bắt đầu làm việc ngay<a-icon type="right"
-          /></a-button>
+          <router-link to="/conference/citizen">
+            <a-button type="primary"
+              >Bắt đầu làm việc ngay<a-icon type="right"
+            /></a-button>
+          </router-link>
         </div>
       </div>
       <div class="HomePage-wrapper-rightSide">

@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { popUp } from '../utilities/constAnimation';
 export default {
   props: {
     header: String,
@@ -20,8 +21,8 @@ export default {
     type: String,
     notShow: Boolean,
   },
-  mounted() {
-    console.log(this.notShow);
-  },
+  data: () => ({
+    popUp,
+  }),
 };
 </script>

@@ -17,7 +17,6 @@ const columns = [
     // key: 'key',
     dataIndex: 'key',
     className: 'TableCitizen-table-center Table-key',
-    width: 50,
     // slots: { title: 'STT' },
     // scopedSlots: { customRender: 'key' },
   },
@@ -70,7 +69,26 @@ const columns = [
   },
 ];
 
+const columns2 = [
+  {
+    title: 'STT',
+    dataIndex: 'code',
+    className: 'TableCitizen-table-center Table-key',
+  },
+  {
+    title: 'Tỉnh / Thành phố',
+    // dataIndex: 'name',
+    slots: { title: 'province' },
+    scopedSlots: { customRender: 'province' },
+    className: 'TableCitizen-table-center Table-fullname',
+    sorter: (a, b) => {
+      const [a1, b1] = [a.name, b.name];
+      return a1.localeCompare(b1);
+    },
+  },
+];
 module.exports = {
   data,
   columns,
+  columns2,
 };

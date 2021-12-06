@@ -55,17 +55,20 @@ $icon: 24px;
   }
 
   &-btn {
-    width: calc(100% + 30px);
-    padding: 0.5rem 0.5rem 0 0;
+    width: 100%;
+    // padding: 0.5rem 0.5rem 0 0;
     display: flex;
     align-content: space-between;
-    justify-content: flex-end;
+    justify-content: center;
     &-logoContent {
       cursor: pointer;
       transition: 0.4s;
       padding: 0.5rem;
       border-radius: 50%;
-      background-color: #373737;
+      &:hover {
+        background-color: #373737;
+      }
+      //
     }
   }
 

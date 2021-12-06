@@ -10,7 +10,7 @@ import VueRouter from 'vue-router';
 // import Chart from 'chart.js'
 import VueLodash from 'vue-lodash';
 import lodash from 'lodash';
-
+// Vue.use(Chart)
 // name is optional
 Vue.use(VueLodash, { lodash: lodash });
 // Vue.use(Chartkick.use(Chart))
@@ -71,12 +71,31 @@ const routes = [
     component: LoginPage,
   },
 ];
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+
 const router = new VueRouter({
   routes,
   mode: 'history',
+});
+
+router.beforeEach(async (to, from, next) => {
+  // const hasToken = getToken()
+  // // console.log('hasToken: ', hasToken)
+
+  // console.log(to)
+  if (true) {
+    if (to.path === '/login') {
+      // if is logged in, redirect to the home page
+      next('/conference/home');
+    } else {
+      next();
+    }
+  } else {
+    if (to.path === '/login') {
+      next();
+    } else {
+      next(`/login`);
+    }
+  }
 });
 new Vue({
   router,
