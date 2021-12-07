@@ -12,14 +12,19 @@
     "@vueuse/motion": "^2.0.0-beta.4",
     "ant-design-vue": "^1.7.8",
     "axios": "^0.24.0",
+    "chart.js": "^3.6.2",
     "core-js": "^3.6.5",
+    "echarts": "^5.2.2",
     "husky": "4",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "sass": "^1.43.4",
     "sass-loader": "^10.1.1",
     "vue": "^2.6.11",
-    "vue-router": "^3.5.3"
+    "vue-chartjs": "^3.5.1",
+    "vue-lodash": "^2.1.2",
+    "vue-router": "^3.5.3",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -45,8 +50,12 @@
       "parser": "babel-eslint"
     },
     "rules": {
+      "vue/no-unused-vars": "off",
       "no-unused-vars": "off",
-      "vue/no-unused-components": "off"
+      "vue/no-unused-components": "off",
+      "no-unused-components": "off",
+      "vue/no-constant-condition": "off",
+      "no-constant-condition": "off"
     }
   },
   "browserslist": [

@@ -26,13 +26,12 @@ for (let i = 1; i <= 50; i++)
     name: 'Cầu Giấy',
     code: i % 2,
   });
-const columnsCitizen = [
+const columns = [
   {
     title: 'STT',
     // key: 'key',
     dataIndex: 'key',
     className: 'TableCitizen-table-center Table-key',
-    width: 50,
     // slots: { title: 'STT' },
     // scopedSlots: { customRender: 'key' },
   },
@@ -85,59 +84,26 @@ const columnsCitizen = [
   },
 ];
 
-const columnsA1 = [
+const columns2 = [
   {
     title: 'STT',
-    dataIndex: 'key',
-    className: 'TableA1-table-center Table-key',
-  },
-  {
-    title: 'Tỉnh/TP',
-    dataIndex: 'name',
-    className: 'TableA1-table-center Table-city',
-  },
-  {
-    title: 'Mã tỉnh/TP',
     dataIndex: 'code',
-    className: 'TableA1-table-center Table-code',
+    className: 'TableCitizen-table-center Table-key',
   },
   {
-    title: 'Hành động',
-    // key: 'action',
-    scopedSlots: { customRender: 'action' },
-    className: 'TableA1-table-center Table-action',
+    title: 'Tỉnh / Thành phố',
+    // dataIndex: 'name',
+    slots: { title: 'province' },
+    scopedSlots: { customRender: 'province' },
+    className: 'TableCitizen-table-center Table-fullname',
+    sorter: (a, b) => {
+      const [a1, b1] = [a.name, b.name];
+      return a1.localeCompare(b1);
+    },
   },
 ];
-
-const columnsA2 = [
-  {
-    title: 'STT',
-    dataIndex: 'key',
-    className: 'TableA2-table-center Table-key',
-  },
-  {
-    title: 'Quận/Huyện',
-    dataIndex: 'name',
-    className: 'TableA2-table-center Table-district',
-  },
-  {
-    title: 'Mã quận/huyện',
-    dataIndex: 'code',
-    className: 'TableA2-table-center Table-code',
-  },
-  {
-    title: 'Hành động',
-    // key: 'action',
-    scopedSlots: { customRender: 'action' },
-    className: 'TableA2-table-center Table-action',
-  },
-];
-
 module.exports = {
   data,
-  dataA1,
-  dataA2,
-  columnsCitizen,
-  columnsA1,
-  columnsA2,
+  columns,
+  columns2,
 };

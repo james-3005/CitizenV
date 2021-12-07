@@ -1,3 +1,75 @@
 .PersonalPage {
   width: 100%;
+  height: 100%;
+  //   @media screen and (min-width: 1000px) {
+  //     transition: 0.4s;
+  //     width: 70%;
+  //   }
+  display: grid;
+  grid-template-rows: 60px 1fr 1fr;
+  grid-row-gap: 20px;
+
+  &-information,
+  &-resetPassword {
+    &-contents {
+      section {
+        padding: 10px;
+      }
+      form {
+        height: 100%;
+        padding: 2.5rem;
+        border-radius: 10px;
+        background-color: #f7f7f7;
+        label {
+          font-size: 15px;
+        }
+        .input,
+        input {
+          width: 60%;
+          height: 42px;
+          border-radius: 5px;
+          margin-bottom: 15px;
+          margin-top: 5px !important;
+          &[type='file'] {
+            border-radius: 0;
+          }
+        }
+        #submit_btn {
+          width: 60px;
+          height: 30px;
+          background-color: rgb(3, 197, 197);
+          color: rgb(105, 100, 100);
+        }
+      }
+
+      height: 90%;
+      display: grid;
+      grid-template-columns: 30% 70%;
+    }
+  }
+  &-information {
+    &-contents {
+      input[disabled] {
+        color: rgb(105, 100, 100);
+        font-size: 1rem;
+      }
+    }
+    #myFile {
+      width: calc(60% - 60px);
+    }
+    .info-avatar {
+      img {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0.5rem;
+        border-radius: 50%;
+        border: 4px solid rgb(0, 150, 150);
+      }
+    }
+  }
+  &-resetPassword {
+    &-contents {
+      margin-bottom: 60px;
+    }
+  }
 }

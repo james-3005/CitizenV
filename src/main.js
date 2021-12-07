@@ -5,16 +5,24 @@ import Antd from 'ant-design-vue';
 import { MotionPlugin } from '@vueuse/motion';
 import VueCompositionAPI from '@vue/composition-api';
 import VueRouter from 'vue-router';
-
+import { getToken } from './components/utilities/localStorage';
+import VueLodash from 'vue-lodash';
+import store from './store';
+// Vue.use(Chartkick.use(Chart))
 Vue.use(VueRouter);
 Vue.use(VueCompositionAPI);
 Vue.use(Antd);
 Vue.use(MotionPlugin);
 
-import ListCitizen from './components/pages/ListCitizen';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import Conference from './components/pages/Conference';
+import PersonalPage from './components/pages/PersonalPage';
+import AccountManagerPage from './components/pages/AccountManagerPage';
+import AnalyticsPage from './components/pages/AnalyticsPage';
+import CitizenPage from './components/pages/CitizenPage';
+import SettingPage from './components/pages/SettingPage';
+
 const routes = [
   {
     path: '/',
@@ -28,7 +36,30 @@ const routes = [
         path: 'home',
         component: HomePage,
       },
-      { path: '/ListCitizen', component: ListCitizen },
+      {
+        path: 'accountManager',
+        component: AccountManagerPage,
+      },
+      {
+        path: 'citizen',
+        component: CitizenPage,
+      },
+      {
+        path: 'personal',
+        component: PersonalPage,
+      },
+      {
+        path: 'setting',
+        component: SettingPage,
+      },
+      {
+        path: 'Personal',
+        component: PersonalPage,
+      },
+      {
+        path: 'analytics',
+        component: AnalyticsPage,
+      },
     ],
   },
   {
@@ -36,15 +67,33 @@ const routes = [
     component: LoginPage,
   },
 ];
-
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
 const router = new VueRouter({
   routes,
   mode: 'history',
 });
+
+router.beforeEach(async (to, from, next) => {
+  const hasToken = getToken();
+
+  const isAuth = hasToken;
+  if (isAuth) {
+    if (to.path === '/login') {
+      // if is logged in, redirect to the home page
+      next('/conference/home');
+    } else {
+      next();
+    }
+  } else {
+    if (to.path === '/login') {
+      next();
+    } else {
+      next(`/login`);
+    }
+  }
+});
+
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount('#app');
