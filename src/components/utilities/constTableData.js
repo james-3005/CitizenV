@@ -86,7 +86,7 @@ const columns = [
 
 const columns2 = [
   {
-    title: 'STT',
+    title: 'Code',
     dataIndex: 'code',
     className: 'TableCitizen-table-center Table-key',
   },
@@ -96,14 +96,51 @@ const columns2 = [
     slots: { title: 'province' },
     scopedSlots: { customRender: 'province' },
     className: 'TableCitizen-table-center Table-fullname',
-    sorter: (a, b) => {
-      const [a1, b1] = [a.name, b.name];
-      return a1.localeCompare(b1);
-    },
+    // sorter: (a, b) => {
+    //   const [a1, b1] = [a.name, b.name];
+    //   return a1.localeCompare(b1);
+    // },
+  },
+  {
+    title: 'Hành động',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'TableCitizen-table-center Table-action',
+  },
+];
+
+const columns3 = [
+  {
+    title: 'Code',
+    dataIndex: 'code',
+    className: 'TableCitizen-table-center Table-key',
+  },
+  {
+    title: 'Quận / Huyện',
+    // dataIndex: 'name',
+    slots: { title: 'district' },
+    scopedSlots: { customRender: 'district' },
+    className: 'TableCitizen-table-center Table-fullname',
+    // sorter: (a, b) => {
+    //   const [a1, b1] = [a.name, b.name];
+    //   return a1.localeCompare(b1);
+    // },
+  },
+  {
+    title: 'Tỉnh / Thành phố',
+    dataIndex: 'provinceName',
+    className: 'TableCitizen-table-center Table-identification',
+  },
+  {
+    title: 'Hành động',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'TableCitizen-table-center Table-action',
   },
 ];
 module.exports = {
   data,
   columns,
   columns2,
+  columns3,
 };

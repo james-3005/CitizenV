@@ -44,8 +44,6 @@ export default {
   },
   methods: {
     handleTableChange(pagination, filters, sorter) {
-      console.log(pagination);
-      console.log(filters);
       this.fetch({
         page: pagination.current,
       });
@@ -63,7 +61,6 @@ export default {
   },
   mounted() {
     this.fetch();
-    console.log(this.$refs.tab);
   },
 };
 </script>
