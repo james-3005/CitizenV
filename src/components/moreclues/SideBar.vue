@@ -35,6 +35,7 @@
           src="../../assets/svg/logOutLogo.svg"
           alt=""
           class="SideBar-logOutIcon"
+          @click="handleLogout"
         />
       </div>
     </div>
@@ -43,6 +44,7 @@
 
 <script>
 import { options } from '../utilities/constSideBar';
+import { deleteToken } from '../utilities/localStorage';
 export default {
   name: 'SizeBar',
   props: {},
@@ -52,8 +54,11 @@ export default {
   }),
   methods: {
     expand_sidebar: function () {
-      console.log('hehe');
       this.isExpanded = !this.isExpanded;
+    },
+    handleLogout() {
+      deleteToken();
+      this.$router.push('/login');
     },
   },
   components: {},

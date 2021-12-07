@@ -1,11 +1,6 @@
-const axios = require('axios');
-const API = require('../../env');
-
-const getProvince = (params) =>
-  axios.get(API.concat('/province'), {
+import req from './axios';
+const { requestWithToken, request } = req;
+export const getProvince = (params) =>
+  request.get('/province', {
     params,
   });
-
-module.exports = {
-  getProvince,
-};

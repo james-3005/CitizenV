@@ -22,8 +22,6 @@ export default {
   data: () => ({
     wipeRightToLeft,
   }),
-  mounted() {
-    console.log(this.disable);
-  },
+  mounted() {},
 };
 </script>

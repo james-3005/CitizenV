@@ -1,5 +1,10 @@
 <template>
-  <div class="LoginPage">
+  <div
+    class="LoginPage"
+    tabindex="0"
+    @keydown.enter="handleLogin"
+    ref="loginPage"
+  >
     <div class="LoginPage-image">
       <img src="../../assets/login-image.png" alt="" />
     </div>
@@ -27,9 +32,7 @@
           v-model="password"
           class="LoginPage-input"
         />
-        <router-link to="/conference/home">
-          <button type="submit">Đăng nhập</button>
-        </router-link>
+        <button type="submit" @click="handleLogin">Đăng nhập</button>
       </a-form>
       <div class="LoginPage-footer">CitizenV - Hệ thống điều tra dân số</div>
     </form>
@@ -37,16 +40,29 @@
 </template>
 
 <script>
+import { login } from '../../services/auth';
+import { setToken } from '../utilities/localStorage';
 export default {
   props: {},
   data: () => ({
     email: '',
     password: '',
   }),
-  methods: {},
+  methods: {
+    handleLogin() {
+      login({ username: this.email, password: this.password }).then((res) => {
+        if (res.success) {
+          setToken(res.token);
+          this.$router.push('/conference/home');
+        } else {
+          console.log(res);
+        }
+      });
+    },
+  },
   components: {},
   mounted() {
-    console.log(this.$route.query);
+    this.$refs.loginPage.focus();
   },
 };
 </script>

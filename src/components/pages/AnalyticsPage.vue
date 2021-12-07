@@ -6,6 +6,7 @@
 
 <script>
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
+
 export default {
   components: { HeaderMenu },
   data: function () {

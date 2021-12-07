@@ -15,7 +15,6 @@
       :data-source="data"
       bordered
       :pagination="pagination"
-      :loading="loading"
       @change="handleTableChange"
       ref="table"
     >
@@ -27,6 +26,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getProvince } from '../../services/getCitizen';
 import { columns2 } from '../utilities/constTableData';
@@ -39,7 +39,6 @@ export default {
       columns2,
       data: [],
       pagination: {},
-      loading: false,
       wipeRightToLeft,
     };
   },
@@ -52,13 +51,11 @@ export default {
       });
     },
     fetch(params = {}) {
-      this.loading = true;
       getProvince({
         ...params,
-      }).then(({ data }) => {
-        const pagination = this._.cloneDeep(this.pagination);
+      }).then((data) => {
+        const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
-        this.loading = false;
         this.data = data.data;
         this.pagination = pagination;
       });

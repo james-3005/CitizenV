@@ -1,4 +1,4 @@
-const options = [
+export const options = [
   {
     id: 1,
     text: 'Trang chủ',
@@ -36,6 +36,3 @@ const options = [
     url: '/conference/setting',
   },
 ];
-module.exports = {
-  options,
-};

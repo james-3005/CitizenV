@@ -1,23 +1,19 @@
 <template>
   <div id="app">
-    <!-- <fusioncharts
-        :type="type"
-        width="700"
-        height="400"
-        :dataFormat="dataFormat"
-        :dataSource="dataSource"
-        ref="fc"
-        ></fusioncharts> -->
+    <Loading v-if="$store.state.isLoading" />
+    <Error v-if="$store.state.isErr" />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Error from './components/moreclues/Error.vue';
 import Loading from './components/moreclues/Loading.vue';
 export default {
   name: 'App',
   components: {
     Loading,
+    Error,
   },
 };
 </script>

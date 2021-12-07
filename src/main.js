@@ -5,14 +5,9 @@ import Antd from 'ant-design-vue';
 import { MotionPlugin } from '@vueuse/motion';
 import VueCompositionAPI from '@vue/composition-api';
 import VueRouter from 'vue-router';
-// import { routes } from './components/utilities/constRoute';
-// import Chartkick from 'vue-chartkick'
-// import Chart from 'chart.js'
+import { getToken } from './components/utilities/localStorage';
 import VueLodash from 'vue-lodash';
-import lodash from 'lodash';
-// Vue.use(Chart)
-// name is optional
-Vue.use(VueLodash, { lodash: lodash });
+import store from './store';
 // Vue.use(Chartkick.use(Chart))
 Vue.use(VueRouter);
 Vue.use(VueCompositionAPI);
@@ -27,6 +22,7 @@ import AccountManagerPage from './components/pages/AccountManagerPage';
 import AnalyticsPage from './components/pages/AnalyticsPage';
 import CitizenPage from './components/pages/CitizenPage';
 import SettingPage from './components/pages/SettingPage';
+
 const routes = [
   {
     path: '/',
@@ -71,18 +67,16 @@ const routes = [
     component: LoginPage,
   },
 ];
-
 const router = new VueRouter({
   routes,
   mode: 'history',
 });
 
 router.beforeEach(async (to, from, next) => {
-  // const hasToken = getToken()
-  // // console.log('hasToken: ', hasToken)
+  const hasToken = getToken();
 
-  // console.log(to)
-  if (true) {
+  const isAuth = hasToken;
+  if (isAuth) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next('/conference/home');
@@ -97,7 +91,9 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 });
+
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount('#app');
