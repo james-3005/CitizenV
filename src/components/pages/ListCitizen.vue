@@ -36,28 +36,35 @@
         Mở biểu đồ
       </a-button>
     </div>
-    <TableCitizen
+    <!-- <TableCitizen
       :data="data"
       :handleAdjust="handleAdjust"
       :handleDelete="handleDelete"
+    /> -->
+    <TableA1
+      :data="dataA1"
+      :handleAdjust="handleAdjust"
+      :handleDelete="handleDelete"
     />
-    <ProgressChart
+    <!-- <ProgressChart
       v-if="isShowProgress"
       :handleToggleProgress="handleToggleProgress"
       :list="data"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import { data } from '../utilities/constTableData';
+import { data, dataA1, dataA2 } from '../utilities/constTableData';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
+import TableA1 from '../moreclues/TableA1.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 export default {
   props: {},
   data: () => ({
     data,
+    dataA1,
     isShowProgress: false,
   }),
   methods: {
@@ -73,6 +80,7 @@ export default {
   },
   components: {
     TableCitizen,
+    TableA1,
     HeaderMenu,
     ProgressChart,
   },

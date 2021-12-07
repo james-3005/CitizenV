@@ -11,6 +11,7 @@
     "@vue/composition-api": "^1.4.0",
     "@vueuse/motion": "^2.0.0-beta.4",
     "ant-design-vue": "^1.7.8",
+    "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "husky": "4",
     "lodash": "^4.17.21",

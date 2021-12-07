@@ -1,7 +1,7 @@
 <template>
   <div class="TableCitizen">
     <a-table
-      :columns="columns"
+      :columns="columnsCitizen"
       :data-source="data"
       bordered
       :pagination="{ pageSize: 7 }"
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { columns } from '../utilities/constTableData';
+import { columnsCitizen } from '../utilities/constTableData';
 import ProgressChart from './ProgressChart.vue';
 export default {
   name: 'TableCitizen',
@@ -33,7 +33,7 @@ export default {
     handleDelete: Function,
   },
   data: () => ({
-    columns,
+    columnsCitizen,
   }),
   methods: {},
   components: {
