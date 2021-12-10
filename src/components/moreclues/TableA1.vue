@@ -10,7 +10,7 @@
       ref="table"
     >
       <a-span slot="province" slot-scope="province">
-        <p class="blue" @click="() => loadDistrictData(this.record.name)">
+        <p class="blue" @click="this.province = province.name">
           {{ province.name }}
         </p>
       </a-span>
@@ -32,6 +32,7 @@ export default {
       columns2,
       data: [],
       pagination: {},
+      province: null,
     };
   },
   methods: {

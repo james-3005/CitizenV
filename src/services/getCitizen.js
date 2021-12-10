@@ -10,9 +10,14 @@ const getDistrict = (params) =>
     params,
   });
 
+const getWard = (params) =>
+  request.get('/ward', {
+    params,
+  });
+
 const getCitizen = (params) =>
   request.get('/citizen', {
     params,
   });
 
-export { getProvince, getDistrict, getCitizen };
+export { getProvince, getDistrict, getCitizen, getWard };

@@ -26,7 +26,7 @@ for (let i = 1; i <= 50; i++)
     name: 'Cầu Giấy',
     code: i % 2,
   });
-const columns = [
+const columns1 = [
   {
     title: 'STT',
     // key: 'key',
@@ -140,7 +140,7 @@ const columns3 = [
 ];
 module.exports = {
   data,
-  columns,
+  columns1,
   columns2,
   columns3,
 };

@@ -4,11 +4,22 @@
       :columns="columns"
       :data-source="data"
       bordered
-      :pagination="{ pageSize: 10 }"
+      :pagination="pagination"
+      @change="handleTableChange"
     >
-      <span slot="name" slot-scope="data">
+      <a-span slot="province" slot-scope="province">
+        <p class="blue" @click="() => handleClickProvince(province.name)">
+          {{ province.name }}
+        </p>
+      </a-span>
+      <a-span slot="name" slot-scope="data">
         {{ data.surname + ' ' + data.lastname }}
-      </span>
+      </a-span>
+      <a-span slot="district" slot-scope="district">
+        <p class="blue" @click="() => handleClickDistrict(district.name)">
+          {{ district.name }}
+        </p>
+      </a-span>
       <span slot="status" slot-scope="status">
         <a-tag :color="status ? 'green' : 'volcano'">
           {{ status ? 'Hoàn thành' : 'Còn thiếu' }}
@@ -24,44 +35,45 @@
 
 <script>
 import _ from 'lodash';
-import { columns } from '../utilities/constTableData';
-import { getCitizen } from '../../services/getCitizen';
 export default {
   name: 'TableCitizen',
-  props: {
-    // data: Array,
-    handleAdjust: Function,
-    handleDelete: Function,
+  props: [
+    'columns',
+    'data',
+    'pagination',
+    'fetch',
+    // handleAdjust: Function,
+    // handleDelete: Function,
+  ],
+  data: () => {
+    return {
+      provinceName: null,
+      districtName: null,
+      wardName: null,
+    };
   },
-  data: () => ({
-    columns,
-    data: [],
-    pagination: {},
-  }),
   methods: {
-    fetch(params = {}) {
-      getCitizen({
-        ...params,
-      }).then((data) => {
-        const pagination = _.cloneDeep(this.pagination);
-        pagination.total = data.total;
-        this.data = data.data;
-        this.pagination = pagination;
+    handleTableChange(pagination, filters, sorter) {
+      this.fetch({
+        page: pagination.current,
+      });
+    },
+    handleClickProvince(provinceName) {
+      this.provinceName = provinceName;
+      this.$router.push({
+        query: { provinceName: provinceName },
+      });
+    },
+    handleClickDistrict(districtName) {
+      this.districtName = districtName;
+      this.$router.push({
+        query: {
+          provinceName: this.provinceName,
+          districtName: districtName,
+        },
       });
     },
   },
-  mounted() {
-    for (let i = 1; i <= 50; i++)
-      this.data.push({
-        key: i,
-        surname: i % 2 == 1 ? 'John' : 'Will',
-        lastname: i % 3 == 0 ? 'Brown' : 'Ali',
-        dob: '1/1/2001',
-        sex: i % 4 == 0 ? 'Nam' : 'Nữ',
-        identification: 12331132,
-        address: 'New York, 1 Dinistric, 369 ',
-        status: i % 3 === 0 ? true : false,
-      });
-  },
+  mounted() {},
 };
 </script>
