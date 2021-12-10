@@ -2,17 +2,15 @@
   <div class="TableA1">
     <a-table
       :row-key="(record) => record._id"
-      :columns="columns2"
+      :columns="columns3"
       :data-source="data"
       bordered
       :pagination="pagination"
       @change="handleTableChange"
       ref="table"
     >
-      <a-span slot="province" slot-scope="province">
-        <p class="blue" @click="this.province = province.name">
-          {{ province.name }}
-        </p>
+      <a-span slot="district" slot-scope="district">
+        <p class="blue">{{ district.name }}</p>
       </a-span>
       <a-span slot="action" slot-scope="data">
         <a @click="() => handleAdjust(data.key)">Chỉnh sửa</a><br />
@@ -24,15 +22,14 @@
 
 <script>
 import _ from 'lodash';
-import { getDistrict, getProvince } from '../../services/getCitizen';
-import { columns2 } from '../utilities/constTableData';
+import { getDistrict } from '../../services/getCitizen';
+import { columns3 } from '../utilities/constTableData';
 export default {
   data: function () {
     return {
-      columns2,
+      columns3,
       data: [],
       pagination: {},
-      province: null,
     };
   },
   methods: {
@@ -42,7 +39,7 @@ export default {
       });
     },
     fetch(params = {}) {
-      getProvince({
+      getDistrict({
         ...params,
       }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
@@ -51,7 +48,6 @@ export default {
         this.pagination = pagination;
       });
     },
-    loadDistrictData(province) {},
   },
   mounted() {
     this.fetch();

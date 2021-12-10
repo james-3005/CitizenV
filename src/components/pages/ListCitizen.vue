@@ -28,38 +28,36 @@
         Mở biểu đồ
       </a-button>
     </div>
-    <TableCitizen
+    <!-- <TableCitizen
       :data="data"
       :handleAdjust="handleAdjust"
       :handleDelete="handleDelete"
+    /> -->
+    <TableA1
+      :data="dataA1"
+      :handleAdjust="handleAdjust"
+      :handleDelete="handleDelete"
     />
-    <ProgressChart
+    <!-- <ProgressChart
       v-if="isShowProgress"
       :handleToggleProgress="handleToggleProgress"
       :list="data"
-    />
-    <a-drawer
-      title="Tạo tài khoản mới"
-      width="auto"
-      :visible="visible"
-      class="drawer"
-      @close="onClose"
-    >
-      <form-citizen />
-    </a-drawer>
+    /> -->
   </div>
 </template>
 
 <script>
-import { data } from '../utilities/constTableData';
+import { data, dataA1, dataA2 } from '../utilities/constTableData';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
+import TableA1 from '../moreclues/TableA1.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormCitizen from '../moreclues/FormCitizen.vue';
 export default {
   props: {},
   data: () => ({
     data,
+    dataA1,
     isShowProgress: false,
     visible: false,
   }),
@@ -82,6 +80,7 @@ export default {
   },
   components: {
     TableCitizen,
+    TableA1,
     HeaderMenu,
     ProgressChart,
     FormCitizen,

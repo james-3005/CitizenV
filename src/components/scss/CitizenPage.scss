@@ -1,4 +1,23 @@
 .CitizenPage {
   width: 100%;
   height: 100%;
+  &-flex {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 18px 0 13px 0;
+    align-items: center;
+    .backButton {
+    }
+    .div-button {
+      width: 300px;
+    }
+    .search-button:not(.button:first-child) {
+      width: auto;
+      margin-left: 10px;
+    }
+    .search-button[disabled] {
+      color: rgb(105, 100, 100);
+    }
+  }
 }

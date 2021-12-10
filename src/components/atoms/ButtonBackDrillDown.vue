@@ -7,6 +7,7 @@
     class="button"
     type="primary"
     :disabled="disable"
+    @click="onClick"
     >{{ text }}</a-button
   >
 </template>

@@ -8,12 +8,17 @@
     <div class="LoginPage-image">
       <img src="../../assets/login-image.png" alt="" />
     </div>
-    <form action="" class="LoginPage-form">
+    <div class="LoginPage-form">
       <div class="LoginPage-form-logocontainer">
         <img src="../../assets/svg/appLogo.svg" alt="Logo" class="logo" />
       </div>
-      <div class="LoginPage-form-title">Đăng nhập</div>
-      <a-form class="LoginPage-form-container">
+      <div class="LoginPage-form-title">
+        <strong>Đăng nhập</strong>
+      </div>
+      <a-form
+        class="LoginPage-form-container"
+        @submit.prevent="submitLoginForm"
+      >
         <label for="email">Email</label>
         <a-input
           type="text"
@@ -35,7 +40,7 @@
         <button type="submit" @click="handleLogin">Đăng nhập</button>
       </a-form>
       <div class="LoginPage-footer">CitizenV - Hệ thống điều tra dân số</div>
-    </form>
+    </div>
   </div>
 </template>
 
