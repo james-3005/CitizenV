@@ -61,7 +61,7 @@ export default {
     handleClickProvince(provinceName) {
       this.provinceName = provinceName;
       this.$router.push({
-        query: { provinceName: provinceName },
+        query: { provinceName: this.provinceName },
       });
     },
     handleClickDistrict(districtName) {
@@ -69,7 +69,7 @@ export default {
       this.$router.push({
         query: {
           provinceName: this.provinceName,
-          districtName: districtName,
+          districtName: this.districtName,
         },
       });
     },

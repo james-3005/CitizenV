@@ -98,26 +98,30 @@ export default {
         this.columns = columns1;
       });
     },
-    fetchData() {
+    fetchData(params = {}) {
+      if (this.level == 0) {
+        return this.fetchProvinceData(params);
+      } else if (this.level == 1) {
+        return this.fetchDistrictData(params);
+      } else if (this.level == 2) {
+        return this.fetchWardData(params);
+      } else {
+        return this.fetchCitizenData(params);
+      }
+    },
+    getQueries() {
       this.queries = this.$route.query;
       this.level = level(this.queries);
-      if (this.level == 0) {
-        return this.fetchProvinceData(this.queries);
-      } else if (this.level == 1) {
-        return this.fetchDistrictData(this.queries);
-      } else if (this.level == 2) {
-        return this.fetchWardData(this.queries);
-      } else {
-        return this.fetchCitizenData(this.queries);
-      }
     },
   },
   created() {
-    this.fetchData();
+    this.getQueries();
+    this.fetchData(this.queries);
   },
   watch: {
     $route() {
-      this.fetchData();
+      this.getQueries();
+      this.fetchData(this.queries);
     },
   },
   updated() {
