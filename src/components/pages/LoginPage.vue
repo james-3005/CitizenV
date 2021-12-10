@@ -63,6 +63,8 @@ export default {
   components: {},
   mounted() {
     this.$refs.loginPage.focus();
+
+    this.$router.push({ query: { district: 'Nam Từ Liêm' } });
   },
 };
 </script>

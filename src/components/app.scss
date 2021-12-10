@@ -4,7 +4,6 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: white;
 }
 #app {
   background-color: white;
@@ -69,5 +68,6 @@ router-link {
   color: black !important;
 }
 td {
-  height: 55px !important;
+  height: 75px !important;
+  padding: 16px;
 }

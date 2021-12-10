@@ -8,12 +8,20 @@
   color: #39a4f5;
   margin-bottom: 0;
 }
-.button {
-  width: 100px;
+.button:not(.button:first-child) {
+  width: auto;
+  margin-left: 10px;
+}
+.button[disabled] {
+  color: rgb(105, 100, 100);
 }
 .button2 {
   width: 300px;
 }
 .flex {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 18px 0 13px 0;
+  align-items: center;
 }

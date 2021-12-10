@@ -2,12 +2,13 @@
   <div class="HomePage">
     <HeaderMenu header="Cài đặt" type="default" :notShow="true" />
     <div class="flex">
+      <div class="backButton">
+        <ButtonBackDrillDown text="Sài gòn" :disable="true" onClick />
+        <ButtonBackDrillDown text="NTL" :disable="false" onClick />
+      </div>
       <div class="button2">
         <a-input-search class="button" placeholder="Tìm kiếm" enter-button />
       </div>
-
-      <ButtonBackDrillDown text="Sài gòn" :disable="true" onClick />
-      <ButtonBackDrillDown text="NTL" :disable="false" onClick />
     </div>
     <a-table
       :row-key="(record) => record._id"
@@ -19,7 +20,9 @@
       ref="table"
     >
       <a-span slot="province" slot-scope="province">
-        <p class="blue">{{ province.name }}</p>
+        <p class="blue" @click="() => (this.province = province.name)">
+          {{ province.name }}
+        </p>
       </a-span>
     </a-table>
   </div>
@@ -38,7 +41,9 @@ export default {
     return {
       columns2,
       data: [],
-      pagination: {},
+      pagination: {
+        pageSize: 7,
+      },
       wipeRightToLeft,
     };
   },
@@ -48,6 +53,7 @@ export default {
       console.log(filters);
       this.fetch({
         page: pagination.current,
+        perPage: 7,
       });
     },
     fetch(params = {}) {
@@ -62,8 +68,8 @@ export default {
     },
   },
   mounted() {
-    this.fetch();
-    console.log(this.$refs.tab);
+    this.fetch({ perPage: 7 });
+    // console.log(this.$refs.tab);
   },
 };
 </script>

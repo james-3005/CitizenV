@@ -22,7 +22,7 @@ import AccountManagerPage from './components/pages/AccountManagerPage';
 import AnalyticsPage from './components/pages/AnalyticsPage';
 import CitizenPage from './components/pages/CitizenPage';
 import SettingPage from './components/pages/SettingPage';
-
+import FormAddAccountPage from './components/pages/FormAddAccountPage';
 const routes = [
   {
     path: '/',
@@ -59,6 +59,10 @@ const routes = [
       {
         path: 'analytics',
         component: AnalyticsPage,
+      },
+      {
+        path: 'addAccount',
+        component: FormAddAccountPage,
       },
     ],
   },

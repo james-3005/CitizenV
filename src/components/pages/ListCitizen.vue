@@ -6,6 +6,7 @@
         icon="user-add"
         size="small"
         class="ListCitizen-header-button"
+        @click="openAdd"
       >
         Thêm người
       </a-button>
@@ -37,6 +38,15 @@
       :handleToggleProgress="handleToggleProgress"
       :list="data"
     />
+    <a-drawer
+      title="Tạo tài khoản mới"
+      width="auto"
+      :visible="visible"
+      class="drawer"
+      @close="onClose"
+    >
+      <form-citizen />
+    </a-drawer>
   </div>
 </template>
 
@@ -45,11 +55,13 @@ import { data } from '../utilities/constTableData';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
+import FormCitizen from '../moreclues/FormCitizen.vue';
 export default {
   props: {},
   data: () => ({
     data,
     isShowProgress: false,
+    visible: false,
   }),
   methods: {
     handleAdjust: function (key) {
@@ -61,11 +73,18 @@ export default {
     handleToggleProgress: function () {
       this.isShowProgress = !this.isShowProgress;
     },
+    openAdd() {
+      this.visible = true;
+    },
+    onClose() {
+      this.visible = false;
+    },
   },
   components: {
     TableCitizen,
     HeaderMenu,
     ProgressChart,
+    FormCitizen,
   },
 };
 </script>
