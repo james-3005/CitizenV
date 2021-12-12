@@ -51,6 +51,7 @@ export default {
   data: () => ({
     isExpanded: false,
     options,
+    level: null,
   }),
   methods: {
     expand_sidebar: function () {
@@ -62,6 +63,7 @@ export default {
     },
   },
   components: {},
+  mounted() {},
 };
 </script>
 

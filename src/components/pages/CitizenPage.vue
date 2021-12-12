@@ -5,13 +5,13 @@
       <div class="backButton">
         <ButtonBackDrillDown
           :text="$route.query.provinceName"
-          :disable="false"
+          :disable="true"
           :onClick="() => getBack(0)"
           v-if="level >= 1"
         />
         <ButtonBackDrillDown
           :text="$route.query.districtName"
-          :disable="false"
+          :disable="true"
           :onClick="() => getBack(1)"
           v-if="level >= 2"
         />
