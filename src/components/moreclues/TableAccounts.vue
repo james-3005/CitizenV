@@ -8,7 +8,7 @@
         class="ListCitizen-header-button"
         @click="openAdd"
       >
-        Thêm người
+        Thêm TK
       </a-button>
       <a-button
         type="default"
@@ -45,7 +45,7 @@
       class="drawer"
       @close="onClose"
     >
-      <form-citizen />
+      <form-add-account />
     </a-drawer>
   </div>
 </template>
@@ -55,7 +55,7 @@ import { data } from '../utilities/constTableData';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
-import FormCitizen from '../moreclues/FormCitizen.vue';
+import FormAddAccount from '../moreclues/FormAddAccount.vue';
 export default {
   props: {},
   data: () => ({
@@ -84,7 +84,7 @@ export default {
     TableCitizen,
     HeaderMenu,
     ProgressChart,
-    FormCitizen,
+    FormAddAccount,
   },
 };
 </script>
