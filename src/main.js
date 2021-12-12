@@ -76,25 +76,25 @@ const router = new VueRouter({
   mode: 'history',
 });
 
-router.beforeEach(async (to, from, next) => {
-  const hasToken = getToken();
+// router.beforeEach(async (to, from, next) => {
+//   const hasToken = getToken();
 
-  const isAuth = hasToken;
-  if (isAuth) {
-    if (to.path === '/login') {
-      // if is logged in, redirect to the home page
-      next('/conference/home');
-    } else {
-      next();
-    }
-  } else {
-    if (to.path === '/login') {
-      next();
-    } else {
-      next(`/login`);
-    }
-  }
-});
+//   const isAuth = hasToken;
+//   if (isAuth) {
+//     if (to.path === '/login') {
+//       // if is logged in, redirect to the home page
+//       next('/conference/home');
+//     } else {
+//       next();
+//     }
+//   } else {
+//     if (to.path === '/login') {
+//       next();
+//     } else {
+//       next(`/login`);
+//     }
+//   }
+// });
 
 new Vue({
   router,

@@ -22,16 +22,36 @@
           v-if="level >= 3"
         />
       </div>
+
       <div class="div-button">
+        <a-button
+          v-if="level >= 3"
+          type="primary"
+          icon="user-add"
+          size="small"
+          class="ListCitizen-header-button"
+          @click="openForm"
+        >
+          Thêm người
+        </a-button>
         <a-input-search placeholder="Tìm kiếm" enter-button />
       </div>
     </div>
-    <TableCitizen
+    <table-citizen
       :columns="this.columns"
       :data="this.data"
       :pagination="this.pagination"
       :fetch="this.fetchData"
     />
+    <a-drawer
+      title="Nhập thông tin công dân"
+      width="auto"
+      :visible="form_visible"
+      class="drawer"
+      @close="closeForm"
+    >
+      <form-add-citizen :address="queries" />
+    </a-drawer>
   </div>
 </template>
 
@@ -42,6 +62,8 @@ import TableA1 from '../moreclues/TableA1.vue';
 import TableA2 from '../moreclues/TableA2.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ButtonBackDrillDown from '../atoms/ButtonBackDrillDown.vue';
+import FormAddCitizen from '../moreclues/FormAddCitizen.vue';
+
 import {
   getProvince,
   getDistrict,
@@ -62,8 +84,10 @@ export default {
     TableA2,
     TableCitizen,
     ButtonBackDrillDown,
+    FormAddCitizen,
   },
   data: () => ({
+    form_visible: false,
     columns: [],
     data: [],
     pagination: {},
@@ -155,6 +179,12 @@ export default {
             districtName: this.$route.query.districtName,
           },
         });
+    },
+    openForm() {
+      this.form_visible = true;
+    },
+    closeForm() {
+      this.form_visible = false;
     },
   },
   created() {

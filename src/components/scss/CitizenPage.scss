@@ -10,7 +10,18 @@
     .backButton {
     }
     .div-button {
-      width: 300px;
+      width: 25%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .ListCitizen-header-button {
+        width: auto;
+        position: relative;
+        margin-right: 0.5rem;
+      }
+      .ant-input-search {
+        width: 70%;
+      }
     }
     .search-button:not(.button:first-child) {
       width: auto;
