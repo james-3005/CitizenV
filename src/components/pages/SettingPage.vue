@@ -1,12 +1,16 @@
 <template>
   <div class="SettingPage">
-    <HeaderMenu header="Cài đặt" type="default" :notShow="true" />
+    <HeaderMenu
+      :header="$t('setting.pageName')"
+      type="default"
+      :notShow="true"
+    />
     <div class="SettingPage-component">
       <div class="SettingPage-component-function">
         <div class="SettingPage-component-function-text">
-          <p>Logout</p>
+          <p>{{ $t('setting.logout') }}</p>
           <p>
-            Thiết lập thời gian làm việc, sau thời gian này sẽ tự động Logout
+            {{ $t('setting.logoutInfo') }}
           </p>
         </div>
         <a-input class="input" type="number" v-model="expire" />
@@ -14,12 +18,12 @@
       <a-divider />
       <div class="SettingPage-component-function">
         <div class="SettingPage-component-function-text">
-          <p>Ngôn ngữ</p>
-          <p>Thiết lập ngôn ngữ hiển thị của trang web</p>
+          <p>{{ $t('setting.lang') }}</p>
+          <p>{{ $t('setting.langInfo') }}</p>
         </div>
-        <a-select default-value="VN" class="input">
-          <a-select-option value="VN"> Tiếng Việt </a-select-option>
-          <a-select-option value="EN"> Tiếng Anh </a-select-option>
+        <a-select default-value="VN" class="input" @change="handleChange">
+          <a-select-option value="VN"> {{ $t('setting.vn') }} </a-select-option>
+          <a-select-option value="EN"> {{ $t('setting.en') }} </a-select-option>
         </a-select>
       </div>
       <a-divider />
@@ -29,16 +33,18 @@
         "
       >
         <div class="SettingPage-component-function-text">
-          <p>Liên hệ</p>
-          <p>Phản hồi và báo lỗi trang web</p>
+          <p>{{ $t('setting.contact') }}</p>
+          <p>{{ $t('setting.contactInfo') }}</p>
         </div>
         <div class="SettingPage-component-function-area">
           <a-textarea
             class="input-area"
-            placeholder="Phản hồi hoặc báo lỗi"
+            :placeholder="$t('setting.contactInfo2')"
             :auto-size="{ minRows: 5, maxRows: 10 }"
           />
-          <a-button class="btn" type="primary">Gửi</a-button>
+          <a-button class="btn" type="primary">{{
+            $t('setting.send')
+          }}</a-button>
         </div>
       </div>
     </div>
@@ -56,7 +62,12 @@ export default {
       expire: 10000,
     };
   },
-  methods: {},
+  methods: {
+    handleChange(value) {
+      if (value === 'VN') this.$store.commit('setLangVN');
+      else this.$store.commit('setLangEN');
+    },
+  },
   mounted() {},
 };
 </script>

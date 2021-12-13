@@ -1,0 +1,15 @@
+{
+  "setting": {
+    "pageName": "Setting",
+    "logout": "Logout",
+    "logoutInfo": "Set working time, after this time will automatically Logout",
+    "lang": "Language",
+    "langInfo":  "Set the display language of the Website",
+    "contact": "Contact",
+    "contactInfo": "Feedback or report Website Errors",
+    "contactInfo2": "Feedback or report",
+    "send": "Send",
+    "vn": "Viet Nam",
+    "en": "English"
+  }
+}
