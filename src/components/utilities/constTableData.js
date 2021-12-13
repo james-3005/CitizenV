@@ -95,7 +95,7 @@ const columnProvince = [
     // dataIndex: 'name',
     slots: { title: 'province' },
     scopedSlots: { customRender: 'province' },
-    // className: 'TableCitizen-table-left',
+    // className: 'Table-name',
   },
   {
     title: 'Mã',
@@ -150,7 +150,6 @@ const columnWard = [
     // dataIndex: 'name',
     slots: { title: 'ward' },
     scopedSlots: { customRender: 'ward' },
-    // className: 'Table-name',
   },
   {
     title: 'Mã',

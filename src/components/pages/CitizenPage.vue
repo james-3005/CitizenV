@@ -5,19 +5,19 @@
       <div class="backButton">
         <ButtonBackDrillDown
           :text="$route.query.provinceName"
-          :disable="true"
+          :disable="user.code.length >= 2"
           :onClick="() => getBack(0)"
           v-if="level >= 1"
         />
         <ButtonBackDrillDown
           :text="$route.query.districtName"
-          :disable="true"
+          :disable="user.code.length >= 4"
           :onClick="() => getBack(1)"
           v-if="level >= 2"
         />
         <ButtonBackDrillDown
           :text="$route.query.wardName"
-          :disable="false"
+          :disable="user.code.length >= 6"
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
@@ -76,6 +76,7 @@ import {
   columnWard,
 } from '../utilities/constTableData';
 import { level } from '../utilities/queryExtraction';
+import { getUser } from '../utilities/localStorage';
 const perPage = 7;
 export default {
   components: {
@@ -94,6 +95,8 @@ export default {
     province: null,
     queries: [],
     level,
+    user: getUser().levelInfo,
+    _: _,
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -186,8 +189,41 @@ export default {
     closeForm() {
       this.form_visible = false;
     },
+    navigate() {
+      if (this.user.code.length == 2) {
+        this.$router.push({
+          query: {
+            provinceName: this.user.name,
+          },
+        });
+        return;
+      }
+      if (this.user.code.length == 4) {
+        this.$router.push({
+          query: {
+            provinceName: this.user.provinceName,
+            districtName: this.user.name,
+          },
+        });
+        return;
+      }
+      if (this.code.length == 6) {
+        this.$router.push({
+          query: {
+            provinceName: this.user.provinceName,
+            districtName: this.user.districtName,
+            wardName: this.user.name,
+          },
+        });
+        return;
+      }
+    },
   },
-  created() {
+  // beforeMount(){
+
+  // },
+  mounted() {
+    this.navigate();
     this.getQueries();
     this.fetchData(this.queries);
     (columnDistrict[0] = {

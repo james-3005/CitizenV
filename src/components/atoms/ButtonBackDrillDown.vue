@@ -3,7 +3,6 @@
     v-motion
     :initial="wipeRightToLeft.initial"
     :enter="wipeRightToLeft.enter"
-    :leave="wipeRightToLeft.leave"
     class="button"
     type="primary"
     :disabled="disable"

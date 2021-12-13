@@ -5,7 +5,7 @@ import Antd from 'ant-design-vue';
 import { MotionPlugin } from '@vueuse/motion';
 import VueCompositionAPI from '@vue/composition-api';
 import VueRouter from 'vue-router';
-import { getToken } from './components/utilities/localStorage';
+import { getToken, getUser } from './components/utilities/localStorage';
 import VueLodash from 'vue-lodash';
 import store from './store';
 // Vue.use(Chartkick.use(Chart))
@@ -43,6 +43,9 @@ const routes = [
       {
         path: 'citizen',
         component: CitizenPage,
+        query: {
+          a: 2,
+        },
       },
       {
         path: 'personal',
@@ -76,25 +79,21 @@ const router = new VueRouter({
   mode: 'history',
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   const hasToken = getToken();
+router.beforeEach(async (to, from, next) => {
+  const hasToken = getToken();
 
-//   const isAuth = hasToken;
-//   if (isAuth) {
-//     if (to.path === '/login') {
-//       // if is logged in, redirect to the home page
-//       next('/conference/home');
-//     } else {
-//       next();
-//     }
-//   } else {
-//     if (to.path === '/login') {
-//       next();
-//     } else {
-//       next(`/login`);
-//     }
-//   }
-// });
+  const isAuth = hasToken;
+  if (isAuth) {
+    if (to.path === '/login') {
+      // if is logged in, redirect to the home page
+      next('/conference/home');
+    } else {
+      next();
+    }
+  } else {
+    next(`/login`);
+  }
+});
 
 new Vue({
   router,

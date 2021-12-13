@@ -2,7 +2,7 @@
   <div
     class="LoginPage"
     tabindex="0"
-    @keydown.enter="handleLogin"
+    @keypress.enter="handleLogin"
     ref="loginPage"
   >
     <div class="LoginPage-image">
@@ -49,9 +49,10 @@
 
 <script>
 import { login } from '../../services/auth';
-import { setToken } from '../utilities/localStorage';
+import { setToken, setUser } from '../utilities/localStorage';
 import { validatePassword, validateUsername } from '../utilities/validate';
 import { message } from '../utilities/messageValidate';
+import { getNameFromCode } from '../../services/getCitizen';
 export default {
   props: {},
   data: () => ({
@@ -72,8 +73,8 @@ export default {
         (res) => {
           if (res.success) {
             console.log(res);
-            setToken(res.token);
-            this.$router.push('/conference/home');
+            setToken(res.data.token);
+            this.format(res.data.user);
           } else {
             console.log(res);
             if (res.message === message.USER_NOT_EXIST)
@@ -97,6 +98,13 @@ export default {
     focus(type) {
       if (type === 'password') this.validate.password = null;
       else this.validate.username = null;
+    },
+    format(user) {
+      getNameFromCode(user.resourceCode).then((res) => {
+        user.levelInfo = res.data[0];
+        setUser(user);
+        this.$router.push('/conference/home');
+      });
     },
   },
   components: {},

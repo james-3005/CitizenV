@@ -9,10 +9,17 @@
             Hệ thống điều tra dân số dành cho người Việt Nam
           </p>
 
-          <a-avatar :size="150" icon="user" class="avatar" />
+          <a-avatar
+            :size="150"
+            class="avatar"
+            type="user"
+            style="color: #30444a; backgroundcolor: #cfdade"
+          >
+            {{ user.username }}
+          </a-avatar>
           <div>
-            <p>Nguyễn Thành Đô</p>
-            <p>A1</p>
+            <p>{{ user.name }}</p>
+            <p>{{ levelName }}</p>
           </div>
           <router-link to="/conference/citizen">
             <a-button type="primary"
@@ -30,17 +37,39 @@
 
 <script>
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
+import { getUser } from '../utilities/localStorage';
 export default {
   components: { HeaderMenu },
   data: function () {
     return {
       imgs: ['appLogo', 'textLogo'],
+      user: getUser(),
+      levelName: '',
     };
   },
   methods: {
     returnUrl: function (index) {
       return this.imgs[index];
     },
+    formatLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'A1';
+        case 2:
+          return 'A2';
+        case 3:
+          return 'A3';
+        case 4:
+          return 'B1';
+        case 5:
+          return 'B2';
+        default:
+          return '';
+      }
+    },
+  },
+  mounted() {
+    this.levelName = this.formatLevelName(this.user.level);
   },
 };
 </script>
