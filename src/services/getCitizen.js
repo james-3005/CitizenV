@@ -25,6 +25,13 @@ const getWard = (params) =>
     },
   });
 
+const getQuater = (params) =>
+  request.get('/quarter', {
+    params: {
+      ...params,
+      perPage,
+    },
+  });
 const getCitizen = (params) =>
   request.get('/citizen', {
     params: {
@@ -39,4 +46,11 @@ const getNameFromCode = (code) => {
   if (code.length === 6) return getDistrict({ code });
   return null;
 };
-export { getProvince, getDistrict, getCitizen, getWard, getNameFromCode };
+export {
+  getProvince,
+  getDistrict,
+  getCitizen,
+  getWard,
+  getQuater,
+  getNameFromCode,
+};

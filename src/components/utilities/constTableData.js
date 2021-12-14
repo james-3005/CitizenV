@@ -26,7 +26,7 @@ for (let i = 1; i <= 50; i++)
     name: 'Cầu Giấy',
     code: i % 2,
   });
-const columns1 = [
+const columnsCitizen = [
   {
     title: 'STT',
     // key: 'key',
@@ -164,6 +164,31 @@ const columnWard = [
     className: 'Table-action',
   },
 ];
+const columnQuater = [
+  {
+    title: 'STT',
+    slots: { title: 'stt' },
+    className: 'Table-key',
+  },
+  {
+    title: 'Thôn / Bản / Tổ dân phố',
+    // dataIndex: 'name',
+    slots: { title: 'quater' },
+    scopedSlots: { customRender: 'quater' },
+  },
+  {
+    title: 'Mã',
+    dataIndex: 'code',
+    className: 'Table-key',
+    scopedSlots: { customRender: 'code' },
+  },
+  {
+    title: 'Hành động',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
+  },
+];
 
 const columnsAccount = [
   {
@@ -200,9 +225,10 @@ const columnsAccount = [
 ];
 module.exports = {
   data,
-  columns1,
+  columnsCitizen,
   columnProvince,
   columnDistrict,
   columnWard,
+  columnQuater,
   columnsAccount,
 };

@@ -21,11 +21,17 @@
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
+        <ButtonBackDrillDown
+          :text="$route.query.quaterName"
+          :disable="user.code.length >= 8"
+          :onClick="() => getBack(3)"
+          v-if="level >= 4"
+        />
       </div>
 
       <div class="div-button">
         <a-button
-          v-if="level >= 3"
+          v-if="level >= 4"
           type="primary"
           icon="user-add"
           size="small"
@@ -67,11 +73,14 @@ import {
   getDistrict,
   getCitizen,
   getWard,
+  getQuater,
 } from '../../services/getCitizen';
 import {
   columnProvince,
   columnDistrict,
   columnWard,
+  columnQuater,
+  columnsCitizen,
 } from '../utilities/constTableData';
 import { level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
@@ -88,7 +97,6 @@ export default {
     columns: [],
     data: [],
     pagination: {},
-    province: null,
     queries: [],
     level,
     user: getUser().levelInfo,
@@ -133,6 +141,19 @@ export default {
         this.columns = columnWard;
       });
     },
+    fetchQuaterData(params = {}) {
+      getQuater({
+        ...params,
+        wardName: this.queries.wardName,
+      }).then((data) => {
+        const pagination = _.cloneDeep(this.pagination);
+        pagination.total = data.total;
+        pagination.current = data.page;
+        this.data = data.data;
+        this.pagination = pagination;
+        this.columns = columnQuater;
+      });
+    },
     fetchCitizenData(params = {}) {
       getCitizen({
         ...params,
@@ -142,7 +163,7 @@ export default {
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
-        this.columns = columnProvince;
+        this.columns = columnsCitizen;
       });
     },
     fetchData(params = {}) {
@@ -152,6 +173,8 @@ export default {
         return this.fetchDistrictData(params);
       } else if (this.level == 2) {
         return this.fetchWardData(params);
+      } else if (this.level == 3) {
+        return this.fetchQuaterData(params);
       } else {
         return this.fetchCitizenData(params);
       }
@@ -176,6 +199,14 @@ export default {
           query: {
             provinceName: this.$route.query.provinceName,
             districtName: this.$route.query.districtName,
+          },
+        });
+      if (level === 3)
+        this.$router.push({
+          query: {
+            provinceName: this.$route.query.provinceName,
+            districtName: this.$route.query.districtName,
+            wardName: this.$route.query.wardName,
           },
         });
     },
@@ -213,6 +244,17 @@ export default {
         });
         return;
       }
+      if (this.code.length == 8) {
+        this.$router.push({
+          query: {
+            provinceName: this.user.provinceName,
+            districtName: this.user.districtName,
+            wardName: this.user.wardName,
+            quaterName: this.user.name,
+          },
+        });
+        return;
+      }
     },
   },
   // beforeMount(){
@@ -236,6 +278,12 @@ export default {
       }),
       (columnWard[0] = {
         ...columnWard[0],
+        customRender: (text, record, index) => {
+          return index + (this.pagination.current - 1) * perPage + 1;
+        },
+      }),
+      (columnQuater[0] = {
+        ...columnQuater[0],
         customRender: (text, record, index) => {
           return index + (this.pagination.current - 1) * perPage + 1;
         },
