@@ -31,7 +31,7 @@ const columns1 = [
     title: 'STT',
     // key: 'key',
     dataIndex: 'key',
-    className: 'TableCitizen-table-center Table-key',
+    className: 'Table-key',
     // slots: { title: 'STT' },
     // scopedSlots: { customRender: 'key' },
   },
@@ -44,43 +44,43 @@ const columns1 = [
       const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
       return a1.localeCompare(b1);
     },
-    className: 'TableCitizen-table-center Table-fullname',
+    className: 'Table-fullname',
   },
   {
     title: 'Giới tính',
     dataIndex: 'sex',
-    className: 'TableCitizen-table-center Table-sex',
+    className: 'Table-sex',
   },
   {
     title: 'Ngày sinh',
     dataIndex: 'dob',
     width: 120,
-    className: 'TableCitizen-table-center Table-dob',
+    className: 'Table-dob',
   },
   {
     title: 'CMND/CCCD',
     dataIndex: 'identification',
     width: 150,
-    className: 'TableCitizen-table-center Table-identification',
+    className: 'Table-identification',
   },
   {
     title: 'Địa chỉ',
     dataIndex: 'address',
     // key: 'address',
-    className: 'TableCitizen-table-center Table-address',
+    className: 'Table-address',
   },
   {
     title: 'Trạng thái',
     // key: 'status',
     dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
-    className: 'TableCitizen-table-center Table-status',
+    className: 'Table-status',
   },
   {
     title: 'Hành động',
     // key: 'action',
     scopedSlots: { customRender: 'action' },
-    className: 'TableCitizen-table-center Table-action',
+    className: 'Table-action',
   },
 ];
 
@@ -108,7 +108,7 @@ const columnProvince = [
     title: 'Hành động',
     // key: 'action',
     scopedSlots: { customRender: 'action' },
-    className: 'TableCitizen-table-center Table-action',
+    className: 'Table-action',
   },
 ];
 
@@ -165,10 +165,45 @@ const columnWard = [
     className: 'Table-action',
   },
 ];
+
+const columnsAccount = [
+  {
+    title: 'Họ và Tên',
+    key: 'fullname',
+    slots: { title: 'name' },
+    scopedSlots: { customRender: 'name' },
+    sorter: (a, b) => {
+      const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
+      return a1.localeCompare(b1);
+    },
+    className: 'Table-fullname',
+  },
+  {
+    title: 'Username',
+    dataIndex: 'username',
+    className: 'Table-username',
+  },
+  {
+    title: 'Số điện thoại',
+    dataIndex: 'phone',
+    className: 'Table-phone',
+  },
+  {
+    title: 'Địa phương',
+    dataIndex: 'locality',
+    className: 'Table-locality',
+  },
+  {
+    title: 'Quyền khai báo',
+    scopedSlots: { customRender: 'permission' },
+    className: 'Table-permission',
+  },
+];
 module.exports = {
   data,
   columns1,
   columnProvince,
   columnDistrict,
   columnWard,
+  columnsAccount,
 };

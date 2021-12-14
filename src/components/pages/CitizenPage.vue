@@ -38,8 +38,6 @@
 <script>
 import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
-import TableA1 from '../moreclues/TableA1.vue';
-import TableA2 from '../moreclues/TableA2.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ButtonBackDrillDown from '../atoms/ButtonBackDrillDown.vue';
 import {
@@ -58,8 +56,6 @@ const perPage = 7;
 export default {
   components: {
     HeaderMenu,
-    TableA1,
-    TableA2,
     TableCitizen,
     ButtonBackDrillDown,
   },

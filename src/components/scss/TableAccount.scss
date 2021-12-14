@@ -1,15 +1,15 @@
-.TableA1 {
+.TableAccount {
   width: 100%;
   height: 500px;
   // border: 1px solid black
   // overflow-y: scroll;
 }
-.TableA1 th {
+.TableAccount th {
   text-align: center !important;
   font-family: $font-roboto;
   height: 50px;
 }
-.TableA1 td {
+.TableAccount td {
   text-align: left !important;
   font-family: $font-roboto;
 }
@@ -18,13 +18,19 @@
   &-key {
     width: 60px;
   }
-  &-name {
+  &-fullname {
     width: 300px;
   }
-  &-code {
+  &-username {
     width: 150px;
   }
-  &-action {
+  &-phone {
+    width: 150px;
+  }
+  &-locality {
+    width: 200px;
+  }
+  &-permission {
     width: 120px;
   }
 }
