@@ -5,10 +5,10 @@ import Antd from 'ant-design-vue';
 import { MotionPlugin } from '@vueuse/motion';
 import VueCompositionAPI from '@vue/composition-api';
 import VueRouter from 'vue-router';
-import { getToken } from './components/utilities/localStorage';
-import VueLodash from 'vue-lodash';
+import { getToken, getUser } from './components/utilities/localStorage';
 import store from './store';
-// Vue.use(Chartkick.use(Chart))
+import i18n from './langs/i18';
+
 Vue.use(VueRouter);
 Vue.use(VueCompositionAPI);
 Vue.use(Antd);
@@ -43,6 +43,9 @@ const routes = [
       {
         path: 'citizen',
         component: CitizenPage,
+        query: {
+          a: 2,
+        },
       },
       {
         path: 'personal',
@@ -96,8 +99,11 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
-new Vue({
+const app = new Vue({
+  i18n,
   router,
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+export default app;

@@ -1,0 +1,15 @@
+{
+  "setting": {
+    "pageName": "Cài đặt",
+    "logout": "Đăng xuất",
+    "logoutInfo": "Thiết lập thời gian làm việc, sau thời gian này sẽ tự động Logout",
+    "lang": "Ngôn ngữ",
+    "langInfo":  "Thiết lập ngôn ngữ hiển thị của Website",
+    "contact": "Liên hệ",
+    "contactInfo": "Phản hồi và báo lỗi Website",
+    "contactInfo2": "Phản hồi",
+    "send": "Gửi",
+    "vn": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  }
+}

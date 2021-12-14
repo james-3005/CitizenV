@@ -32,5 +32,11 @@ const getCitizen = (params) =>
       perPage,
     },
   });
-
-export { getProvince, getDistrict, getCitizen, getWard };
+const getNameFromCode = (code) => {
+  if (typeof code !== 'string') return null;
+  if (code.length === 2) return getProvince({ code });
+  if (code.length === 4) return getDistrict({ code });
+  if (code.length === 6) return getDistrict({ code });
+  return null;
+};
+export { getProvince, getDistrict, getCitizen, getWard, getNameFromCode };

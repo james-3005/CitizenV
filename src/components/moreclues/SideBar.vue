@@ -15,21 +15,31 @@
           v-bind:key="option.id"
           class="SideBar-feature"
         >
-          <router-link :to="option.url" class="SideBar-featureContent">
+          <div
+            @click="() => handleNav(option.url)"
+            class="SideBar-featureContent"
+          >
             <img
               v-bind:src="require(`../../assets/svg/${option.src}.svg`)"
               alt="fuck"
               class="SideBar-featureIcon"
             />
             <p class="SideBar-featureText">{{ option.text }}</p>
-          </router-link>
+          </div>
         </li>
       </ul>
 
       <div class="SideBar-footer">
         <div class="SideBar-avatar">
-          <img src="../../assets/avatar.png" alt="user_avatar" />
-          <p>A1</p>
+          <a-avatar
+            :size="55"
+            class="avatar"
+            type="user"
+            style="color: #30444a; backgroundcolor: #cfdade"
+          >
+            {{ user.username }}
+          </a-avatar>
+          <p>{{ levelName }}</p>
         </div>
         <img
           src="../../assets/svg/logOutLogo.svg"
@@ -44,13 +54,16 @@
 
 <script>
 import { options } from '../utilities/constSideBar';
-import { deleteToken } from '../utilities/localStorage';
+import { deleteToken, deleteUser, getUser } from '../utilities/localStorage';
 export default {
   name: 'SizeBar',
   props: {},
   data: () => ({
     isExpanded: false,
     options,
+    level: '',
+    levelName: '',
+    user: getUser(),
   }),
   methods: {
     expand_sidebar: function () {
@@ -58,10 +71,35 @@ export default {
     },
     handleLogout() {
       deleteToken();
+      deleteUser();
       this.$router.push('/login');
+    },
+    formatLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'A1';
+        case 2:
+          return 'A2';
+        case 3:
+          return 'A3';
+        case 4:
+          return 'B1';
+        case 5:
+          return 'B2';
+        default:
+          return '';
+      }
+    },
+    handleNav(url) {
+      if (url === this.$route.path) return;
+      else this.$router.push(url);
     },
   },
   components: {},
+  mounted() {
+    this.level = this.user.level;
+    this.levelName = this.formatLevelName(this.level);
+  },
 };
 </script>
 

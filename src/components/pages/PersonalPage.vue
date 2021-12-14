@@ -11,7 +11,14 @@
           <form>
             <label for="name">Ảnh đại diện:</label><br />
             <div class="info-avatar">
-              <img src="../../assets/avatar.png" alt="User avatar" />
+              <a-avatar
+                class="img"
+                :size="75"
+                type="user"
+                style="color: #30444a; backgroundcolor: #cfdade"
+              >
+                {{ user.username }}
+              </a-avatar>
             </div>
             <input type="file" name="filename" class="input" /> <br />
             <label for="name">Họ và tên:</label><br />
@@ -20,7 +27,7 @@
               type="text"
               name="name"
               disabled
-              value="Tran Nhat Huy"
+              :value="user.name"
             /><br />
             <label for="email">Email:</label><br />
             <a-input
@@ -62,9 +69,12 @@
 
 <script>
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
+import { getUser } from '../utilities/localStorage';
 export default {
   props: {},
-  data: () => ({}),
+  data: () => ({
+    user: getUser(),
+  }),
   methods: {},
   components: {
     HeaderMenu,
