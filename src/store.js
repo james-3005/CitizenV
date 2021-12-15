@@ -16,8 +16,8 @@ export default new Vuex.Store({
     turnOffLoading(state) {
       state.isLoading = false;
     },
-    turnOnErr(state) {
-      state.isErr = true;
+    turnOnErr(state, payload) {
+      state.isErr = payload;
     },
     turnOffErr(state) {
       state.isErr = false;

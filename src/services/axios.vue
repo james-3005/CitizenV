@@ -51,17 +51,19 @@ request.interceptors.response.use(
   },
   (err) => {
     store.commit('turnOffLoading');
-    // store.commit('turnOnErr')
-    // console.log(err.response.status)
-    if (err.response)
-      return {
-        success: false,
-        code: _.get(err, 'response.data.code'),
-        message: _.get(err, 'response.data.message'),
-      };
-    else {
+    if (err.response) {
+      if (err.response.status === 404) {
+        console.error(err);
+        store.commit('turnOnErr', 404);
+      } else
+        return {
+          success: false,
+          code: _.get(err, 'response.data.code'),
+          message: _.get(err, 'response.data.message'),
+        };
+    } else {
       console.error(err);
-      store.commit('turnOnErr');
+      store.commit('turnOnErr', 500);
     }
   },
 );

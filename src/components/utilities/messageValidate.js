@@ -5,4 +5,6 @@ export const message = {
   WRONG_PASS: 'Mật khẩu không đúng',
   REGISTER_SUCCESS: 'Đăng ký thành công',
   RE_PASS: 'Mật khẩu chưa trùng khớp',
+  VALIDATOR_ERR: 'Validator Error',
+  VALIDATOR_ERR2: 'Thiếu trường hoặc không đúng định dạng',
 };

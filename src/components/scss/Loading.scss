@@ -11,4 +11,12 @@
     width: 100px;
     height: 100px;
   }
+  &-message {
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

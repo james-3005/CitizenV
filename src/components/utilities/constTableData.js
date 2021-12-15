@@ -101,15 +101,9 @@ const columnProvince = [
   {
     title: 'Mã',
     dataIndex: 'code',
-    className: 'Table-key',
+    className: 'Table-code',
     slots: { title: 'code' },
     scopedSlots: { customRender: 'code' },
-  },
-  {
-    title: 'Hành động',
-    // key: 'action',
-    scopedSlots: { customRender: 'action' },
-    className: 'Table-action',
   },
 ];
 
@@ -129,15 +123,9 @@ const columnDistrict = [
   {
     title: 'Mã',
     dataIndex: 'code',
-    className: 'Table-key',
+    className: 'Table-code',
     slots: { title: 'code' },
     scopedSlots: { customRender: 'code' },
-  },
-  {
-    title: 'Hành động',
-    // key: 'action',
-    scopedSlots: { customRender: 'action' },
-    className: 'Table-action',
   },
 ];
 const columnWard = [
@@ -155,14 +143,27 @@ const columnWard = [
   {
     title: 'Mã',
     dataIndex: 'code',
-    className: 'Table-key',
+    className: 'Table-code',
     scopedSlots: { customRender: 'code' },
   },
+];
+const columnQuater = [
   {
-    title: 'Hành động',
-    // key: 'action',
-    scopedSlots: { customRender: 'action' },
-    className: 'Table-action',
+    title: 'STT',
+    slots: { title: 'stt' },
+    className: 'Table-key',
+  },
+  {
+    title: 'Thôn / Bản / Tổ dân phố',
+    // dataIndex: 'name',
+    slots: { title: 'quater' },
+    scopedSlots: { customRender: 'quater' },
+  },
+  {
+    title: 'Mã',
+    dataIndex: 'code',
+    className: 'Table-code',
+    scopedSlots: { customRender: 'code' },
   },
 ];
 function addSTTcolumns(
@@ -203,31 +204,6 @@ function addSTTcolumns(
     },
   };
 }
-const columnQuater = [
-  {
-    title: 'STT',
-    slots: { title: 'stt' },
-    className: 'Table-key',
-  },
-  {
-    title: 'Thôn / Bản / Tổ dân phố',
-    // dataIndex: 'name',
-    slots: { title: 'quater' },
-    scopedSlots: { customRender: 'quater' },
-  },
-  {
-    title: 'Mã',
-    dataIndex: 'code',
-    className: 'Table-key',
-    scopedSlots: { customRender: 'code' },
-  },
-  {
-    title: 'Hành động',
-    // key: 'action',
-    scopedSlots: { customRender: 'action' },
-    className: 'Table-action',
-  },
-];
 
 const columnsAccount = [
   {

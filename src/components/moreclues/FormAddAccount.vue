@@ -191,7 +191,9 @@ export default {
         }).then((res) => {
           if (res.success) this.$message.info(message.REGISTER_SUCCESS);
           else {
-            this.$message.error(res.message);
+            if (res.message === message.VALIDATOR_ERR)
+              this.$message.error(message.VALIDATOR_ERR2);
+            else this.$message.error(res.message);
           }
         });
       }
