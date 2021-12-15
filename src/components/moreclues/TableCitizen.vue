@@ -26,6 +26,11 @@
           {{ ward.name }}
         </p>
       </span>
+      <span slot="quater" slot-scope="quater">
+        <p class="blue" @click="() => handleClickQuater(quater.name)">
+          {{ quater.name }}
+        </p>
+      </span>
       <span slot="code" slot-scope="code">
         <a-tag color="blue">
           {{ code }}
@@ -87,6 +92,14 @@ export default {
         query: {
           ...this.$route.query,
           wardName,
+        },
+      });
+    },
+    handleClickQuater(quaterName) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          quaterName,
         },
       });
     },

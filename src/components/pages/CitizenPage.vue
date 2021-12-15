@@ -21,11 +21,17 @@
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
+        <ButtonBackDrillDown
+          :text="$route.query.quaterName"
+          :disable="userLevel > 5"
+          :onClick="() => getBack(3)"
+          v-if="level >= 4"
+        />
       </div>
 
       <div class="div-button">
         <a-button
-          v-if="level >= 3"
+          v-if="level >= 4"
           type="primary"
           icon="user-add"
           size="small"
@@ -66,8 +72,6 @@
 <script>
 import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
-import TableA1 from '../moreclues/TableA1.vue';
-import TableA2 from '../moreclues/TableA2.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ButtonBackDrillDown from '../atoms/ButtonBackDrillDown.vue';
 import FormAddCitizen from '../moreclues/FormAddCitizen.vue';
@@ -77,12 +81,15 @@ import {
   getDistrict,
   getCitizen,
   getWard,
+  getQuater,
 } from '../../services/getCitizen';
 import {
   columnProvince,
   columnDistrict,
   columnWard,
   addSTTcolumns,
+  columnQuater,
+  columnsCitizen,
 } from '../utilities/constTableData';
 import { level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
@@ -90,8 +97,6 @@ const perPage = 7;
 export default {
   components: {
     HeaderMenu,
-    TableA1,
-    TableA2,
     TableCitizen,
     ButtonBackDrillDown,
     FormAddCitizen,
@@ -100,8 +105,7 @@ export default {
     form_visible: false,
     columns: [],
     data: [],
-    pagination: {},
-    province: null,
+    pagination: { pageSize: 7 },
     queries: [],
     level,
     user: getUser().levelInfo,
@@ -113,8 +117,9 @@ export default {
       getProvince({
         ...params,
       }).then((data) => {
+        console.log;
         const pagination = _.cloneDeep(this.pagination);
-        pagination.total = data.total;
+        pagination.total = 63;
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
@@ -147,6 +152,19 @@ export default {
         this.columns = columnWard;
       });
     },
+    fetchQuaterData(params = {}) {
+      getQuater({
+        ...params,
+        wardName: this.queries.wardName,
+      }).then((data) => {
+        const pagination = _.cloneDeep(this.pagination);
+        pagination.total = data.total;
+        pagination.current = data.page;
+        this.data = data.data;
+        this.pagination = pagination;
+        this.columns = columnQuater;
+      });
+    },
     fetchCitizenData(params = {}) {
       getCitizen({
         ...params,
@@ -156,7 +174,7 @@ export default {
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
-        this.columns = columnProvince;
+        this.columns = columnsCitizen;
       });
     },
     fetchData(params = {}) {
@@ -166,6 +184,8 @@ export default {
         return this.fetchDistrictData(params);
       } else if (this.level == 2) {
         return this.fetchWardData(params);
+      } else if (this.level == 3) {
+        return this.fetchQuaterData(params);
       } else {
         return this.fetchCitizenData(params);
       }
@@ -190,6 +210,14 @@ export default {
           query: {
             provinceName: this.$route.query.provinceName,
             districtName: this.$route.query.districtName,
+          },
+        });
+      if (level === 3)
+        this.$router.push({
+          query: {
+            provinceName: this.$route.query.provinceName,
+            districtName: this.$route.query.districtName,
+            wardName: this.$route.query.wardName,
           },
         });
     },
@@ -227,6 +255,17 @@ export default {
         });
         return;
       }
+      if (_.get(this, 'user.code.length') == 8) {
+        this.$router.push({
+          query: {
+            provinceName: this.user.provinceName,
+            districtName: this.user.districtName,
+            wardName: this.user.wardName,
+            quaterName: this.user.name,
+          },
+        });
+        return;
+      }
     },
     onSearch(value) {
       this.fetchData({ ...this.queries, name: value });
@@ -236,17 +275,17 @@ export default {
       this.fetchData(this.queries);
     },
   },
-  computed: {
-    checkDisable(value) {
-      console.log(_.get(this.user, 'code.length'));
-      return _.get(this.user, 'code.length') > 2 * value;
-    },
-  },
   mounted() {
     this.navigate();
     this.getQueries();
     this.fetchData(this.queries);
-    addSTTcolumns.bind(this)(columnProvince, columnDistrict, columnWard);
+    addSTTcolumns.bind(this)(
+      columnProvince,
+      columnDistrict,
+      columnWard,
+      columnQuater,
+      columnsCitizen,
+    );
   },
   watch: {
     $route() {

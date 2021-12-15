@@ -8,6 +8,10 @@
     margin: 18px 0 13px 0;
     align-items: center;
     .backButton {
+      :hover {
+        background-color: rgb(245, 72, 72);
+        border-color: rgb(245, 72, 72);
+      }
     }
     .div-button {
       width: 25%;

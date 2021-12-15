@@ -28,10 +28,11 @@
         Mở biểu đồ
       </a-button>
     </div>
-    <TableCitizen
-      :data="data"
-      :handleAdjust="handleAdjust"
-      :handleDelete="handleDelete"
+    <TableAccount
+      :columns="this.columnsAccount"
+      :data="this.data"
+      :pagination="this.pagination"
+      :fetch="this.fetchData"
     />
     <ProgressChart
       v-if="isShowProgress"
@@ -51,15 +52,17 @@
 </template>
 
 <script>
-import { data } from '../utilities/constTableData';
+import { columnsAccount } from '../utilities/constTableData';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
-import TableCitizen from '../moreclues/TableCitizen.vue';
+import TableAccount from '../moreclues/TableAccount.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormCitizen from '../moreclues/FormCitizen.vue';
 export default {
   props: {},
   data: () => ({
-    data,
+    columnsAccount,
+    data: [],
+    pagination: {},
     isShowProgress: false,
     visible: false,
   }),
@@ -81,7 +84,7 @@ export default {
     },
   },
   components: {
-    TableCitizen,
+    TableAccount,
     HeaderMenu,
     ProgressChart,
     FormCitizen,
