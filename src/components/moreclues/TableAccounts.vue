@@ -110,7 +110,6 @@ export default {
   },
   mounted() {
     this.fetchData();
-    console.log(this.pagination.total);
   },
 };
 </script>

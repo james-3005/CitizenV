@@ -6,7 +6,7 @@ const getUser = (params) =>
   requestWithToken.get('/user', {
     params: {
       ...params,
-      perPage: 5,
+      perPage,
     },
   });
 
