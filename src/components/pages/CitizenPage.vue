@@ -5,13 +5,13 @@
       <div class="backButton">
         <ButtonBackDrillDown
           :text="$route.query.provinceName"
-          :disable="userLevel > 2"
+          :disable="userLevel > 1"
           :onClick="() => getBack(0)"
           v-if="level >= 1"
         />
         <ButtonBackDrillDown
           :text="$route.query.districtName"
-          :disable="userLevel > 3"
+          :disable="userLevel > 2"
           :onClick="() => getBack(1)"
           v-if="level >= 2"
         />
@@ -23,7 +23,7 @@
         />
         <ButtonBackDrillDown
           :text="$route.query.quaterName"
-          :disable="userLevel > 5"
+          :disable="userLevel > 4"
           :onClick="() => getBack(3)"
           v-if="level >= 4"
         />
@@ -81,7 +81,7 @@ import {
   getDistrict,
   getCitizen,
   getWard,
-  getQuater,
+  getQuarter,
 } from '../../services/getCitizen';
 import {
   columnProvince,
@@ -153,7 +153,7 @@ export default {
       });
     },
     fetchQuaterData(params = {}) {
-      getQuater({
+      getQuarter({
         ...params,
         wardName: this.queries.wardName,
       }).then((data) => {

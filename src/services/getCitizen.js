@@ -4,39 +4,39 @@ const perPage = 7;
 const getProvince = (params) =>
   request.get('/province', {
     params: {
-      ...params,
       perPage,
+      ...params,
     },
   });
 
 const getDistrict = (params) =>
   request.get('/district', {
     params: {
-      ...params,
       perPage,
+      ...params,
     },
   });
 
 const getWard = (params) =>
   request.get('/ward', {
     params: {
-      ...params,
       perPage,
+      ...params,
     },
   });
 
-const getQuater = (params) =>
+const getQuarter = (params) =>
   request.get('/quarter', {
     params: {
-      ...params,
       perPage,
+      ...params,
     },
   });
 const getCitizen = (params) =>
   request.get('/citizen', {
     params: {
-      ...params,
       perPage,
+      ...params,
     },
   });
 const getNameFromCode = (code) => {
@@ -51,6 +51,6 @@ export {
   getDistrict,
   getCitizen,
   getWard,
-  getQuater,
+  getQuarter,
   getNameFromCode,
 };
