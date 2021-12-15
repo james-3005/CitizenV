@@ -25,7 +25,7 @@
 
       <div class="div-button">
         <a-button
-          v-if="level >= 3"
+          v-if="accountLevel >= 3"
           type="primary"
           icon="user-add"
           size="small"
@@ -96,6 +96,7 @@ export default {
     queries: [],
     level,
     user: getUser().levelInfo,
+    accountLevel: getUser().level,
     _: _,
   }),
   methods: {

@@ -178,16 +178,22 @@ export default {
     },
     handleRegister() {
       this.permissions = this.getPermissions();
-      addAccount({
-        username: this.username,
-        password: this.password,
-        name: this.name,
-        phoneNumber: this.phoneNumber,
-        resourceCode: this.resourceCode,
-        resourceName: this.resourceName,
-        level: getUser().level + 1,
-        permissions: this.permissions,
-      }).then((res) => console.log(res));
+      if (this.password !== this.passwordRetype) {
+        this.$message.error('Nhập lại mật khẩu chưa chính xác');
+      } else {
+        addAccount({
+          username: this.username,
+          password: this.password,
+          name: this.name,
+          phoneNumber: this.phoneNumber,
+          resourceCode: this.resourceCode,
+          resourceName: this.resourceName,
+          level: getUser().level + 1,
+          permissions: this.permissions,
+        }).then((res) => {
+          this.$message.info(res.message);
+        });
+      }
     },
 
     getPermissions() {

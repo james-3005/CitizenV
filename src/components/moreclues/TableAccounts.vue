@@ -2,6 +2,7 @@
   <div class="ListCitizen">
     <div class="ListCitizen-header">
       <a-button
+        v-if="accountLevel < 5"
         type="primary"
         icon="user-add"
         size="small"
@@ -56,9 +57,11 @@ import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormAddAccount from '../moreclues/FormAddAccount.vue';
+import { getUser } from '../utilities/localStorage';
 export default {
   props: {},
   data: () => ({
+    accountLevel: getUser().level,
     data,
     isShowProgress: false,
     visible: false,

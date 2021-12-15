@@ -10,3 +10,8 @@ export const addAccount = (params) =>
   requestWithToken.post('/user/register', {
     ...params,
   });
+
+export const addCitizen = (params) =>
+  requestWithToken.post('/form', {
+    ...params,
+  });
