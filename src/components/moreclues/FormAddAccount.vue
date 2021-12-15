@@ -87,6 +87,7 @@ import {
 } from '../../services/getCitizen';
 import { getUser } from '../utilities/localStorage';
 import { addAccount } from '../../services/auth';
+import { message } from '../utilities/messageValidate';
 const plainOptions = ['Thêm', 'Đọc', 'Sửa', 'Xóa'];
 export default {
   // props: {
@@ -114,7 +115,10 @@ export default {
       permissions: '',
       // other variables
       moment,
-      dob: moment('1-2-2021', 'DD-MM-YYYY'),
+      validate: {
+        username: null,
+        password: null,
+      },
     };
   },
   updated() {},
@@ -173,7 +177,7 @@ export default {
     handleRegister() {
       this.permissions = this.getPermissions();
       if (this.password !== this.passwordRetype) {
-        this.$message.error('Nhập lại mật khẩu chưa chính xác');
+        this.$message.error(message.RE_PASS);
       } else {
         addAccount({
           username: this.username,
@@ -185,7 +189,10 @@ export default {
           level: getUser().level + 1,
           permissions: this.permissions,
         }).then((res) => {
-          this.$message.info(res.message);
+          if (res.success) this.$message.info(message.REGISTER_SUCCESS);
+          else {
+            this.$message.error(res.message);
+          }
         });
       }
     },

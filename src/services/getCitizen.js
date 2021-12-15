@@ -44,6 +44,7 @@ const getNameFromCode = (code) => {
   if (code.length === 2) return getProvince({ code });
   if (code.length === 4) return getDistrict({ code });
   if (code.length === 6) return getWard({ code });
+  if (code.length === 8) return getQuarter({ code });
   return null;
 };
 export {
