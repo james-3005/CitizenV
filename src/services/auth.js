@@ -5,3 +5,7 @@ export const login = (params) =>
     ...params,
   });
 // requestWithToken
+export const register = (params) =>
+  requestWithToken.post('/user/register', {
+    ...params,
+  });

@@ -5,19 +5,19 @@
       <div class="backButton">
         <ButtonBackDrillDown
           :text="$route.query.provinceName"
-          :disable="user.code.length >= 2"
+          :disable="userLevel > 2"
           :onClick="() => getBack(0)"
           v-if="level >= 1"
         />
         <ButtonBackDrillDown
           :text="$route.query.districtName"
-          :disable="user.code.length >= 4"
+          :disable="userLevel > 3"
           :onClick="() => getBack(1)"
           v-if="level >= 2"
         />
         <ButtonBackDrillDown
           :text="$route.query.wardName"
-          :disable="user.code.length >= 6"
+          :disable="userLevel > 4"
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
@@ -34,7 +34,15 @@
         >
           Thêm người
         </a-button>
-        <a-input-search placeholder="Tìm kiếm" enter-button />
+        <a-button v-if="search" style="margin-right: 10px" @click="clearSearch"
+          ><a-icon type="close"
+        /></a-button>
+        <a-input-search
+          placeholder="Tìm kiếm"
+          v-model="search"
+          @search="onSearch"
+          @keydown.enter="onSearch"
+        />
       </div>
     </div>
     <table-citizen
@@ -74,6 +82,7 @@ import {
   columnProvince,
   columnDistrict,
   columnWard,
+  addSTTcolumns,
 } from '../utilities/constTableData';
 import { level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
@@ -96,7 +105,8 @@ export default {
     queries: [],
     level,
     user: getUser().levelInfo,
-    _: _,
+    userLevel: getUser().level,
+    search: '',
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -190,7 +200,7 @@ export default {
       this.form_visible = false;
     },
     navigate() {
-      if (this.user.code.length == 2) {
+      if (_.get(this, 'user.code.length') == 2) {
         this.$router.push({
           query: {
             provinceName: this.user.name,
@@ -198,7 +208,7 @@ export default {
         });
         return;
       }
-      if (this.user.code.length == 4) {
+      if (_.get(this, 'user.code.length') == 4) {
         this.$router.push({
           query: {
             provinceName: this.user.provinceName,
@@ -207,7 +217,7 @@ export default {
         });
         return;
       }
-      if (this.code.length == 6) {
+      if (_.get(this, 'user.code.length') == 6) {
         this.$router.push({
           query: {
             provinceName: this.user.provinceName,
@@ -218,32 +228,25 @@ export default {
         return;
       }
     },
+    onSearch(value) {
+      this.fetchData({ ...this.queries, name: value });
+    },
+    clearSearch() {
+      this.search = '';
+      this.fetchData(this.queries);
+    },
   },
-  // beforeMount(){
-
-  // },
+  computed: {
+    checkDisable(value) {
+      console.log(_.get(this.user, 'code.length'));
+      return _.get(this.user, 'code.length') > 2 * value;
+    },
+  },
   mounted() {
     this.navigate();
     this.getQueries();
     this.fetchData(this.queries);
-    (columnDistrict[0] = {
-      ...columnDistrict[0],
-      customRender: (text, record, index) => {
-        return index + (this.pagination.current - 1) * perPage + 1;
-      },
-    }),
-      (columnProvince[0] = {
-        ...columnProvince[0],
-        customRender: (text, record, index) => {
-          return index + (this.pagination.current - 1) * perPage + 1;
-        },
-      }),
-      (columnWard[0] = {
-        ...columnWard[0],
-        customRender: (text, record, index) => {
-          return index + (this.pagination.current - 1) * perPage + 1;
-        },
-      });
+    addSTTcolumns.bind(this)(columnProvince, columnDistrict, columnWard);
   },
   watch: {
     $route() {

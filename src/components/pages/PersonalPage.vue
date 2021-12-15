@@ -29,13 +29,13 @@
               disabled
               :value="user.name"
             /><br />
-            <label for="email">Email:</label><br />
+            <label for="email">Số điện thoại:</label><br />
             <a-input
               class="input"
               type="text"
               name="email"
               disabled
-              value="1902xxxx@vnu.edu.vn"
+              :value="user.phoneNumber"
             /><br />
             <a-button type="primary">Lưu</a-button>
             <br />

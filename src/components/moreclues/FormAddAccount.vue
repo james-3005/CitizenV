@@ -54,12 +54,18 @@
         :auto-size="{ minRows: 3, maxRows: 5 }"
       />
     </div>
-    <a-button type="primary" class="FormAddAccount-submit">Tạo</a-button>
+    <a-button
+      type="primary"
+      class="FormAddAccount-submit"
+      @click="handleRegister"
+      >Tạo</a-button
+    >
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import { register } from '../../services/auth';
 export default {
   // props: {
   //   handleToggleProgress: Function,
@@ -70,6 +76,21 @@ export default {
       moment,
       dob: moment('1-2-2021', 'DD-MM-YYYY'),
     };
+  },
+  methods: {
+    handleRegister() {
+      console.log('register');
+      register({
+        username: 'dont_leveasdd',
+        password: '123456',
+        name: 'Mạnh Cầu Diễn',
+        phoneNumber: '0346743022',
+        resourceCode: '0110',
+        resourceName: 'Quận Nam Từ Liêm',
+        level: 3,
+        permissions: '1111',
+      }).then((res) => console.log(res));
+    },
   },
   updated() {
     console.log(this.dob.format('DD-MM-YYYY'));

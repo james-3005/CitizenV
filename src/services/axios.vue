@@ -11,7 +11,7 @@ requestWithToken.interceptors.request.use((config) => {
   store.commit('turnOnLoading');
   config.headers = {
     ...config.headers,
-    Authorization: 'Bearer ' + getToken(),
+    'x-access-token': getToken(),
   };
   return config;
 });

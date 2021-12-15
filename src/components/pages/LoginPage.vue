@@ -100,6 +100,11 @@ export default {
       else this.validate.username = null;
     },
     format(user) {
+      if (user.level === 1) {
+        setUser(user);
+        this.$router.push('/conference/home');
+        return;
+      }
       getNameFromCode(user.resourceCode).then((res) => {
         user.levelInfo = res.data[0];
         setUser(user);

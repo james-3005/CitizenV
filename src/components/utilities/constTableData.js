@@ -1,6 +1,7 @@
 const data = [];
 const dataA1 = [];
 const dataA2 = [];
+const perPage = 7;
 for (let i = 1; i <= 50; i++)
   data.push({
     key: i,
@@ -164,10 +165,31 @@ const columnWard = [
     className: 'Table-action',
   },
 ];
+function addSTTcolumns(columnDistrict, columnProvince, columnWard) {
+  (columnDistrict[0] = {
+    ...columnDistrict[0],
+    customRender: (text, record, index) => {
+      return index + (this.pagination.current - 1) * perPage + 1;
+    },
+  }),
+    (columnProvince[0] = {
+      ...columnProvince[0],
+      customRender: (text, record, index) => {
+        return index + (this.pagination.current - 1) * perPage + 1;
+      },
+    }),
+    (columnWard[0] = {
+      ...columnWard[0],
+      customRender: (text, record, index) => {
+        return index + (this.pagination.current - 1) * perPage + 1;
+      },
+    });
+}
 module.exports = {
   data,
   columns1,
   columnProvince,
   columnDistrict,
   columnWard,
+  addSTTcolumns,
 };
