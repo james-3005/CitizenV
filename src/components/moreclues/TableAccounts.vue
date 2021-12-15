@@ -2,7 +2,7 @@
   <div class="ListCitizen">
     <div class="ListCitizen-header">
       <a-button
-        v-if="accountLevel < 5"
+        v-if="userLevel < 5"
         type="primary"
         icon="user-add"
         size="small"
@@ -29,10 +29,13 @@
         Mở biểu đồ
       </a-button>
     </div>
-    <TableCitizen
-      :data="data"
-      :handleAdjust="handleAdjust"
-      :handleDelete="handleDelete"
+    <a-table
+      :columns="this.columns"
+      :data-source="this.data"
+      bordered
+      :pagination="this.pagination"
+      @change="handleTableChange"
+      :row-key="(record) => record._id"
     />
     <ProgressChart
       v-if="isShowProgress"
@@ -52,21 +55,44 @@
 </template>
 
 <script>
-import { data } from '../utilities/constTableData';
+import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
-import TableCitizen from '../moreclues/TableCitizen.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormAddAccount from '../moreclues/FormAddAccount.vue';
+import { getAccount } from '../../services/getUser';
 import { getUser } from '../utilities/localStorage';
+import {
+  columnsAccount,
+  addSTTcolumnsAccount,
+} from '../utilities/constTableData';
 export default {
   props: {},
   data: () => ({
-    accountLevel: getUser().level,
-    data,
+    data: [],
+    columns: [],
+    pagination: { pageSize: 7 },
     isShowProgress: false,
     visible: false,
+    userLevel: getUser().level,
   }),
   methods: {
+    fetchData(params = {}) {
+      getAccount({
+        ...params,
+      }).then((data) => {
+        const pagination = _.cloneDeep(this.pagination);
+        pagination.total = data.total;
+        pagination.current = data.page;
+        this.data = data.data;
+        this.pagination = pagination;
+        this.columns = columnsAccount;
+      });
+    },
+    handleTableChange(pagination, filters, sorter) {
+      this.fetchData({
+        page: pagination.current,
+      });
+    },
     handleAdjust: function (key) {
       this.data = this.data.filter((item) => item.key !== key);
     },
@@ -84,10 +110,13 @@ export default {
     },
   },
   components: {
-    TableCitizen,
     HeaderMenu,
     ProgressChart,
     FormAddAccount,
+  },
+  mounted() {
+    addSTTcolumnsAccount.bind(this)(columnsAccount);
+    this.fetchData();
   },
 };
 </script>

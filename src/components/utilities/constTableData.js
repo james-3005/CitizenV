@@ -205,6 +205,14 @@ function addSTTcolumns(
   };
 }
 
+function addSTTcolumnsAccount(columnAccount) {
+  columnAccount[0] = {
+    ...columnAccount[0],
+    customRender: (text, record, index) => {
+      return index + (this.pagination.current - 1) * perPage + 1;
+    },
+  };
+}
 const columnsAccount = [
   {
     title: 'STT',
@@ -213,14 +221,8 @@ const columnsAccount = [
   },
   {
     title: 'Họ và Tên',
-    key: 'fullname',
-    slots: { title: 'name' },
-    scopedSlots: { customRender: 'name' },
-    sorter: (a, b) => {
-      const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
-      return a1.localeCompare(b1);
-    },
-    className: 'Table-fullname',
+    dataIndex: 'name',
+    // className: 'Table-fullname',
   },
   {
     title: 'Username',
@@ -229,12 +231,12 @@ const columnsAccount = [
   },
   {
     title: 'Số điện thoại',
-    dataIndex: 'phone',
+    dataIndex: 'phoneNumber',
     className: 'Table-phone',
   },
   {
     title: 'Địa phương',
-    dataIndex: 'locality',
+    dataIndex: 'resourceName',
     className: 'Table-locality',
   },
   {
@@ -252,4 +254,5 @@ module.exports = {
   addSTTcolumns,
   columnQuater,
   columnsAccount,
+  addSTTcolumnsAccount,
 };
