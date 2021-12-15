@@ -33,7 +33,7 @@ const getQuarter = (params) =>
     },
   });
 const getCitizen = (params) =>
-  request.get('/citizen', {
+  requestWithToken.get('/form', {
     params: {
       perPage,
       ...params,
