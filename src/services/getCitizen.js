@@ -12,13 +12,21 @@ const getProvince = (params) =>
 const getDistrict = (params) =>
   request.get('/district', {
     params: {
-      ...params,
       perPage,
+      ...params,
     },
   });
 
 const getWard = (params) =>
   request.get('/ward', {
+    params: {
+      ...params,
+      perPage,
+    },
+  });
+
+const getQuarter = (params) =>
+  request.get('/quarter', {
     params: {
       ...params,
       perPage,
@@ -39,4 +47,11 @@ const getNameFromCode = (code) => {
   if (code.length === 6) return getDistrict({ code });
   return null;
 };
-export { getProvince, getDistrict, getCitizen, getWard, getNameFromCode };
+export {
+  getProvince,
+  getDistrict,
+  getCitizen,
+  getWard,
+  getQuarter,
+  getNameFromCode,
+};

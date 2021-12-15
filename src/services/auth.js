@@ -5,3 +5,8 @@ export const login = (params) =>
     ...params,
   });
 // requestWithToken
+
+export const addAccount = (params) =>
+  requestWithToken.post('/user/register', {
+    ...params,
+  });
