@@ -192,14 +192,13 @@ const columnQuater = [
 
 const columnsAccount = [
   {
+    title: 'STT',
+    slots: { title: 'stt' },
+    className: 'Table-key',
+  },
+  {
     title: 'Họ và Tên',
-    key: 'fullname',
-    slots: { title: 'name' },
-    scopedSlots: { customRender: 'name' },
-    sorter: (a, b) => {
-      const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
-      return a1.localeCompare(b1);
-    },
+    dataIndex: 'name',
     className: 'Table-fullname',
   },
   {
@@ -209,12 +208,12 @@ const columnsAccount = [
   },
   {
     title: 'Số điện thoại',
-    dataIndex: 'phone',
+    dataIndex: 'phoneNumber',
     className: 'Table-phone',
   },
   {
     title: 'Địa phương',
-    dataIndex: 'locality',
+    dataIndex: 'resourceName',
     className: 'Table-locality',
   },
   {

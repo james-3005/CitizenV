@@ -28,10 +28,13 @@
         Mở biểu đồ
       </a-button>
     </div>
-    <TableCitizen
-      :data="data"
-      :handleAdjust="handleAdjust"
-      :handleDelete="handleDelete"
+    <a-table
+      :columns="this.columns"
+      :data-source="this.data"
+      bordered
+      :pagination="this.pagination"
+      @change="handleTableChange"
+      :row-key="(record) => record._id"
     />
     <ProgressChart
       v-if="isShowProgress"
@@ -51,19 +54,47 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { data } from '../utilities/constTableData';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
-import TableCitizen from '../moreclues/TableCitizen.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormAddAccount from '../moreclues/FormAddAccount.vue';
+import req from '../../services/axios.vue';
+import { columnsAccount } from '../utilities/constTableData';
 export default {
   props: {},
   data: () => ({
-    data,
+    data: [],
+    columns: [],
+    pagination: { pageSize: 5 },
     isShowProgress: false,
     visible: false,
   }),
   methods: {
+    fetchData(params) {
+      const { requestWithToken, request } = req;
+      requestWithToken
+        .get('/user', {
+          params: {
+            ...params,
+            perPage: 5,
+          },
+        })
+        .then((data) => {
+          console.log(data.total);
+          const pagination = _.cloneDeep(this.pagination);
+          pagination.total = data.total;
+          pagination.current = data.page;
+          this.data = data.data;
+          this.pagination = pagination;
+          this.columns = columnsAccount;
+        });
+    },
+    handleTableChange(pagination, filters, sorter) {
+      this.fetchData({
+        page: pagination.current,
+      });
+    },
     handleAdjust: function (key) {
       this.data = this.data.filter((item) => item.key !== key);
     },
@@ -81,10 +112,13 @@ export default {
     },
   },
   components: {
-    TableCitizen,
     HeaderMenu,
     ProgressChart,
     FormAddAccount,
+  },
+  mounted() {
+    this.fetchData();
+    console.log(this.pagination.total);
   },
 };
 </script>
