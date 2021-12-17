@@ -14,10 +14,12 @@
       }
     }
     .div-button {
-      // width: 35%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      .addUnitButton {
+        margin-right: 0.5rem;
+      }
       .ListCitizen-header-button {
         width: auto;
         position: relative;
