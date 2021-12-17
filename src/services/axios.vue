@@ -41,7 +41,7 @@ const request = axios.create({
   baseURL: API,
 });
 request.interceptors.request.use((config) => {
-  store.commit('turnOnLoading');
+  if (config.headers.loading) store.commit('turnOnLoading');
   return config;
 });
 request.interceptors.response.use(

@@ -1,23 +1,29 @@
 import req from './axios';
 const { requestWithToken, request } = req;
 const perPage = 7;
-const getProvince = (params) =>
+const getProvince = (params, loading = true) =>
   request.get('/province', {
     params: {
       perPage,
       ...params,
     },
+    headers: {
+      loading,
+    },
   });
 
-const getDistrict = (params) =>
+const getDistrict = (params, loading = true) =>
   request.get('/district', {
     params: {
       perPage,
       ...params,
     },
+    headers: {
+      loading,
+    },
   });
 
-const getWard = (params) =>
+const getWard = (params, loading = true) =>
   request.get('/ward', {
     params: {
       perPage,
@@ -25,18 +31,24 @@ const getWard = (params) =>
     },
   });
 
-const getQuarter = (params) =>
+const getQuarter = (params, loading = true) =>
   request.get('/quarter', {
     params: {
       perPage,
       ...params,
     },
+    headers: {
+      loading,
+    },
   });
-const getCitizen = (params) =>
+const getCitizen = (params, loading = true) =>
   requestWithToken.get('/form', {
     params: {
       perPage,
       ...params,
+    },
+    headers: {
+      loading,
     },
   });
 const getNameFromCode = (code) => {

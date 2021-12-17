@@ -8,6 +8,7 @@ export default new Vuex.Store({
     isLoading: false,
     isErr: false,
     lang: 'vn',
+    isExpiredToken: false,
   },
   mutations: {
     turnOnLoading(state) {
@@ -27,6 +28,12 @@ export default new Vuex.Store({
     },
     setLangEN(state) {
       app.$i18n.locale = 'en';
+    },
+    turnOnIsExpiredToken(state) {
+      state.isExpiredToken = true;
+    },
+    turnOffIsExpiredToken(state) {
+      state.isExpiredToken = false;
     },
   },
 });

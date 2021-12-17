@@ -65,15 +65,29 @@
         >
           Thêm người
         </a-button>
-        <a-button v-if="search" style="margin-right: 10px" @click="clearSearch"
-          ><a-icon type="close"
-        /></a-button>
-        <a-input-search
-          placeholder="Tìm kiếm"
+        <a-auto-complete
+          :data-source="unitsName"
+          style="width: 200px"
+          placeholder="Đơn vị"
+          @select="onSelectUnit"
+          @change="getText"
+          class="FormAddAccount-pair-input"
           v-model="search"
-          @search="onSearch"
-          @keydown.enter="onSearch"
-        />
+        >
+          <a-input>
+            <a-icon
+              slot="suffix"
+              type="close"
+              v-if="search"
+              @click="clearSearch"
+              style="font-size: 12px; margin-right: 5px"
+            />
+            <a-icon
+              slot="suffix"
+              type="search"
+              @click="() => onSearch(this.search)"
+            /> </a-input
+        ></a-auto-complete>
       </div>
     </div>
     <table-citizen
@@ -140,6 +154,8 @@ export default {
     userLevel: getUser().level,
     search: '',
     groupSearch: [],
+    timeOutSearch: null,
+    unitsName: [],
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -299,7 +315,7 @@ export default {
     },
     clearSearch() {
       this.search = '';
-      this.fetchData(this.queries);
+      // this.fetchData(this.queries);
     },
     addGroup(value) {
       this.groupSearch = [...new Set(this.groupSearch).add(value)];
@@ -312,6 +328,62 @@ export default {
     },
     deleteItemGroup(value) {
       this.groupSearch = this.groupSearch.filter((item) => item !== value);
+    },
+    getText(text) {
+      clearTimeout(this.timeOutSearch);
+      this.timeOutSearch = setTimeout(async () => {
+        let data;
+        if (this.level == 0) {
+          data = await getProvince(
+            { ...this.queries, name: this.search },
+            false,
+          );
+        } else if (this.level == 1) {
+          data = await getDistrict(
+            { ...this.queries, name: this.search },
+            false,
+          );
+        } else if (this.level == 2) {
+          data = await getWard({ ...this.queries, name: this.search }, false);
+        } else if (this.level == 3) {
+          data = await getQuarter(
+            { ...this.queries, name: this.search },
+            false,
+          );
+        }
+        this.unitsName = data.data.map((item) => item.name);
+      }, 500);
+    },
+    onSelectUnit(value) {
+      if (this.level == 0) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            provinceName: value,
+          },
+        });
+      } else if (this.level == 1) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            districtName: value,
+          },
+        });
+      } else if (this.level == 2) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            wardName: value,
+          },
+        });
+      } else if (this.level == 3) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            quaterName: value,
+          },
+        });
+      }
     },
   },
   mounted() {
@@ -330,6 +402,9 @@ export default {
     $route() {
       this.getQueries();
       this.fetchData(this.queries);
+      this.unitsName = [];
+      this.search = '';
+      this.clearGroup();
     },
   },
   updated() {},

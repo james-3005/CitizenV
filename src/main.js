@@ -92,7 +92,8 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') {
       next();
     } else {
-      next(`/login`);
+      store.commit('turnOnIsExpiredToken');
+      next();
     }
   }
 });

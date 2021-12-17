@@ -96,7 +96,6 @@ export default {
       });
     },
     handleClickProvince(provinceName) {
-      this.clearGroup();
       this.$router.push({
         query: {
           ...this.$route.query,
@@ -105,7 +104,6 @@ export default {
       });
     },
     handleClickDistrict(districtName) {
-      this.clearGroup();
       this.$router.push({
         query: {
           ...this.$route.query,
@@ -114,7 +112,6 @@ export default {
       });
     },
     handleClickWard(wardName) {
-      this.clearGroup();
       this.$router.push({
         query: {
           ...this.$route.query,
@@ -123,7 +120,6 @@ export default {
       });
     },
     handleClickQuater(quaterName) {
-      this.clearGroup();
       this.$router.push({
         query: {
           ...this.$route.query,
