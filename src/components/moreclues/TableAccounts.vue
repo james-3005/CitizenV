@@ -36,12 +36,16 @@
       :pagination="this.pagination"
       @change="handleTableChange"
       :row-key="(record) => record._id"
-    />
-    <ProgressChart
-      v-if="isShowProgress"
-      :handleToggleProgress="handleToggleProgress"
-      :list="data"
-    />
+    >
+      <span slot="permission" slot-scope="data">
+        <a-switch
+          checked-children="Đọc/sửa"
+          un-checked-children="Chỉ đọc"
+          :default-checked="data.permissions === '1111'"
+          @change="(value) => onChangeChecked(value, data)"
+        />
+      </span>
+    </a-table>
     <a-drawer
       title="Tạo tài khoản mới"
       width="auto"
@@ -107,6 +111,9 @@ export default {
     },
     onClose() {
       this.visible = false;
+    },
+    onChangeChecked(value, data) {
+      console.log(value, data);
     },
   },
   components: {

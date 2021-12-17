@@ -44,28 +44,23 @@
     </div>
     <div class="FormAddAccount-pair">
       <p>Đơn vị:</p>
-      <a-select
-        default-value="Đơn vị"
-        style="width: 120px"
-        @change="handleChange"
+      <a-auto-complete
+        :data-source="unitsName"
+        style="width: 200px"
+        placeholder="Đơn vị"
+        @select="onSelect"
+        @change="onChange2"
         class="FormAddAccount-pair-input"
-      >
-        <a-select-option
-          v-for="unit in units"
-          :key="unit.code"
-          :value="`${unit.name}-${unit.code}`"
-        >
-          {{ unit.name }}
-        </a-select-option>
-      </a-select>
+        v-model="resourceName"
+      />
     </div>
     <div class="FormAddAccount-pair">
       <p>Quyền hạn:</p>
-      <a-checkbox-group
-        v-model="checkedList"
-        :options="plainOptions"
-        @change="onChange"
-        class="FormAddAccount-pair-checkbox"
+      <a-switch
+        checked-children="Đọc/sửa"
+        un-checked-children="Chỉ đọc"
+        v-model="permissions"
+        @change="onChangeChecked"
       />
     </div>
     <a-button
@@ -104,15 +99,15 @@ export default {
 
       // form variable
       units: [],
+      unitsName: [],
       username: '',
       password: '',
       passwordRetype: '',
       name: '',
       phoneNumber: '',
-      resourceCode: '',
       resourceName: '',
       level: '',
-      permissions: '',
+      permissions: false,
       // other variables
       moment,
       validate: {
@@ -121,7 +116,6 @@ export default {
       },
     };
   },
-  updated() {},
   mounted() {
     this.getUnit(getUser().level, getUser().resourceName);
   },
@@ -130,7 +124,6 @@ export default {
       const data = unitCombined.split('-');
       this.resourceName = data[0];
       this.resourceCode = data[1];
-      console.log(data);
     },
     onChange(checkedList) {
       this.indeterminate =
@@ -149,12 +142,14 @@ export default {
         case 1:
           getProvince({ perPage: 99999 }).then((res) => {
             this.units = res.data;
+            this.unitsName = this.units.map((item) => item.name);
           });
           break;
         case 2:
           getDistrict({ perPage: 99999, provinceName: resourceName }).then(
             (res) => {
               this.units = res.data;
+              this.unitsName = this.units.map((item) => item.name);
             },
           );
           break;
@@ -162,12 +157,14 @@ export default {
           getWard({ perPage: 99999, districtName: resourceName }).then(
             (res) => {
               this.units = res.data;
+              this.unitsName = this.units.map((item) => item.name);
             },
           );
           break;
         case 4:
           getQuarter({ perPage: 99999, wardName: resourceName }).then((res) => {
             this.units = res.data;
+            this.unitsName = this.units.map((item) => item.name);
           });
           break;
         default:
@@ -175,6 +172,8 @@ export default {
       }
     },
     handleRegister() {
+      this.$router.go();
+      //  return;
       this.permissions = this.getPermissions();
       if (this.password !== this.passwordRetype) {
         this.$message.error(message.RE_PASS);
@@ -184,13 +183,17 @@ export default {
           password: this.password,
           name: this.name,
           phoneNumber: this.phoneNumber,
-          resourceCode: this.resourceCode,
+          resourceCode: this.units.find(
+            (item) => item.name == this.resourceName,
+          ).code,
           resourceName: this.resourceName,
           level: getUser().level + 1,
-          permissions: this.permissions,
+          permissions: this.permissions ? '1111' : '0100',
         }).then((res) => {
-          if (res.success) this.$message.info(message.REGISTER_SUCCESS);
-          else {
+          if (res.success) {
+            this.$message.info(message.REGISTER_SUCCESS);
+            this.$router.push('/conference/accountManager');
+          } else {
             if (res.message === message.VALIDATOR_ERR)
               this.$message.error(message.VALIDATOR_ERR2);
             else this.$message.error(res.message);
@@ -198,18 +201,20 @@ export default {
         });
       }
     },
-
-    getPermissions() {
-      var checked = [0, 0, 0, 0];
-      this.checkedList.forEach((checkbox) => {
-        for (let i = 0; i < plainOptions.length; i++) {
-          if (checkbox === plainOptions[i]) {
-            checked[i] = 1;
-          }
-        }
-      });
-      return checked.join('').toString();
+    onSelect(value) {
+      this.resourceName = value;
     },
+    onChange2(searchText) {
+      this.unitsName = this.units
+        .map((item) => item.name)
+        .filter((name) => name.includes(searchText));
+    },
+    onChangeChecked(value) {
+      this.permissions = value;
+    },
+  },
+  updated() {
+    console.log(this.permissions);
   },
 };
 </script>

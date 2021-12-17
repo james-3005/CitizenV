@@ -30,6 +30,31 @@
       </div>
 
       <div class="div-button">
+        <a-dropdown-button
+          style="margin-right: 10px"
+          @click="searchGroup"
+          v-if="level < 4"
+        >
+          Tìm kiếm theo nhóm
+          <a-menu slot="overlay">
+            <a-menu-item
+              v-for="unit in this.groupSearch"
+              :key="unit"
+              @click="() => deleteItemGroup(unit)"
+            >
+              {{ unit }}
+              <a-icon type="close" />
+            </a-menu-item>
+          </a-menu>
+          <a-badge
+            :count="groupSearch.length"
+            slot="icon"
+            :offset="[9, -6]"
+            :number-style="{ backgroundColor: '#52c41a' }"
+          >
+            <a-icon type="profile" />
+          </a-badge>
+        </a-dropdown-button>
         <a-button
           v-if="level >= 4"
           type="primary"
@@ -56,6 +81,9 @@
       :data="this.data"
       :pagination="this.pagination"
       :fetch="this.fetchData"
+      :groupSearch="this.groupSearch"
+      :addGroup="this.addGroup"
+      :clearGroup="this.clearGroup"
     />
     <a-drawer
       title="Nhập thông tin công dân"
@@ -111,6 +139,7 @@ export default {
     user: getUser().levelInfo,
     userLevel: getUser().level,
     search: '',
+    groupSearch: [],
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -166,9 +195,7 @@ export default {
       });
     },
     fetchCitizenData(params = {}) {
-      getCitizen({
-        ...params,
-      }).then((data) => {
+      getCitizen().then((data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -273,6 +300,18 @@ export default {
     clearSearch() {
       this.search = '';
       this.fetchData(this.queries);
+    },
+    addGroup(value) {
+      this.groupSearch = [...new Set(this.groupSearch).add(value)];
+    },
+    clearGroup() {
+      this.groupSearch = [];
+    },
+    searchGroup() {
+      console.log(this.groupSearch);
+    },
+    deleteItemGroup(value) {
+      this.groupSearch = this.groupSearch.filter((item) => item !== value);
     },
   },
   mounted() {

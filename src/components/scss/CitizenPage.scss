@@ -36,3 +36,14 @@
     }
   }
 }
+.ant-dropdown-menu {
+  display: block;
+  max-height: 200px !important;
+  overflow-y: auto;
+}
+.ant-dropdown-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 190px;
+}

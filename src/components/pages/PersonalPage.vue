@@ -53,12 +53,37 @@
         <div class="reset">
           <form>
             <label for="currentPwd">Mật khẩu hiện tại:</label><br />
-            <a-input class="input" type="text" name="currentPwd" /><br />
-            <label for="newPwd">Mật khẩu mới:</label><br />
-            <a-input class="input" type="text" name="newPwd" /><br />
-            <label for="retypePwd">Nhập lại mật khẩu mới:</label><br />
-            <a-input class="input" type="text" name="retypePwd" /><br />
-            <a-button type="primary"> Lưu </a-button>
+            <div class="input-password">
+              <a-input-password
+                v-model="password"
+                :warn="this.validate.password ? true : false"
+                @blur="() => validations('password')"
+                @focus="() => focus('password')"
+              /><br />
+              <span class="span">{{ validate.password }}</span>
+            </div>
+
+            <label for="currentPwd">Nhập lại mật khẩu hiện tại:</label><br />
+            <div class="input-password">
+              <a-input-password
+                v-model="rePassword"
+                :warn="this.validate.password ? true : false"
+                @blur="() => validations('rePassword')"
+                @focus="() => focus('rePassword')"
+              /><br />
+              <span class="span">{{ validate.rePassword }}</span>
+            </div>
+            <label for="currentPwd">Mật khẩu mới:</label><br />
+            <div class="input-password">
+              <a-input-password
+                v-model="newPassword"
+                :warn="this.validate.password ? true : false"
+                @blur="() => validations('newPassword')"
+                @focus="() => focus('newPassword')"
+              /><br />
+              <span class="span">{{ validate.newPassword }}</span>
+            </div>
+            <a-button type="primary" @click="changePass"> Lưu </a-button>
             <br />
           </form>
         </div>
@@ -70,12 +95,43 @@
 <script>
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import { validatePassword } from '../utilities/validate';
+import { message } from '../utilities/messageValidate';
+import { changePassword } from '../../services/auth';
 export default {
   props: {},
   data: () => ({
     user: getUser(),
+    password: '',
+    rePassword: '',
+    newPassword: '',
+    validate: {
+      password: null,
+      rePassword: null,
+      newPassword: null,
+    },
   }),
-  methods: {},
+  methods: {
+    validations(...types) {
+      types.forEach(
+        (type) => (this.validate[type] = validatePassword(this[type])),
+      );
+    },
+    focus(type) {
+      this.validate[type] = null;
+    },
+    changePass() {
+      this.validations('password', 'rePassword', 'newPassword');
+      if (this.password !== this.rePassword) {
+        this.validate.rePassword = message.RE_PASS;
+        return;
+      }
+      // changePassword({
+      //   password: this.password,
+      //   newPassword: this.newPassword
+      // })
+    },
+  },
   components: {
     HeaderMenu,
   },

@@ -39,8 +39,7 @@ const columnsCitizen = [
   {
     title: 'Họ và Tên',
     key: 'fullname',
-    slots: { title: 'name' },
-    scopedSlots: { customRender: 'name' },
+    dataIndex: 'fullname',
     sorter: (a, b) => {
       const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
       return a1.localeCompare(b1);
@@ -49,7 +48,7 @@ const columnsCitizen = [
   },
   {
     title: 'Giới tính',
-    dataIndex: 'sex',
+    dataIndex: 'gender',
     className: 'Table-sex',
   },
   {
@@ -87,6 +86,11 @@ const columnsCitizen = [
 
 const columnProvince = [
   {
+    className: 'Table-add',
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'add' },
+  },
+  {
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
@@ -109,6 +113,11 @@ const columnProvince = [
 
 const columnDistrict = [
   {
+    className: 'Table-add',
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'add' },
+  },
+  {
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
@@ -130,6 +139,11 @@ const columnDistrict = [
 ];
 const columnWard = [
   {
+    className: 'Table-add',
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'add' },
+  },
+  {
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
@@ -148,6 +162,11 @@ const columnWard = [
   },
 ];
 const columnQuater = [
+  {
+    className: 'Table-add',
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'add' },
+  },
   {
     title: 'STT',
     slots: { title: 'stt' },
@@ -171,34 +190,27 @@ function addSTTcolumns(
   columnProvince,
   columnWard,
   columnQuater,
-  columnAccount,
 ) {
-  (columnDistrict[0] = {
-    ...columnDistrict[0],
+  (columnDistrict[1] = {
+    ...columnDistrict[1],
     customRender: (text, record, index) => {
       return index + (this.pagination.current - 1) * perPage + 1;
     },
   }),
-    (columnProvince[0] = {
-      ...columnProvince[0],
+    (columnProvince[1] = {
+      ...columnProvince[1],
       customRender: (text, record, index) => {
         return index + (this.pagination.current - 1) * perPage + 1;
       },
     }),
-    (columnWard[0] = {
-      ...columnWard[0],
+    (columnWard[1] = {
+      ...columnWard[1],
       customRender: (text, record, index) => {
         return index + (this.pagination.current - 1) * perPage + 1;
       },
     });
-  columnQuater[0] = {
-    ...columnQuater[0],
-    customRender: (text, record, index) => {
-      return index + (this.pagination.current - 1) * perPage + 1;
-    },
-  };
-  columnAccount[0] = {
-    ...columnAccount[0],
+  columnQuater[1] = {
+    ...columnQuater[1],
     customRender: (text, record, index) => {
       return index + (this.pagination.current - 1) * perPage + 1;
     },
@@ -242,6 +254,7 @@ const columnsAccount = [
   {
     title: 'Quyền khai báo',
     scopedSlots: { customRender: 'permission' },
+    slots: { title: 'permission' },
     className: 'Table-permission',
   },
 ];
