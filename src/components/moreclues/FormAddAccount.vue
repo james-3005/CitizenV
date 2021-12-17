@@ -7,7 +7,9 @@
       <a-input
         placeholder="Ex: huytn@gov.com.vn"
         class="FormAddAccount-pair-input"
+        id="username"
         v-model="username"
+        disabled
       />
     </div>
     <div class="FormAddAccount-pair">
@@ -202,7 +204,11 @@ export default {
       }
     },
     onSelect(value) {
-      this.resourceName = value;
+      console.log(value);
+      this.resourceCode = this.units.find(
+        (item) => item.name == this.resourceName,
+      ).code;
+      this.username = this.resourceCode + '@gov.com.vn';
     },
     onChange2(searchText) {
       this.unitsName = this.units

@@ -30,6 +30,14 @@
       </div>
 
       <div class="div-button">
+        <a-button
+          v-if="userLevel - 1 == level"
+          type="primary"
+          class="addUnitButton"
+          @click="openUnitForm"
+        >
+          Thêm đơn vị</a-button
+        >
         <a-dropdown-button
           style="margin-right: 10px"
           @click="searchGroup"
@@ -61,7 +69,7 @@
           icon="user-add"
           size="small"
           class="ListCitizen-header-button"
-          @click="openForm"
+          @click="openCitizenForm"
         >
           Thêm người
         </a-button>
@@ -86,11 +94,20 @@
       :clearGroup="this.clearGroup"
     />
     <a-drawer
+      title="Nhập thông tin don vi"
+      width="auto"
+      :visible="form_unit_visible"
+      class="drawer"
+      @close="closeUnitForm"
+    >
+      <form-add-unit />
+    </a-drawer>
+    <a-drawer
       title="Nhập thông tin công dân"
       width="auto"
-      :visible="form_visible"
+      :visible="form_citizen_visible"
       class="drawer"
-      @close="closeForm"
+      @close="closeCitizenForm"
     >
       <form-add-citizen :address="queries" />
     </a-drawer>
@@ -103,7 +120,7 @@ import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ButtonBackDrillDown from '../atoms/ButtonBackDrillDown.vue';
 import FormAddCitizen from '../moreclues/FormAddCitizen.vue';
-
+import FormAddUnit from '../moreclues/FormAddUnit.vue';
 import {
   getProvince,
   getDistrict,
@@ -128,9 +145,11 @@ export default {
     TableCitizen,
     ButtonBackDrillDown,
     FormAddCitizen,
+    FormAddUnit,
   },
   data: () => ({
-    form_visible: false,
+    form_citizen_visible: false,
+    form_unit_visible: false,
     columns: [],
     data: [],
     pagination: { pageSize: 7 },
@@ -248,11 +267,17 @@ export default {
           },
         });
     },
-    openForm() {
-      this.form_visible = true;
+    openUnitForm() {
+      this.form_unit_visible = true;
     },
-    closeForm() {
-      this.form_visible = false;
+    closeUnitForm() {
+      this.form_unit_visible = false;
+    },
+    openCitizenForm() {
+      this.form_citizen_visible = true;
+    },
+    closeCitizenForm() {
+      this.form_citizen_visible = false;
     },
     navigate() {
       if (_.get(this, 'user.code.length') == 2) {
