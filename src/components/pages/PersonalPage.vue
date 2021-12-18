@@ -62,19 +62,8 @@
               /><br />
               <span class="span">{{ validate.password }}</span>
             </div>
-
-            <label for="currentPwd">Nhập lại mật khẩu hiện tại:</label><br />
             <div class="input-password">
-              <a-input-password
-                v-model="rePassword"
-                :warn="this.validate.password ? true : false"
-                @blur="() => validations('rePassword')"
-                @focus="() => focus('rePassword')"
-              /><br />
-              <span class="span">{{ validate.rePassword }}</span>
-            </div>
-            <label for="currentPwd">Mật khẩu mới:</label><br />
-            <div class="input-password">
+              <label for="currentPwd">Mật khẩu mới:</label><br />
               <a-input-password
                 v-model="newPassword"
                 :warn="this.validate.password ? true : false"
@@ -82,6 +71,17 @@
                 @focus="() => focus('newPassword')"
               /><br />
               <span class="span">{{ validate.newPassword }}</span>
+            </div>
+            <div class="input-password">
+              <label for="currentPwd">Nhập lại mật khẩu mới:</label><br />
+
+              <a-input-password
+                v-model="rePassword"
+                :warn="this.validate.password ? true : false"
+                @blur="() => validations('rePassword')"
+                @focus="() => focus('rePassword')"
+              /><br />
+              <span class="span">{{ validate.rePassword }}</span>
             </div>
             <a-button type="primary" @click="changePass"> Lưu </a-button>
             <br />
@@ -122,14 +122,15 @@ export default {
     },
     changePass() {
       this.validations('password', 'rePassword', 'newPassword');
-      if (this.password !== this.rePassword) {
+      if (this.rePassword !== this.newPassword) {
         this.validate.rePassword = message.RE_PASS;
         return;
       }
-      // changePassword({
-      //   password: this.password,
-      //   newPassword: this.newPassword
-      // })
+      for (let err in this.validate) if (this.validate[err]) return;
+      changePassword(this.password, this.newPassword).then((res) => {
+        if (res.success) this.$message.info(message.UPDATE_PASSWORD_SUCCESS);
+        else this.$message.error(res.message);
+      });
     },
   },
   components: {

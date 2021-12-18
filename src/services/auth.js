@@ -17,9 +17,9 @@ export const addCitizen = (params) =>
     ...params,
   });
 
-export const changePassword = (params) =>
-  requestWithToken.patch(`/user/{${getUser()._id}}/change-password`, {
-    ...params,
+export const changePassword = (oldPassword, password) =>
+  requestWithToken.patch(`/user/${getUser()._id}/change-password`, {
+    password,
+    oldPassword,
   });
-
 export const checkToken = () => requestWithToken.get('/monitor/access-token');

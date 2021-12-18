@@ -4,6 +4,7 @@ import API from '../../env';
 import { getToken } from '../components/utilities/localStorage';
 import store from '../store';
 import _ from 'lodash';
+import { message } from '../components/utilities/messageValidate';
 const requestWithToken = axios.create({
   baseURL: API,
 });
@@ -19,6 +20,8 @@ requestWithToken.interceptors.request.use((config) => {
 requestWithToken.interceptors.response.use(
   (response) => {
     store.commit('turnOffLoading');
+    if (_.get(response, 'data.message') === message.TOKEN_EXPIRED)
+      store.commit('turnOnErr', 404);
     return response.data;
   },
   (err) => {
@@ -32,7 +35,7 @@ requestWithToken.interceptors.response.use(
       };
     else {
       console.error(err);
-      store.commit('turnOnErr');
+      store.commit('turnOnErr', '500');
     }
   },
 );
@@ -47,6 +50,8 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   (response) => {
     store.commit('turnOffLoading');
+    if (_.get(response, 'data.message') === message.TOKEN_EXPIRED)
+      store.commit('turnOnErr', 404);
     return response.data;
   },
   (err) => {

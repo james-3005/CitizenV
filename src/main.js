@@ -81,7 +81,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const isAuth = await checkToken().then((res) => res.success);
+  const isAuth = await checkToken().then((res) => {
+    if (res) return res.success;
+    else return false;
+  });
   if (isAuth) {
     if (to.path === '/login') {
       next('/conference/home');

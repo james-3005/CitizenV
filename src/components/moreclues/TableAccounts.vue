@@ -42,7 +42,8 @@
           checked-children="Đọc/sửa"
           un-checked-children="Chỉ đọc"
           :default-checked="data.permissions === '1111'"
-          @change="(value) => onChangeChecked(value, data)"
+          @change="(value) => onChangeChecked(data, value)"
+          :disabled="userPermission !== '1111'"
         />
       </span>
     </a-table>
@@ -63,12 +64,13 @@ import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormAddAccount from '../moreclues/FormAddAccount.vue';
-import { getAccount } from '../../services/getUser';
+import { getAccount, updatePermission } from '../../services/getUser';
 import { getUser } from '../utilities/localStorage';
 import {
   columnsAccount,
   addSTTcolumnsAccount,
 } from '../utilities/constTableData';
+import { message } from '../utilities/messageValidate';
 export default {
   props: {},
   data: () => ({
@@ -78,6 +80,7 @@ export default {
     isShowProgress: false,
     visible: false,
     userLevel: getUser().level,
+    userPermission: getUser().permissions,
   }),
   methods: {
     fetchData(params = {}) {
@@ -112,8 +115,14 @@ export default {
     onClose() {
       this.visible = false;
     },
-    onChangeChecked(value, data) {
-      console.log(value, data);
+    onChangeChecked(data, value) {
+      updatePermission(data._id, value).then((res) => {
+        if (res.success) {
+          this.$message.info(
+            `${message.UPDATE_PERMISSION_SUCCESS} cho ${res.data.name}`,
+          );
+        } else this.$message.error(message.UPDATE_PERMISSION_FALIL);
+      });
     },
   },
   components: {
