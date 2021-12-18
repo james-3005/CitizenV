@@ -13,3 +13,10 @@ export const updatePermission = (userId, bool) =>
   requestWithToken.patch(`/user/${userId}/permissions`, {
     permissions: bool ? '1111' : '0100',
   });
+
+export const deleteAccountById = (id) => requestWithToken.delete(`user/${id}`);
+
+export const changePasswordHigh = (id, password) =>
+  requestWithToken.patch(`/user/${id}/change-password`, {
+    password,
+  });

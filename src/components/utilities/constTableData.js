@@ -257,6 +257,12 @@ const columnsAccount = [
     slots: { title: 'permission' },
     className: 'Table-permission',
   },
+  {
+    title: 'Hành động',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
+  },
 ];
 module.exports = {
   data,

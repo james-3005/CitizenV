@@ -11,4 +11,5 @@ export const message = {
   UPDATE_PERMISSION_FALIL: 'Cập nhật quyền thất bại',
   UPDATE_PASSWORD_SUCCESS: 'Cập nhật mật khẩu thành công',
   TOKEN_EXPIRED: 'jwt expired',
+  DELETE_USER_SUCCESS: 'Xoá tài khoản thành công',
 };
