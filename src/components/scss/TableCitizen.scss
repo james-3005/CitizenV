@@ -13,16 +13,17 @@
 
 .Table {
   &-key {
-    width: 150px !important;
+    width: 50px !important;
     text-align: center !important;
   }
-  &-name {
+  &-fullname {
+    width: 150px;
     // max-width: 20% !important;
     // width: auto;
     // text-align: left !important;
   }
-  &-sex {
-    // width: 5%;
+  &-gender {
+    width: 6%;
   }
   &-dob {
     // width: 10%;
@@ -37,7 +38,7 @@
     // width: 10%;
   }
   &-action {
-    width: 200px;
+    width: 7%;
   }
   &-code {
     width: 200px !important;

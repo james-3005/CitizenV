@@ -2,31 +2,6 @@ const data = [];
 const dataA1 = [];
 const dataA2 = [];
 const perPage = 7;
-for (let i = 1; i <= 50; i++)
-  data.push({
-    key: i,
-    surname: i % 2 == 1 ? 'John' : 'Will',
-    lastname: i % 3 == 0 ? 'Brown' : 'Ali',
-    dob: '1/1/2001',
-    sex: i % 4 == 0 ? 'Nam' : 'Nữ',
-    identification: 12331132,
-    address: 'New York, 1 Dinistric, 369 ',
-    status: i % 3 === 0 ? true : false,
-  });
-
-for (let i = 1; i <= 50; i++)
-  dataA1.push({
-    key: i,
-    name: 'Hà Nội',
-    code: i % 2,
-  });
-
-for (let i = 1; i <= 50; i++)
-  dataA2.push({
-    key: i,
-    name: 'Cầu Giấy',
-    code: i % 2,
-  });
 const columnsCitizen = [
   {
     title: 'STT',
@@ -49,26 +24,43 @@ const columnsCitizen = [
   },
   {
     title: 'Giới tính',
-    dataIndex: 'sex',
-    className: 'Table-sex',
+    dataIndex: 'gender',
+    className: 'Table-gender',
   },
   {
     title: 'Ngày sinh',
-    dataIndex: 'dob',
+    slots: { title: 'dob' },
+    scopedSlots: { customRender: 'dob' },
     width: 120,
     className: 'Table-dob',
   },
   {
     title: 'CMND/CCCD',
-    dataIndex: 'identification',
+    dataIndex: 'citizenId',
     width: 150,
     className: 'Table-identification',
   },
   {
-    title: 'Địa chỉ',
-    dataIndex: 'address',
+    title: 'Quê quán',
+    dataIndex: 'placeOfOrigin',
     // key: 'address',
     className: 'Table-address',
+  },
+  {
+    title: 'Địa chỉ thường trú',
+    dataIndex: 'placeOfResidence',
+    // key: 'address',
+    className: 'Table-address',
+  },
+  {
+    title: 'Tôn giáo',
+    dataIndex: 'religion',
+    className: 'Table-religion',
+  },
+  {
+    title: 'Nghề nghiệp',
+    dataIndex: 'job',
+    className: 'Table-job',
   },
   {
     title: 'Trạng thái',
