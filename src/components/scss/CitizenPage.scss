@@ -14,10 +14,12 @@
       }
     }
     .div-button {
-      width: 25%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      .addUnitButton {
+        margin-right: 0.5rem;
+      }
       .ListCitizen-header-button {
         width: auto;
         position: relative;
@@ -35,4 +37,15 @@
       color: rgb(105, 100, 100);
     }
   }
+}
+.ant-dropdown-menu {
+  display: block;
+  max-height: 200px !important;
+  overflow-y: auto;
+}
+.ant-dropdown-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 190px;
 }

@@ -36,12 +36,22 @@
       :pagination="this.pagination"
       @change="handleTableChange"
       :row-key="(record) => record._id"
-    />
-    <ProgressChart
-      v-if="isShowProgress"
-      :handleToggleProgress="handleToggleProgress"
-      :list="data"
-    />
+    >
+      <span slot="permission" slot-scope="data">
+        <a-switch
+          checked-children="Đọc/sửa"
+          un-checked-children="Chỉ đọc"
+          :default-checked="data.permissions === '1111'"
+          @change="(value) => onChangeChecked(data, value)"
+          :disabled="userPermission !== '1111'"
+        />
+      </span>
+      <span slot="action" slot-scope="data">
+        <a class="adjust" @click="() => handleAdjustAccount(data)">Chỉnh sửa</a
+        ><br />
+        <a class="delete" @click="() => handleDeleteAccount(data)">Xoá</a>
+      </span>
+    </a-table>
     <a-drawer
       title="Tạo tài khoản mới"
       width="auto"
@@ -59,12 +69,18 @@ import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormAddAccount from '../moreclues/FormAddAccount.vue';
-import { getAccount } from '../../services/getUser';
+import {
+  changePasswordHigh,
+  deleteAccountById,
+  getAccount,
+  updatePermission,
+} from '../../services/getUser';
 import { getUser } from '../utilities/localStorage';
 import {
   columnsAccount,
   addSTTcolumnsAccount,
 } from '../utilities/constTableData';
+import { message } from '../utilities/messageValidate';
 export default {
   props: {},
   data: () => ({
@@ -74,6 +90,8 @@ export default {
     isShowProgress: false,
     visible: false,
     userLevel: getUser().level,
+    userPermission: getUser().permissions,
+    passwordToNew: '',
   }),
   methods: {
     fetchData(params = {}) {
@@ -107,6 +125,60 @@ export default {
     },
     onClose() {
       this.visible = false;
+    },
+    onChangeChecked(data, value) {
+      updatePermission(data._id, value).then((res) => {
+        if (res.success) {
+          this.$message.info(
+            `${message.UPDATE_PERMISSION_SUCCESS} cho ${res.data.name}`,
+          );
+        } else this.$message.error(message.UPDATE_PERMISSION_FALIL);
+      });
+    },
+    handleDeleteAccount(user) {
+      const self = this;
+      this.$confirm({
+        title: 'Bạn có muốn xoá tài khoản này không',
+        okText: 'Có',
+        okType: 'danger',
+        cancelText: 'Huỷ',
+        onOk() {
+          deleteAccountById(user._id).then((res) => {
+            if (res.success) {
+              self.$message.info(
+                `${message.DELETE_USER_SUCCESS}: ${res.data.name}`,
+              );
+              self.data = self.data.filter((item) => item._id !== user._id);
+            } else self.$message.error(res.message);
+          });
+        },
+        onCancel() {},
+      });
+    },
+    handleAdjustAccount(user) {
+      const self = this;
+      this.$confirm({
+        title: 'Cấp lại mật khẩu',
+        okText: 'Lưu',
+        cancelText: 'Huỷ',
+        content: (h) => (
+          <div>
+            <a-input-password
+              value={self.passwordToNew}
+              onChange={(e) => (self.passwordToNew = e.target.value)}
+            />
+          </div>
+        ),
+        onOk() {
+          changePasswordHigh(user._id, self.passwordToNew).then((res) => {
+            self.passwordToNew = '';
+            if (res.success)
+              self.$message.info(message.UPDATE_PASSWORD_SUCCESS);
+            else self.$message.error(res.message);
+          });
+        },
+        onCancel() {},
+      });
     },
   },
   components: {

@@ -56,7 +56,9 @@
       "vue/no-unused-components": "off",
       "no-unused-components": "off",
       "vue/no-constant-condition": "off",
-      "no-constant-condition": "off"
+      "no-constant-condition": "off",
+      "vue/valid-v-model": "off",
+      "valid-v-model": "off"
     }
   },
   "browserslist": [

@@ -65,7 +65,7 @@ export default {
   }),
   methods: {
     handleLogin() {
-      this.validations();
+      this.validations('password', 'username');
       for (let i in this.validate) {
         if (this.validate[i]) return;
       }
@@ -85,19 +85,17 @@ export default {
         },
       );
     },
-    validations(type) {
-      if (type === 'password')
-        this.validate.password = validatePassword(this.password);
-      else if (type === 'username')
-        this.validate.username = validateUsername(this.username);
-      else {
-        this.validate.password = validatePassword(this.password);
-        this.validate.username = validateUsername(this.username);
-      }
+    validations(...types) {
+      types.forEach(
+        (type) =>
+          (this.validate[type] =
+            type === 'password'
+              ? validatePassword(this[type])
+              : validateUsername(this[type])),
+      );
     },
     focus(type) {
-      if (type === 'password') this.validate.password = null;
-      else this.validate.username = null;
+      this.validate[type] = null;
     },
     format(user) {
       if (user.level === 1) {

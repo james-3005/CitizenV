@@ -7,4 +7,9 @@ export const message = {
   RE_PASS: 'Mật khẩu chưa trùng khớp',
   VALIDATOR_ERR: 'Validator Error',
   VALIDATOR_ERR2: 'Thiếu trường hoặc không đúng định dạng',
+  UPDATE_PERMISSION_SUCCESS: 'Cập nhật quyền thành công',
+  UPDATE_PERMISSION_FALIL: 'Cập nhật quyền thất bại',
+  UPDATE_PASSWORD_SUCCESS: 'Cập nhật mật khẩu thành công',
+  TOKEN_EXPIRED: 'jwt expired',
+  DELETE_USER_SUCCESS: 'Xoá tài khoản thành công',
 };

@@ -7,10 +7,25 @@
       :pagination="pagination"
       @change="handleTableChange"
       :row-key="(record) => record._id"
+      :scroll="scroll"
     >
+      <span slot="customTitle"
+        ><a-icon type="plus-circle" theme="twoTone" class="add"
+      /></span>
+      <span slot="add" slot-scope="data">
+        <a-icon
+          type="plus-circle"
+          theme="twoTone"
+          class="add"
+          @click="() => handleAddGroup(data.name)"
+        />
+      </span>
       <span slot="province" slot-scope="province">
         <p class="blue" @click="() => handleClickProvince(province.name)">
-          {{ province.name }}
+          <a-tooltip>
+            <template slot="title"> Đi đến {{ province.name }} </template>
+            {{ province.name }}
+          </a-tooltip>
         </p>
       </span>
       <span slot="name" slot-scope="data">
@@ -18,7 +33,10 @@
       </span>
       <span slot="district" slot-scope="district">
         <p class="blue" @click="() => handleClickDistrict(district.name)">
-          {{ district.name }}
+          <a-tooltip>
+            <template slot="title"> Đi đến {{ district.name }} </template>
+            {{ district.name }}
+          </a-tooltip>
         </p>
       </span>
       <span slot="dob" slot-scope="data">
@@ -28,12 +46,18 @@
       </span>
       <span slot="ward" slot-scope="ward">
         <p class="blue" @click="() => handleClickWard(ward.name)">
-          {{ ward.name }}
+          <a-tooltip>
+            <template slot="title"> Đi đến {{ ward.name }} </template>
+            {{ ward.name }}
+          </a-tooltip>
         </p>
       </span>
       <span slot="quater" slot-scope="quater">
         <p class="blue" @click="() => handleClickQuater(quater.name)">
-          {{ quater.name }}
+          <a-tooltip>
+            <template slot="title"> Đi đến {{ quater.name }} </template>
+            {{ quater.name }}
+          </a-tooltip>
         </p>
       </span>
       <span slot="code" slot-scope="code">
@@ -65,8 +89,10 @@ export default {
     'data',
     'pagination',
     'fetch',
-    // handleAdjust: Function,
-    // handleDelete: Function,
+    'groupSearch',
+    'addGroup',
+    'clearGroup',
+    'scroll',
   ],
   data: () => {
     return {
@@ -110,6 +136,9 @@ export default {
           quaterName,
         },
       });
+    },
+    handleAddGroup(name) {
+      this.$props.addGroup(name);
     },
   },
 };

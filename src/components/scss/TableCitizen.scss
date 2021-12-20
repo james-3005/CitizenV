@@ -9,46 +9,60 @@
   .delete {
     color: rgb(207, 38, 38);
   }
+  .add {
+    font-size: 20px;
+    transition: 0.4s;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.2);
+      transition: 0.4s;
+    }
+  }
 }
 
 .Table {
-  &-key {
+  &-add {
     width: 50px !important;
     text-align: center !important;
   }
+  &-key {
+    width: 100px !important;
+    text-align: center !important;
+  }
   &-fullname {
-    width: 150px;
+    width: 250px;
     // max-width: 20% !important;
     // width: auto;
     // text-align: left !important;
   }
-  &-gender {
+  &-sex {
     width: 6%;
-  }
-  &-dob {
-    // width: 10%;
-  }
-  &-identification {
-    // width: 10%;
   }
   &-address {
     text-align: left !important;
   }
   &-status {
-    // width: 10%;
+    width: 80px;
+    // display: flex;
+    justify-content: center;
+    align-items: center;
   }
   &-action {
     width: 7%;
   }
   &-code {
-    width: 200px !important;
+    width: 10% !important;
     text-align: center !important;
   }
   &-permission {
     width: 150px !important;
+    text-align: center !important;
   }
   &-locality {
     width: 400px !important;
+  }
+  &-action {
+    width: 150px !important;
   }
 }
 .blue {

@@ -23,8 +23,7 @@
         label {
           font-size: 15px;
         }
-        .input,
-        input {
+        .input {
           width: 60%;
           height: 42px;
           border-radius: 5px;
@@ -67,6 +66,21 @@
   &-resetPassword {
     &-contents {
       margin-bottom: 60px;
+    }
+  }
+  .input-password {
+    width: 60% !important;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    .ant-input {
+      height: 42px !important;
+    }
+    .span {
+      margin-top: 3px;
+      display: block;
+      color: rgb(228, 49, 49);
+      font-size: 12px;
+      height: 15px;
     }
   }
 }

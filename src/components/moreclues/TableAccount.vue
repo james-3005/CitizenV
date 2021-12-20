@@ -12,7 +12,12 @@
         {{ data.surname + ' ' + data.lastname }}
       </span>
       <span slot="permission" slot-scope="data">
-        {{ data.permission }}
+        <a-switch
+          checked-children="Đọc/sửa"
+          un-checked-children="Chỉ đọc"
+          v-model="data.permisstions == '1111'"
+          @change="onChangeChecked"
+        />
       </span>
     </a-table>
   </div>

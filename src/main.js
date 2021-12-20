@@ -23,6 +23,7 @@ import AnalyticsPage from './components/pages/AnalyticsPage';
 import CitizenPage from './components/pages/CitizenPage';
 import SettingPage from './components/pages/SettingPage';
 import FormAddAccountPage from './components/pages/FormAddAccountPage';
+import { checkToken } from './services/auth';
 const routes = [
   {
     path: '/',
@@ -80,12 +81,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const hasToken = getToken();
-
-  const isAuth = hasToken;
+  const isAuth = await checkToken().then((res) => {
+    if (res) return res.success;
+    else return false;
+  });
   if (isAuth) {
     if (to.path === '/login') {
-      // if is logged in, redirect to the home page
       next('/conference/home');
     } else {
       next();
@@ -94,7 +95,8 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') {
       next();
     } else {
-      next(`/login`);
+      store.commit('turnOnIsExpiredToken');
+      next();
     }
   }
 });

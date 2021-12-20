@@ -31,24 +31,71 @@
 
       <div class="div-button">
         <a-button
+          v-if="userLevel - 1 == level"
+          type="primary"
+          class="addUnitButton"
+          @click="openUnitForm"
+        >
+          Thêm đơn vị</a-button
+        >
+        <a-dropdown-button
+          style="margin-right: 10px"
+          @click="searchGroup"
+          v-if="level < 4"
+        >
+          Tìm kiếm theo nhóm
+          <a-menu slot="overlay">
+            <a-menu-item
+              v-for="unit in this.groupSearch"
+              :key="unit"
+              @click="() => deleteItemGroup(unit)"
+            >
+              {{ unit }}
+              <a-icon type="close" />
+            </a-menu-item>
+          </a-menu>
+          <a-badge
+            :count="groupSearch.length"
+            slot="icon"
+            :offset="[9, -6]"
+            :number-style="{ backgroundColor: '#52c41a' }"
+          >
+            <a-icon type="profile" />
+          </a-badge>
+        </a-dropdown-button>
+        <a-button
           v-if="level >= 4"
           type="primary"
           icon="user-add"
           size="small"
           class="ListCitizen-header-button"
-          @click="openForm"
+          @click="openCitizenForm"
         >
           Thêm người
         </a-button>
-        <a-button v-if="search" style="margin-right: 10px" @click="clearSearch"
-          ><a-icon type="close"
-        /></a-button>
-        <a-input-search
-          placeholder="Tìm kiếm"
+        <a-auto-complete
+          :data-source="unitsName"
+          style="width: 200px"
+          placeholder="Đơn vị"
+          @select="onSelectUnit"
+          @change="getText"
+          class="FormAddAccount-pair-input"
           v-model="search"
-          @search="onSearch"
-          @keydown.enter="onSearch"
-        />
+        >
+          <a-input>
+            <a-icon
+              slot="suffix"
+              type="close"
+              v-if="search"
+              @click="clearSearch"
+              style="font-size: 12px; margin-right: 5px"
+            />
+            <a-icon
+              slot="suffix"
+              type="search"
+              @click="() => onSearch(this.search)"
+            /> </a-input
+        ></a-auto-complete>
       </div>
     </div>
     <table-citizen
@@ -56,13 +103,26 @@
       :data="this.data"
       :pagination="this.pagination"
       :fetch="this.fetchData"
+      :groupSearch="this.groupSearch"
+      :addGroup="this.addGroup"
+      :clearGroup="this.clearGroup"
+      :scroll="this.scroll"
     />
+    <a-drawer
+      title="Nhập thông tin don vi"
+      width="auto"
+      :visible="form_unit_visible"
+      class="drawer"
+      @close="closeUnitForm"
+    >
+      <form-add-unit />
+    </a-drawer>
     <a-drawer
       title="Nhập thông tin công dân"
       width="auto"
-      :visible="form_visible"
+      :visible="form_citizen_visible"
       class="drawer"
-      @close="closeForm"
+      @close="closeCitizenForm"
     >
       <form-add-citizen :address="queries" />
     </a-drawer>
@@ -75,7 +135,7 @@ import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableCitizen from '../moreclues/TableCitizen.vue';
 import ButtonBackDrillDown from '../atoms/ButtonBackDrillDown.vue';
 import FormAddCitizen from '../moreclues/FormAddCitizen.vue';
-
+import FormAddUnit from '../moreclues/FormAddUnit.vue';
 import {
   getProvince,
   getDistrict,
@@ -100,17 +160,23 @@ export default {
     TableCitizen,
     ButtonBackDrillDown,
     FormAddCitizen,
+    FormAddUnit,
   },
   data: () => ({
-    form_visible: false,
+    form_citizen_visible: false,
+    form_unit_visible: false,
     columns: [],
     data: [],
     pagination: { pageSize: 7 },
     queries: [],
+    scroll: {},
     level,
     user: getUser().levelInfo,
     userLevel: getUser().level,
     search: '',
+    groupSearch: [],
+    timeOutSearch: null,
+    unitsName: [],
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -124,6 +190,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnProvince;
+        this.scroll = {};
       });
     },
     fetchDistrictData(params = {}) {
@@ -137,6 +204,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnDistrict;
+        this.scroll = {};
       });
     },
     fetchWardData(params = {}) {
@@ -150,6 +218,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnWard;
+        this.scroll = {};
       });
     },
     fetchQuaterData(params = {}) {
@@ -163,18 +232,18 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnQuater;
+        this.scroll = {};
       });
     },
     fetchCitizenData(params = {}) {
-      getCitizen({
-        ...params,
-      }).then((data) => {
+      getCitizen().then((data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnsCitizen;
+        this.scroll = { x: 1500 };
       });
     },
     fetchData(params = {}) {
@@ -221,11 +290,17 @@ export default {
           },
         });
     },
-    openForm() {
-      this.form_visible = true;
+    openUnitForm() {
+      this.form_unit_visible = true;
     },
-    closeForm() {
-      this.form_visible = false;
+    closeUnitForm() {
+      this.form_unit_visible = false;
+    },
+    openCitizenForm() {
+      this.form_citizen_visible = true;
+    },
+    closeCitizenForm() {
+      this.form_citizen_visible = false;
     },
     navigate() {
       if (_.get(this, 'user.code.length') == 2) {
@@ -272,7 +347,75 @@ export default {
     },
     clearSearch() {
       this.search = '';
-      this.fetchData(this.queries);
+      // this.fetchData(this.queries);
+    },
+    addGroup(value) {
+      this.groupSearch = [...new Set(this.groupSearch).add(value)];
+    },
+    clearGroup() {
+      this.groupSearch = [];
+    },
+    searchGroup() {
+      console.log(this.groupSearch);
+    },
+    deleteItemGroup(value) {
+      this.groupSearch = this.groupSearch.filter((item) => item !== value);
+    },
+    getText(text) {
+      clearTimeout(this.timeOutSearch);
+      this.timeOutSearch = setTimeout(async () => {
+        let data;
+        if (this.level == 0) {
+          data = await getProvince(
+            { ...this.queries, name: this.search },
+            false,
+          );
+        } else if (this.level == 1) {
+          data = await getDistrict(
+            { ...this.queries, name: this.search },
+            false,
+          );
+        } else if (this.level == 2) {
+          data = await getWard({ ...this.queries, name: this.search }, false);
+        } else if (this.level == 3) {
+          data = await getQuarter(
+            { ...this.queries, name: this.search },
+            false,
+          );
+        }
+        this.unitsName = data.data.map((item) => item.name);
+      }, 500);
+    },
+    onSelectUnit(value) {
+      if (this.level == 0) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            provinceName: value,
+          },
+        });
+      } else if (this.level == 1) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            districtName: value,
+          },
+        });
+      } else if (this.level == 2) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            wardName: value,
+          },
+        });
+      } else if (this.level == 3) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            quaterName: value,
+          },
+        });
+      }
     },
   },
   mounted() {
@@ -291,6 +434,9 @@ export default {
     $route() {
       this.getQueries();
       this.fetchData(this.queries);
+      this.unitsName = [];
+      this.search = '';
+      this.clearGroup();
     },
   },
   updated() {},
