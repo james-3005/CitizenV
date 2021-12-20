@@ -64,7 +64,7 @@
           </a-badge>
         </a-dropdown-button>
         <a-button
-          v-if="level >= 4"
+          v-if="localStorage.user.level >= 4"
           type="primary"
           icon="user-add"
           size="small"
@@ -142,6 +142,7 @@ import {
   getCitizen,
   getWard,
   getQuarter,
+  getStatus,
 } from '../../services/getCitizen';
 import {
   columnProvince,
@@ -153,6 +154,7 @@ import {
 } from '../utilities/constTableData';
 import { level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
+import req from '../../services/axios';
 const perPage = 7;
 export default {
   components: {
@@ -177,13 +179,18 @@ export default {
     groupSearch: [],
     timeOutSearch: null,
     unitsName: [],
+    localStorage: localStorage,
   }),
   methods: {
     fetchProvinceData(params = {}) {
       getProvince({
         ...params,
       }).then((data) => {
-        console.log;
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = 63;
         pagination.current = data.page;
@@ -198,6 +205,11 @@ export default {
         ...params,
         provinceName: this.queries.provinceName,
       }).then((data) => {
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -212,6 +224,11 @@ export default {
         ...params,
         districtName: this.queries.districtName,
       }).then((data) => {
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -226,6 +243,11 @@ export default {
         ...params,
         wardName: this.queries.wardName,
       }).then((data) => {
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;

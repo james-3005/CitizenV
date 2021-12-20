@@ -65,9 +65,24 @@
           {{ code }}
         </a-tag>
       </span>
-      <span slot="status" slot-scope="status">
-        <a-tag :color="status ? 'green' : 'volcano'">
-          {{ status ? 'Hoàn thành' : 'Còn thiếu' }}
+      <span slot="status" slot-scope="data">
+        <a-tag
+          :color="
+            data.status == null
+              ? 'grey'
+              : data.status == 1
+              ? 'green'
+              : 'volcanic'
+          "
+          @click="() => confirmForm(data.code)"
+        >
+          {{
+            data.status == null
+              ? 'Chưa mở'
+              : data.status == 1
+              ? 'Hoàn thành'
+              : 'Chưa xong'
+          }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">
@@ -139,6 +154,9 @@ export default {
     },
     handleAddGroup(name) {
       this.$props.addGroup(name);
+    },
+    confirmForm(code) {
+      console.log(code);
     },
   },
 };

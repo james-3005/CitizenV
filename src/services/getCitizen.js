@@ -1,6 +1,15 @@
+import { forEach } from 'core-js';
 import req from './axios';
+import 'core-js';
 const { requestWithToken, request } = req;
 const perPage = 7;
+const getStatus = (resourceCode) =>
+  request.get('/survey-process', {
+    params: {
+      resourceCode: resourceCode,
+    },
+  });
+
 const getProvince = (params, loading = true) =>
   request.get('/province', {
     params: {
@@ -11,7 +20,7 @@ const getProvince = (params, loading = true) =>
       loading,
     },
   });
-
+// rows = axios.get(''').then(res => resBody).then(res => res.map(addStatus))
 const getDistrict = (params, loading = true) =>
   request.get('/district', {
     params: {
@@ -28,6 +37,9 @@ const getWard = (params, loading = true) =>
     params: {
       perPage,
       ...params,
+    },
+    headers: {
+      loading,
     },
   });
 
@@ -60,6 +72,7 @@ const getNameFromCode = (code) => {
   return null;
 };
 export {
+  getStatus,
   getProvince,
   getDistrict,
   getCitizen,

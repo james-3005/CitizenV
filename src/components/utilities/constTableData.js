@@ -83,6 +83,7 @@ const columnsCitizen = [
     // key: 'action',
     scopedSlots: { customRender: 'action' },
     className: 'Table-action',
+    fixed: 'right',
   },
 ];
 
@@ -91,29 +92,21 @@ const columnProvince = [
     className: 'Table-add',
     slots: { title: 'customTitle' },
     scopedSlots: { customRender: 'add' },
-    // width: 100,
   },
   {
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
-    // width: 100,
   },
   {
     title: 'Tỉnh / Thành phố',
-    // dataIndex: 'name',
     slots: { title: 'province' },
     scopedSlots: { customRender: 'province' },
-    // className: 'Table-name',
-    // width: 500
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
-    // width: 200
   },
   {
     title: 'Mã',
@@ -138,15 +131,11 @@ const columnDistrict = [
   },
   {
     title: 'Quận / Huyện',
-    // dataIndex: 'name',
     slots: { title: 'district' },
     scopedSlots: { customRender: 'district' },
-    // className: 'Table-name',
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
   },
@@ -172,14 +161,11 @@ const columnWard = [
   },
   {
     title: 'Phường / Xã',
-    // dataIndex: 'name',
     slots: { title: 'ward' },
     scopedSlots: { customRender: 'ward' },
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
   },
@@ -204,14 +190,11 @@ const columnQuater = [
   },
   {
     title: 'Thôn / Bản / Tổ dân phố',
-    // dataIndex: 'name',
     slots: { title: 'quater' },
     scopedSlots: { customRender: 'quater' },
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
   },
@@ -277,7 +260,6 @@ const columnsAccount = [
   {
     title: 'Họ và Tên',
     dataIndex: 'name',
-    // className: 'Table-fullname',
   },
   {
     title: 'Username',
@@ -302,7 +284,6 @@ const columnsAccount = [
   },
   {
     title: 'Hành động',
-    // key: 'action',
     scopedSlots: { customRender: 'action' },
     className: 'Table-action',
   },

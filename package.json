@@ -13,7 +13,7 @@
     "ant-design-vue": "^1.7.8",
     "axios": "^0.24.0",
     "chart.js": "^3.6.2",
-    "core-js": "^3.6.5",
+    "core-js": "^3.20.0",
     "echarts": "^5.2.2",
     "husky": "4",
     "lodash": "^4.17.21",
