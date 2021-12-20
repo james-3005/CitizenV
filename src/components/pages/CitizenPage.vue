@@ -115,6 +115,7 @@
       :groupSearch="this.groupSearch"
       :addGroup="this.addGroup"
       :clearGroup="this.clearGroup"
+      :scroll="this.scroll"
     />
     <a-drawer
       title="Nhập thông tin don vi"
@@ -177,6 +178,7 @@ export default {
     data: [],
     pagination: { pageSize: 7 },
     queries: [],
+    scroll: {},
     level,
     user: getUser().levelInfo,
     userLevel: getUser().level,
@@ -198,6 +200,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnProvince;
+        this.scroll = {};
       });
     },
     fetchDistrictData(params = {}) {
@@ -211,6 +214,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnDistrict;
+        this.scroll = {};
       });
     },
     fetchWardData(params = {}) {
@@ -224,6 +228,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnWard;
+        this.scroll = {};
       });
     },
     fetchQuaterData(params = {}) {
@@ -237,6 +242,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnQuater;
+        this.scroll = {};
       });
     },
     fetchCitizenData(params = {}) {
@@ -247,6 +253,7 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnsCitizen;
+        this.scroll = { x: 2000 };
       });
     },
     fetchData(params = {}) {

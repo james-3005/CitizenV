@@ -1,7 +1,6 @@
 <template>
   <div class="AnalyticsPage">
     <HeaderMenu header="Thống kê" type="default" :notShow="true" />
-    <h2>Chọn đơn vị</h2>
     <div class="AnalyticsPage-unitsSelectors">
       <a-select
         v-model="units_values[0]"

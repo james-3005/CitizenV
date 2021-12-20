@@ -1,73 +1,67 @@
-const data = [];
-const dataA1 = [];
-const dataA2 = [];
 const perPage = 7;
-for (let i = 1; i <= 50; i++)
-  data.push({
-    key: i,
-    surname: i % 2 == 1 ? 'John' : 'Will',
-    lastname: i % 3 == 0 ? 'Brown' : 'Ali',
-    dob: '1/1/2001',
-    sex: i % 4 == 0 ? 'Nam' : 'Nữ',
-    identification: 12331132,
-    address: 'New York, 1 Dinistric, 369 ',
-    status: i % 3 === 0 ? true : false,
-  });
-
-for (let i = 1; i <= 50; i++)
-  dataA1.push({
-    key: i,
-    name: 'Hà Nội',
-    code: i % 2,
-  });
-
-for (let i = 1; i <= 50; i++)
-  dataA2.push({
-    key: i,
-    name: 'Cầu Giấy',
-    code: i % 2,
-  });
 const columnsCitizen = [
   {
     title: 'STT',
-    // key: 'key',
     dataIndex: 'key',
     className: 'Table-key',
-    // slots: { title: 'STT' },
-    // scopedSlots: { customRender: 'key' },
+    fixed: 'left',
   },
   {
     title: 'Họ và Tên',
     key: 'fullname',
     dataIndex: 'fullname',
     sorter: (a, b) => {
-      const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
+      const [a1, b1] = [a.fullname, b.fullname];
       return a1.localeCompare(b1);
     },
     className: 'Table-fullname',
+    fixed: 'left',
   },
   {
     title: 'Giới tính',
     dataIndex: 'gender',
-    className: 'Table-sex',
+    customRender: (text, record, index) => {
+      return record.gender === 'male' ? 'Nam' : 'Nữ';
+    },
+    className: 'Table-gender',
   },
   {
     title: 'Ngày sinh',
-    dataIndex: 'dob',
-    width: 120,
+    slots: { title: 'dob' },
+    scopedSlots: { customRender: 'dob' },
     className: 'Table-dob',
   },
   {
     title: 'CMND/CCCD',
-    dataIndex: 'identification',
+    dataIndex: 'citizenId',
     width: 150,
     className: 'Table-identification',
   },
   {
-    title: 'Địa chỉ',
-    dataIndex: 'address',
+    title: 'Quê quán',
+    dataIndex: 'placeOfOrigin',
+    className: 'Table-address',
+  },
+  {
+    title: 'Địa chỉ thường trú',
+    dataIndex: 'placeOfResidence',
     // key: 'address',
     className: 'Table-address',
+  },
+  {
+    title: 'Địa chỉ tạm trú',
+    dataIndex: 'shelterAddress',
+    className: 'Table-address',
+  },
+  {
+    title: 'Tôn giáo',
+    dataIndex: 'religion',
+    className: 'Table-religion',
+  },
+  {
+    title: 'Nghề nghiệp',
+    dataIndex: 'job',
+    className: 'Table-job',
   },
   {
     title: 'Trạng thái',
@@ -75,6 +69,7 @@ const columnsCitizen = [
     dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
+    width: 150,
   },
   {
     title: 'Hành động',
@@ -89,11 +84,13 @@ const columnProvince = [
     className: 'Table-add',
     slots: { title: 'customTitle' },
     scopedSlots: { customRender: 'add' },
+    // width: 100,
   },
   {
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
+    // width: 100,
   },
   {
     title: 'Tỉnh / Thành phố',
@@ -101,6 +98,15 @@ const columnProvince = [
     slots: { title: 'province' },
     scopedSlots: { customRender: 'province' },
     // className: 'Table-name',
+    // width: 500
+  },
+  {
+    title: 'Trạng thái',
+    // key: 'status',
+    dataIndex: 'status',
+    scopedSlots: { customRender: 'status' },
+    className: 'Table-status',
+    // width: 200
   },
   {
     title: 'Mã',
@@ -121,6 +127,7 @@ const columnDistrict = [
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
+    width: 100,
   },
   {
     title: 'Quận / Huyện',
@@ -128,6 +135,13 @@ const columnDistrict = [
     slots: { title: 'district' },
     scopedSlots: { customRender: 'district' },
     // className: 'Table-name',
+  },
+  {
+    title: 'Trạng thái',
+    // key: 'status',
+    dataIndex: 'status',
+    scopedSlots: { customRender: 'status' },
+    className: 'Table-status',
   },
   {
     title: 'Mã',
@@ -147,12 +161,20 @@ const columnWard = [
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
+    width: 100,
   },
   {
     title: 'Phường / Xã',
     // dataIndex: 'name',
     slots: { title: 'ward' },
     scopedSlots: { customRender: 'ward' },
+  },
+  {
+    title: 'Trạng thái',
+    // key: 'status',
+    dataIndex: 'status',
+    scopedSlots: { customRender: 'status' },
+    className: 'Table-status',
   },
   {
     title: 'Mã',
@@ -171,12 +193,20 @@ const columnQuater = [
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
+    width: 100,
   },
   {
     title: 'Thôn / Bản / Tổ dân phố',
     // dataIndex: 'name',
     slots: { title: 'quater' },
     scopedSlots: { customRender: 'quater' },
+  },
+  {
+    title: 'Trạng thái',
+    // key: 'status',
+    dataIndex: 'status',
+    scopedSlots: { customRender: 'status' },
+    className: 'Table-status',
   },
   {
     title: 'Mã',
@@ -211,6 +241,12 @@ function addSTTcolumns(
     });
   columnQuater[1] = {
     ...columnQuater[1],
+    customRender: (text, record, index) => {
+      return index + (this.pagination.current - 1) * perPage + 1;
+    },
+  };
+  columnsCitizen[0] = {
+    ...columnsCitizen[0],
     customRender: (text, record, index) => {
       return index + (this.pagination.current - 1) * perPage + 1;
     },
@@ -265,7 +301,6 @@ const columnsAccount = [
   },
 ];
 module.exports = {
-  data,
   columnsCitizen,
   columnProvince,
   columnDistrict,
