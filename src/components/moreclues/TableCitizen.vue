@@ -16,7 +16,7 @@
           type="plus-circle"
           theme="twoTone"
           class="add"
-          @click="() => handleAddGroup(data.name)"
+          @click="() => handleAddGroup({ name: data.name, code: data.code })"
         />
       </span>
       <span slot="province" slot-scope="province">
@@ -26,9 +26,6 @@
             {{ province.name }}
           </a-tooltip>
         </p>
-      </span>
-      <span slot="name" slot-scope="data">
-        {{ data.surname + ' ' + data.lastname }}
       </span>
       <span slot="district" slot-scope="district">
         <p class="blue" @click="() => handleClickDistrict(district.name)">

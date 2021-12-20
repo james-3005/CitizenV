@@ -1,85 +1,58 @@
 <template>
-  <v-chart class="chart" :option="option" />
+  <div class="Chart">
+    <apexchart
+      width="100%"
+      height="100%"
+      type="bar"
+      :options="chartOptions"
+      :series="series"
+    ></apexchart>
+  </div>
 </template>
-
 <script>
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { PieChart } from 'echarts/charts';
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-} from 'echarts/components';
-import VChart, { THEME_KEY } from 'vue-echarts';
-
-use([
-  CanvasRenderer,
-  PieChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-]);
-
+import _ from 'lodash';
 export default {
-  components: {
-    VChart,
-  },
-  provide: {
-    [THEME_KEY]: 'dark',
-  },
-  data() {
+  props: ['names', 'data'],
+  data: function () {
     return {
-      option: {
-        title: {
-          text: 'Traffic Sources',
-          left: 'center',
+      chartOptions: {
+        chart: {
+          id: 'basic-bar',
+          // type: 'donut'
         },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+        dataLabels: {
+          enabled: false,
         },
-        legend: {
-          orient: 'vertical',
-          left: 'left',
-          data: [
-            'Direct',
-            'Email',
-            'Ad Networks',
-            'Video Ads',
-            'Search Engines',
-          ],
-        },
-        series: [
-          {
-            name: 'Traffic Sources',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: [
-              { value: 335, name: 'Direct' },
-              { value: 310, name: 'Email' },
-              { value: 234, name: 'Ad Networks' },
-              { value: 135, name: 'Video Ads' },
-              { value: 1548, name: 'Search Engines' },
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-              },
-            },
+        plotOptions: {
+          bar: {
+            distributed: true,
           },
-        ],
+        },
+        xaxis: {
+          categories: [],
+        },
       },
+      series: [
+        {
+          name: 'series-1',
+          data: [],
+        },
+      ],
     };
+  },
+  mounted() {
+    var chartOptions = _.cloneDeep(this.chartOptions);
+    var series = _.cloneDeep(this.series);
+    // modify
+    chartOptions.xaxis.categories = this.names;
+    series = [
+      {
+        data: this.names,
+      },
+    ];
+    // re-render
+    this.chartOptions = chartOptions;
+    this.series = series;
   },
 };
 </script>
-
-<style scoped>
-.chart {
-  height: 400px;
-}
-</style>
