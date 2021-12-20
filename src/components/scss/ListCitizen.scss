@@ -1,11 +1,11 @@
 .ListCitizen {
   width: 100%;
   &-header {
-    margin-top: 5px;
+    margin: 10px 0 10px 5px;
     display: flex;
-    align-items: center;
-    height: 50px;
-    float: right;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: auto;
     position: relative;
     z-index: 2;
     &-button {
