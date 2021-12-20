@@ -9,24 +9,7 @@
         class="ListCitizen-header-button"
         @click="openAdd"
       >
-        Thêm TK
-      </a-button>
-      <a-button
-        type="default"
-        icon="file-excel"
-        size="small"
-        class="ListCitizen-header-button"
-      >
-        Xuất excel
-      </a-button>
-      <a-button
-        type="default"
-        icon="bar-chart"
-        size="small"
-        @click="handleToggleProgress"
-        class="ListCitizen-header-button"
-      >
-        Mở biểu đồ
+        Thêm tài khoản
       </a-button>
     </div>
     <a-table

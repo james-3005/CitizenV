@@ -1,7 +1,7 @@
 <template>
   <div class="HomePage">
     <HeaderMenu header="Thống kê" type="default" :notShow="true" />
-    <a-space direction="vertical">
+    <!-- <a-space direction="vertical">
       <a-space direction="horizontal" class="timeRange">
         <div class="rangeTitle">My appointed time range:</div>
         <a-range-picker
@@ -30,7 +30,9 @@
           Set date
         </a-button>
       </a-space>
-    </a-space>
+    
+    </a-space> -->
+    <Chart></Chart>
   </div>
 </template>
 
@@ -38,22 +40,14 @@
 import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import Chart from '../moreclues/Chart.vue';
+import 'vue-echarts';
 
 export default {
-  components: { HeaderMenu },
+  components: { HeaderMenu, Chart },
   data: function () {
     return {
       level: getUser().level,
-      ranges: [],
-      boundedRanges: {
-        Today: [moment(), moment()],
-        'This Month': [moment(), moment().endOf('month')],
-        // 'This Month': [moment(getUser().startDate), moment(getUser().endDate)],
-      },
-      value3: [
-        moment('2015-06-06', 'YYYY-MM-DD'),
-        moment('2015-06-06', 'YYYY-MM-DD'),
-      ],
     };
   },
   methods: {

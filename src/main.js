@@ -8,9 +8,14 @@ import VueRouter from 'vue-router';
 import { getToken, getUser } from './components/utilities/localStorage';
 import store from './store';
 import i18n from './langs/i18';
-
-Vue.use(VueRouter);
+import VueApexCharts from 'vue-apexcharts';
 Vue.use(VueCompositionAPI);
+
+Vue.use(VueApexCharts);
+
+Vue.component('apexchart', VueApexCharts);
+Vue.use(VueRouter);
+
 Vue.use(Antd);
 Vue.use(MotionPlugin);
 
