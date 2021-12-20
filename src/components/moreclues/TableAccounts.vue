@@ -2,7 +2,7 @@
   <div class="ListCitizen">
     <div class="ListCitizen-header">
       <div>
-        <TimeRage />
+        <TimeRange />
       </div>
       <div>
         <a-button
