@@ -51,6 +51,15 @@ const getCitizen = (params, loading = true) =>
       loading,
     },
   });
+
+const getGroupCitizen = (params) => {
+  requestWithToken.get('/form', {
+    params: {
+      perPage,
+      ...params,
+    },
+  });
+};
 const getNameFromCode = (code) => {
   if (typeof code !== 'string') return null;
   if (code.length === 2) return getProvince({ code });

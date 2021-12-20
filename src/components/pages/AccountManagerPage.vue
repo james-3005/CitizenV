@@ -8,8 +8,9 @@
 <script>
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import TableAccounts from '../moreclues/TableAccounts.vue';
+import TimeRange from '../moreclues/TimeRange.vue';
 export default {
-  components: { HeaderMenu, TableAccounts },
+  components: { HeaderMenu, TableAccounts, TimeRange },
   data: function () {
     return {};
   },

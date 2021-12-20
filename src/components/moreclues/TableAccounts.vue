@@ -1,16 +1,38 @@
 <template>
   <div class="ListCitizen">
     <div class="ListCitizen-header">
-      <a-button
-        v-if="userLevel < 5"
-        type="primary"
-        icon="user-add"
-        size="small"
-        class="ListCitizen-header-button"
-        @click="openAdd"
-      >
-        Thêm tài khoản
-      </a-button>
+      <div>
+        <TimeRage />
+      </div>
+      <div>
+        <a-button
+          v-if="userLevel < 5"
+          type="primary"
+          icon="user-add"
+          size="small"
+          class="ListCitizen-header-button"
+          @click="openAdd"
+        >
+          Thêm TK
+        </a-button>
+        <a-button
+          type="default"
+          icon="file-excel"
+          size="small"
+          class="ListCitizen-header-button"
+        >
+          Xuất excel
+        </a-button>
+        <a-button
+          type="default"
+          icon="bar-chart"
+          size="small"
+          @click="handleToggleProgress"
+          class="ListCitizen-header-button"
+        >
+          Mở biểu đồ
+        </a-button>
+      </div>
     </div>
     <a-table
       :columns="this.columns"
@@ -52,6 +74,7 @@ import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import ProgressChart from '../moreclues/ProgressChart.vue';
 import FormAddAccount from '../moreclues/FormAddAccount.vue';
+import TimeRange from '../moreclues/TimeRange.vue';
 import {
   changePasswordHigh,
   deleteAccountById,
@@ -168,6 +191,7 @@ export default {
     HeaderMenu,
     ProgressChart,
     FormAddAccount,
+    TimeRange,
   },
   mounted() {
     addSTTcolumnsAccount.bind(this)(columnsAccount);
