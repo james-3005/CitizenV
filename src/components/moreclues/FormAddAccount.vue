@@ -2,22 +2,44 @@
   <div class="FormAddAccount">
     <router-view></router-view>
     <h2>Thông tin tài khoản</h2>
+    <div class="FormAddAccount-pair" v-show="true">
+      <a-input-password
+        placeholder=""
+        class="FormAddAccount-pair-input-tohide"
+        v-model="password"
+      />
+    </div>
+    <div class="FormAddAccount-pair">
+      <p>Đơn vị:</p>
+      <a-auto-complete
+        :autocomplete="false"
+        :data-source="unitsName"
+        style="width: 200px"
+        placeholder="Đơn vị"
+        @select="onSelect"
+        @change="onChange2"
+        class="FormAddAccount-pair-input"
+        v-model="resourceName"
+      />
+    </div>
     <div class="FormAddAccount-pair">
       <p>Tên tài khoản:</p>
       <a-input
-        placeholder="Ex: huytn@gov.com.vn"
+        placeholder="Ex: 01"
+        type="text"
         class="FormAddAccount-pair-input"
-        id="username"
         v-model="username"
-        disabled
+        :disabled="userLevel < 4"
       />
     </div>
+
     <div class="FormAddAccount-pair">
       <p>Mật khẩu:</p>
       <a-input-password
         placeholder=""
         class="FormAddAccount-pair-input"
         v-model="password"
+        autcomplete="off"
       />
     </div>
     <div class="FormAddAccount-pair">
@@ -29,11 +51,13 @@
       />
     </div>
     <div class="FormAddAccount-pair">
-      <p>Họ và tên:</p>
+      <p>Tên hiển thị:</p>
       <a-input
         placeholder="Ex: Trần"
+        type="text"
         class="FormAddAccount-pair-input"
         v-model="name"
+        :disabled="userLevel < 4"
       />
     </div>
     <div class="FormAddAccount-pair">
@@ -42,18 +66,6 @@
         placeholder="Ex: 182909921"
         class="FormAddAccount-pair-input"
         v-model="phoneNumber"
-      />
-    </div>
-    <div class="FormAddAccount-pair">
-      <p>Đơn vị:</p>
-      <a-auto-complete
-        :data-source="unitsName"
-        style="width: 200px"
-        placeholder="Đơn vị"
-        @select="onSelect"
-        @change="onChange2"
-        class="FormAddAccount-pair-input"
-        v-model="resourceName"
       />
     </div>
     <div class="FormAddAccount-pair">
@@ -87,10 +99,7 @@ import { addAccount } from '../../services/auth';
 import { message } from '../utilities/messageValidate';
 const plainOptions = ['Thêm', 'Đọc', 'Sửa', 'Xóa'];
 export default {
-  // props: {
-  //   handleToggleProgress: Function,
-  //   list: Array,
-  // },
+  props: ['addAccount'],
   data: function () {
     return {
       // checkbox variables
@@ -116,17 +125,13 @@ export default {
         username: null,
         password: null,
       },
+      userLevel: getUser().level,
     };
   },
   mounted() {
     this.getUnit(getUser().level, getUser().resourceName);
   },
   methods: {
-    handleChange(unitCombined) {
-      const data = unitCombined.split('-');
-      this.resourceName = data[0];
-      this.resourceCode = data[1];
-    },
     onChange(checkedList) {
       this.indeterminate =
         !!checkedList.length && checkedList.length < plainOptions.length;
@@ -174,9 +179,6 @@ export default {
       }
     },
     handleRegister() {
-      this.$router.go();
-      //  return;
-      this.permissions = this.getPermissions();
       if (this.password !== this.passwordRetype) {
         this.$message.error(message.RE_PASS);
       } else {
@@ -194,7 +196,7 @@ export default {
         }).then((res) => {
           if (res.success) {
             this.$message.info(message.REGISTER_SUCCESS);
-            this.$router.push('/conference/accountManager');
+            this.addAccount(res.data);
           } else {
             if (res.message === message.VALIDATOR_ERR)
               this.$message.error(message.VALIDATOR_ERR2);
@@ -204,11 +206,11 @@ export default {
       }
     },
     onSelect(value) {
-      console.log(value);
       this.resourceCode = this.units.find(
         (item) => item.name == this.resourceName,
-      ).code;
-      this.username = this.resourceCode + '@gov.com.vn';
+      );
+      this.name = this.resourceCode.name;
+      this.username = this.resourceCode.code;
     },
     onChange2(searchText) {
       this.unitsName = this.units

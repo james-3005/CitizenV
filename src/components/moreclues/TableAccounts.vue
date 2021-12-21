@@ -12,25 +12,9 @@
           size="small"
           class="ListCitizen-header-button"
           @click="openAdd"
+          :disabled="userPermission !== '1111'"
         >
-          Thêm TK
-        </a-button>
-        <a-button
-          type="default"
-          icon="file-excel"
-          size="small"
-          class="ListCitizen-header-button"
-        >
-          Xuất excel
-        </a-button>
-        <a-button
-          type="default"
-          icon="bar-chart"
-          size="small"
-          @click="handleToggleProgress"
-          class="ListCitizen-header-button"
-        >
-          Mở biểu đồ
+          Thêm tài khoản
         </a-button>
       </div>
     </div>
@@ -64,7 +48,7 @@
       class="drawer"
       @close="onClose"
     >
-      <form-add-account />
+      <form-add-account :addAccount="addAccount" />
     </a-drawer>
   </div>
 </template>
@@ -185,6 +169,9 @@ export default {
         },
         onCancel() {},
       });
+    },
+    addAccount(value) {
+      this.data.unshift(value);
     },
   },
   components: {
