@@ -23,3 +23,8 @@ export const changePassword = (oldPassword, password) =>
     oldPassword,
   });
 export const checkToken = () => requestWithToken.get('/monitor/access-token');
+
+export const setDate = (params) =>
+  requestWithToken.post('/survey-process', {
+    ...params,
+  });

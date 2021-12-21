@@ -2,21 +2,21 @@
   <div class="TimeRange">
     <a-space direction="vertical">
       <a-space direction="horizontal" class="timeRange">
-        <div class="rangeTitle">My appointed time range:</div>
+        <div class="rangeTitle">Mốc khai báo</div>
         <a-range-picker
           show-time
-          format="YYYY-MM-DD HH:mm:ss"
-          :value="value3"
+          format="YYYY-MM-DD"
+          :value="appointedRange"
           disabled
         />
       </a-space>
       <a-space direction="horizontal" class="timeRange">
         <div class="rangeTitle">
-          Set time range for level {{ level + 1 }} units:
+          Cài mốc khai báo cho cấp {{ formatLevelName() }}
         </div>
         <a-range-picker
           show-time
-          format="YYYY-MM-DD HH:mm:ss"
+          format="YYYY-MM-DD"
           :ranges="boundedRanges"
           v-model="ranges"
         />
@@ -24,9 +24,9 @@
           type="primary"
           size="small"
           class="ListCitizen-header-button"
-          @click="setDate"
+          @click="handleSetDate"
         >
-          Set date
+          Cài
         </a-button>
       </a-space>
     </a-space>
@@ -37,6 +37,9 @@
 import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import { setDate } from '../../services/auth';
+import { getDate } from '../../services/getUser';
+import { message } from '../utilities/messageValidate';
 
 export default {
   components: { HeaderMenu },
@@ -45,33 +48,76 @@ export default {
       level: getUser().level,
       ranges: [],
       boundedRanges: {
-        Today: [moment(), moment()],
-        'This Month': [moment(), moment().endOf('month')],
-        // 'This Month': [moment(getUser().startDate), moment(getUser().endDate)],
+        // "Hợp lệ": [moment(), moment().endOf("month")],
+        // 'Hợp lệ': [moment(getUser().startDate), moment(getUser().endDate)],
       },
-      value3: [
+      appointedRange: [
         moment('2015-06-06', 'YYYY-MM-DD'),
         moment('2015-06-06', 'YYYY-MM-DD'),
       ],
+      startValue: '',
+      endValue: '',
+      boundedStart: '',
     };
   },
   methods: {
-    setDate() {
-      console.log(moment(this.ranges[0]).format());
-      console.log(moment(this.ranges[1]).format());
+    disabledStartDate() {
+      return this.startValue < this.appointedRange[0];
+    },
+    handleSetDate() {
+      const startTime = moment(this.ranges[0]).format();
+      const endTime = moment(this.ranges[1]).format();
+      if (
+        startTime >= moment(this.appointedRange[0]).format() &&
+        endTime <= moment(this.appointedRange[1]).format()
+      ) {
+        setDate({
+          resourceCode: getUser().resourceCode,
+          createdAt: startTime,
+          expiresAt: endTime,
+        }).then((res) => {
+          if (res.success) this.$message.info(message.TIME_SET_SUCCESS);
+          else this.$message.error(message.TIME_SET_FAIL);
+        });
+      } else {
+        this.$message.error(message.TIME_INVALID);
+      }
+    },
+
+    handleGetDate() {
+      getDate().then((res) => console.log(res.data[0].createdAt));
+      const startTime = moment(this.ranges[0]).format();
+      const endTime = moment(this.ranges[1]).format();
+      console.log(startTime < this.appointedRange[0]);
+    },
+    formatLevelName() {
+      switch (this.level + 1) {
+        case 1:
+          return 'A1';
+        case 2:
+          return 'A2';
+        case 3:
+          return 'A3';
+        case 4:
+          return 'B1';
+        case 5:
+          return 'B2';
+        default:
+          return '';
+      }
     },
   },
   mounted() {
-    this.$watch(
-      () => this.$route.query,
-      (query) => {
-        // xử lý query params
-        console.log(query);
-      },
-    );
+    getDate().then((res) => {
+      this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
+      this.boundedRanges = {
+        'Hợp lệ': [
+          moment(res.data[0].createdAt),
+          moment(res.data[0].expiresAt),
+        ],
+      };
+    });
   },
-  updated() {
-    console.log('updated');
-  },
+  updated() {},
 };
 </script>

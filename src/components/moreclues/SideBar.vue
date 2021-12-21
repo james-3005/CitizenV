@@ -3,7 +3,7 @@
     <img src="../../assets/svg/appLogo.svg" alt="" class="SideBar-appLogo" />
     <img src="../../assets/svg/textLogo.svg" alt="" class="SideBar-textLogo" />
     <div class="SideBar-btn">
-      <div class="SideBar-btn-logoContent" @click="expand_sidebar()">
+      <div class="SideBar-btn-logoContent" @click="expand_sidebar">
         <img src="../../assets/svg/expandLogo.svg" alt="" />
       </div>
     </div>
@@ -73,6 +73,9 @@ export default {
       deleteToken();
       deleteUser();
       this.$router.push('/login');
+    },
+    expand_sidebar() {
+      this.isExpanded = !this.isExpanded;
     },
     formatLevelName(level) {
       switch (level) {
