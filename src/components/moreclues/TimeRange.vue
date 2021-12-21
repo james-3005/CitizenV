@@ -2,21 +2,21 @@
   <div class="TimeRange">
     <a-space direction="vertical">
       <a-space direction="horizontal" class="timeRange">
-        <div class="rangeTitle">My appointed time range:</div>
+        <div class="rangeTitle">Mốc khai báo</div>
         <a-range-picker
           show-time
-          format="YYYY-MM-DD HH:mm:ss"
+          format="YYYY-MM-DD"
           :value="appointedRange"
           disabled
         />
       </a-space>
       <a-space direction="horizontal" class="timeRange">
         <div class="rangeTitle">
-          Set time range for level {{ level + 1 }} units:
+          Cài mốc khai báo cho cấp {{ formatLevelName() }}
         </div>
         <a-range-picker
           show-time
-          format="YYYY-MM-DD HH:mm:ss"
+          format="YYYY-MM-DD"
           :ranges="boundedRanges"
           v-model="ranges"
         />
@@ -26,7 +26,7 @@
           class="ListCitizen-header-button"
           @click="handleSetDate"
         >
-          Set date
+          Cài
         </a-button>
       </a-space>
     </a-space>
@@ -39,6 +39,7 @@ import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
 import { setDate } from '../../services/auth';
 import { getDate } from '../../services/getUser';
+import { message } from '../utilities/messageValidate';
 
 export default {
   components: { HeaderMenu },
@@ -64,8 +65,6 @@ export default {
       return this.startValue < this.appointedRange[0];
     },
     handleSetDate() {
-      // console.log(moment(this.ranges[0]).format());
-      // console.log(moment(this.ranges[1]).format());
       const startTime = moment(this.ranges[0]).format();
       const endTime = moment(this.ranges[1]).format();
       if (
@@ -76,10 +75,12 @@ export default {
           resourceCode: getUser().resourceCode,
           createdAt: startTime,
           expiresAt: endTime,
-        }).then((res) => console.log(res.data));
+        }).then((res) => {
+          if (res.success) this.$message.info(message.TIME_SET_SUCCESS);
+          else this.$message.error(message.TIME_SET_FAIL);
+        });
       } else {
-        this.$message.warning('Vui lòng chọn khoảng thời gian hợp lệ.');
-        console.log(startTime, this.appointedRange[0]);
+        this.$message.error(message.TIME_INVALID);
       }
     },
 
@@ -89,15 +90,24 @@ export default {
       const endTime = moment(this.ranges[1]).format();
       console.log(startTime < this.appointedRange[0]);
     },
+    formatLevelName() {
+      switch (this.level + 1) {
+        case 1:
+          return 'A1';
+        case 2:
+          return 'A2';
+        case 3:
+          return 'A3';
+        case 4:
+          return 'B1';
+        case 5:
+          return 'B2';
+        default:
+          return '';
+      }
+    },
   },
   mounted() {
-    this.$watch(
-      () => this.$route.query,
-      (query) => {
-        // xử lý query params
-        console.log(query);
-      },
-    );
     getDate().then((res) => {
       this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
       this.boundedRanges = {
@@ -108,8 +118,6 @@ export default {
       };
     });
   },
-  updated() {
-    console.log('updated');
-  },
+  updated() {},
 };
 </script>
