@@ -17,7 +17,7 @@
         />
         <ButtonBackDrillDown
           :text="$route.query.wardName"
-          :disable="userLevel > 4"
+          :disable="userLevel > 3"
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
