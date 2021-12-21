@@ -1,8 +1,8 @@
 <template>
   <div class="Chart">
     <apexchart
-      width="50%"
-      height="50%"
+      width="100%"
+      height="100%"
       type="bar"
       :options="chartOptions"
       :series="series"
@@ -68,6 +68,7 @@ export default {
         },
         title: {
           text: 'Tháp tuổi',
+          align: 'center',
         },
         xaxis: {
           categories: [],
@@ -94,9 +95,11 @@ export default {
     };
   },
   methods: {
-    handleClick(ageCategories, maleAges, femaleAges) {
-      this.chartOptions.xaxis.categories = ageCategories;
-      this.series = [
+    render(ageCategories, maleAges, femaleAges) {
+      var chartOptions = _.cloneDeep(this.chartOptions);
+      var series = _.cloneDeep(this.series);
+      chartOptions.xaxis.categories = ageCategories;
+      series = [
         {
           name: 'Males',
           data: maleAges,
@@ -107,9 +110,8 @@ export default {
         },
       ];
       // re-render
-      console.log(ageCategories);
-      console.log(maleAges);
-      console.log(femaleAges);
+      this.chartOptions = chartOptions;
+      this.series = series;
     },
     handler(e) {
       console.log('recieved: ', e);
@@ -118,7 +120,7 @@ export default {
   mounted() {},
   created() {
     EventBus.$on('hello', (args) => {
-      this.handleClick(args.ageCategories, args.maleAges, args.femaleAges);
+      this.render(args.ageCategories, args.maleAges, args.femaleAges);
     });
   },
   destroyed() {

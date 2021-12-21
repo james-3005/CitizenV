@@ -79,11 +79,21 @@
         >Xem thống kê</a-button
       >
     </div>
-    <age-pyramid
-      :ageCategories="ageCategories"
-      :maleAges="maleAges"
-      :femaleAges="femaleAges"
-    />
+    <div class="AnalyticsPage-charts">
+      <chart-age-pyramid
+        :ageCategories="ageCategories"
+        :maleAges="maleAges"
+        :femaleAges="femaleAges"
+      />
+      <chart-birth-rate
+        :childrenYears="chidrenYears"
+        :childrenBorn="childrenBorn"
+      />
+      <chart-population-growth
+        :populationYears="populationYears"
+        :population="population"
+      />
+    </div>
   </div>
 </template>
 
@@ -92,7 +102,9 @@ import moment from 'moment';
 import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
-import AgePyramid from '../moreclues/AgePyramid.vue';
+import ChartAgePyramid from '../moreclues/ChartAgePyramid.vue';
+import ChartPopulationGrowth from '../moreclues/ChartPopulationGrowth.vue';
+import ChartBirthRate from '../moreclues/ChartBirthRate.vue';
 import EventBus from '../utilities/eventBus';
 import {
   getProvince,
@@ -103,7 +115,12 @@ import {
 import Vue from 'vue';
 
 export default {
-  components: { HeaderMenu, AgePyramid },
+  components: {
+    HeaderMenu,
+    ChartAgePyramid,
+    ChartPopulationGrowth,
+    ChartBirthRate,
+  },
   data: function () {
     return {
       level: getUser().level,
@@ -131,6 +148,12 @@ export default {
       ageCategories: [],
       maleAges: [],
       femaleAges: [],
+
+      populationYears: [],
+      population: [],
+
+      chidrenYears: [],
+      childrenBorn: [],
     };
   },
   methods: {
@@ -217,14 +240,35 @@ export default {
         -0.8, -1.05, -1.06, -1.18, -1.4, -2.2, -2.85, -3.7, -3.96, -4.22, -4.3,
         -4.4, -4.1, -4, -4.1, -3.4, -3.1, -2.8,
       ];
-      this.showAgePyramid();
+
+      this.populationYears = [
+        2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+        2012,
+      ];
+      this.population = [
+        60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120,
+      ];
+
+      this.chidrenYears = [
+        2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+        2012, 2013, 2014, 2015, 2016, 2017, 2018,
+      ];
+      this.childrenBorn = [
+        0.4, 0.65, 0.76, 0.88, 1.5, 2.1, 2.9, 3.8, 3.9, 4.2, 4, 4.3, 4.1, 4.2,
+        4.5, 3.9, 3.5, 3,
+      ];
+      this.showStats();
     },
 
-    showAgePyramid() {
+    showStats() {
       EventBus.$emit('hello', {
         ageCategories: this.ageCategories,
         maleAges: this.maleAges,
         femaleAges: this.femaleAges,
+        populationYears: this.populationYears,
+        population: this.population,
+        childrenYears: this.chidrenYears,
+        childrenBorn: this.childrenBorn,
       });
       console.log('dcmm');
     },

@@ -18,4 +18,22 @@
       color: #0000009a;
     }
   }
+  &-charts {
+    display: grid;
+    // grid-template-columns: repeat(2, 1fr);
+    overflow: visible;
+    justify-items: center;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2rem;
+    grid-auto-rows: minmax(200px, auto);
+    height: auto;
+    width: 100%;
+    .Chart {
+      height: 40vh;
+      width: 50%;
+      @media screen and (max-width: 1000px) {
+        width: 100%;
+      }
+    }
+  }
 }
