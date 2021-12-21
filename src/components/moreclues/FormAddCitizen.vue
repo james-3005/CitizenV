@@ -132,24 +132,9 @@ export default {
       fullname: '',
       dob: '',
       gender: '',
-      placeOfOrigin:
-        this.address.wardName +
-        ', ' +
-        this.address.districtName +
-        ', ' +
-        this.address.provinceName,
-      placeOfResidence:
-        this.address.wardName +
-        ', ' +
-        this.address.districtName +
-        ', ' +
-        this.address.provinceName,
-      shelterAddress:
-        this.address.wardName +
-        ', ' +
-        this.address.districtName +
-        ', ' +
-        this.address.provinceName,
+      placeOfOrigin: '',
+      placeOfResidence: '',
+      shelterAddress: '',
       religion: '',
       levelOfEducation: '',
       job: '',
@@ -181,6 +166,20 @@ export default {
   },
   updated() {
     console.log(this.date.format('DD-MM-YYYY'));
+  },
+  mounted() {
+    const address =
+      this.address.quarterName +
+      ', ' +
+      this.address.wardName +
+      ', ' +
+      this.address.districtName +
+      ', ' +
+      this.address.provinceName;
+
+    this.placeOfOrigin = address;
+    this.placeOfResidence = address;
+    this.shelterAddress = address;
   },
 };
 </script>
