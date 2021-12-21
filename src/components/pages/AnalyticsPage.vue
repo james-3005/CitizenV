@@ -177,8 +177,8 @@ export default {
     handleClick() {
       console.log('params to send:', this.units_values[this.levelToSend]);
       var result;
-      // getDistrict({ code: '0102'}).then(res => console.log(res.data[0].name));
-      console.log(getUser().level);
+      // console.log(getUser().level);
+      // console.log(getUser().resourceCode);
     },
   },
   mounted() {
@@ -211,6 +211,14 @@ export default {
           this.isDisabled[2] = true;
         },
       );
+    }
+    if (userLevel >= 5) {
+      getQuarter({
+        code: unitCodes[0] + unitCodes[1] + unitCodes[2] + unitCodes[3],
+      }).then((res) => {
+        this.unitTitle.quarter = res.data[0].name;
+        this.isDisabled[3] = true;
+      });
     }
   },
   updated() {

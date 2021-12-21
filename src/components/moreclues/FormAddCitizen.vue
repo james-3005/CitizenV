@@ -84,6 +84,14 @@
         v-model="job"
       />
     </div>
+    <div class="FormAddCitizen-pair">
+      <p>Resource Code:</p>
+      <a-input
+        placeholder="Ex: coc cac"
+        class="FormAddCitizen-pair-input"
+        v-model="resourceCode"
+      />
+    </div>
     <a-button
       type="primary"
       class="FormAddCitizen-submit"
@@ -96,9 +104,11 @@
 <script>
 import moment from 'moment';
 import { addCitizen } from '../../services/auth';
+import { getUser } from '../utilities/localStorage';
+import { getQuarter } from '../../services/getCitizen';
 
 export default {
-  props: ['address'],
+  props: ['address', 'data'],
   data: function () {
     return {
       moment,
@@ -129,6 +139,7 @@ export default {
       religion: '',
       levelOfEducation: '',
       job: '',
+      resourceCode: this.data.code,
     };
   },
   methods: {
@@ -145,7 +156,13 @@ export default {
         religion: this.religion,
         levelOfEducation: this.levelOfEducation,
         job: this.job,
+        resourceCode: this.resourceCode,
       }).then((res) => console.log(res));
+    },
+    getQuarterCode() {
+      getQuarter({ quarterName: this.address.quarterName }).then((res) =>
+        console.log(res),
+      );
     },
   },
   updated() {
