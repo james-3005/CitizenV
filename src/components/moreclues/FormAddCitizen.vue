@@ -70,11 +70,11 @@
     </div>
     <div class="FormAddCitizen-pair">
       <p>Trình độ văn hóa:</p>
-      <a-input
-        placeholder=""
-        class="FormAddCitizen-pair-input"
-        v-model="levelOfEducation"
-      />
+      <a-select class="FormAddCitizen-pair-input" v-model="levelOfEducation">
+        <a-select-option v-for="level in education" :key="level">
+          {{ `${level}/12` }}
+        </a-select-option>
+      </a-select>
     </div>
     <div class="FormAddCitizen-pair">
       <p>Nghề nghiệp:</p>
@@ -113,6 +113,20 @@ export default {
     return {
       moment,
       date: moment('1-2-2021', 'DD-MM-YYYY'),
+      education: [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+      ],
       // form variable
       citizenId: '',
       fullname: '',

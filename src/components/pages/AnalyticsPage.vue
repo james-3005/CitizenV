@@ -79,24 +79,31 @@
         >Xem thống kê</a-button
       >
     </div>
-    <Chart :names="[1, 2, 3, 4, 5]" :data="[5, 10, 15, 20]" />
+    <age-pyramid
+      :ageCategories="ageCategories"
+      :maleAges="maleAges"
+      :femaleAges="femaleAges"
+    />
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import _ from 'lodash';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
-import Chart from '../moreclues/Chart.vue';
+import AgePyramid from '../moreclues/AgePyramid.vue';
+import EventBus from '../utilities/eventBus';
 import {
   getProvince,
   getDistrict,
   getWard,
   getQuarter,
 } from '../../services/getCitizen';
+import Vue from 'vue';
 
 export default {
-  components: { HeaderMenu, Chart },
+  components: { HeaderMenu, AgePyramid },
   data: function () {
     return {
       level: getUser().level,
@@ -118,6 +125,12 @@ export default {
         ward: 'Phường/Xã',
         quarter: 'Tổ dân phố',
       },
+
+      // analytics
+      bus: new Vue(),
+      ageCategories: [],
+      maleAges: [],
+      femaleAges: [],
     };
   },
   methods: {
@@ -176,9 +189,44 @@ export default {
     },
     handleClick() {
       console.log('params to send:', this.units_values[this.levelToSend]);
-      var result;
-      // console.log(getUser().level);
-      // console.log(getUser().resourceCode);
+      this.ageCategories = [
+        '85+',
+        '80-84',
+        '75-79',
+        '70-74',
+        '65-69',
+        '60-64',
+        '55-59',
+        '50-54',
+        '45-49',
+        '40-44',
+        '35-39',
+        '30-34',
+        '25-29',
+        '20-24',
+        '15-19',
+        '10-14',
+        '5-9',
+        '0-4',
+      ];
+      this.maleAges = [
+        0.4, 0.65, 0.76, 0.88, 1.5, 2.1, 2.9, 3.8, 3.9, 4.2, 4, 4.3, 4.1, 4.2,
+        4.5, 3.9, 3.5, 3,
+      ];
+      this.femaleAges = [
+        -0.8, -1.05, -1.06, -1.18, -1.4, -2.2, -2.85, -3.7, -3.96, -4.22, -4.3,
+        -4.4, -4.1, -4, -4.1, -3.4, -3.1, -2.8,
+      ];
+      this.showAgePyramid();
+    },
+
+    showAgePyramid() {
+      EventBus.$emit('hello', {
+        ageCategories: this.ageCategories,
+        maleAges: this.maleAges,
+        femaleAges: this.femaleAges,
+      });
+      console.log('dcmm');
     },
   },
   mounted() {
