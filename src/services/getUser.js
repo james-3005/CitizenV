@@ -20,3 +20,8 @@ export const changePasswordHigh = (id, password) =>
   requestWithToken.patch(`/user/${id}/change-password`, {
     password,
   });
+
+export const getDate = (params) =>
+  requestWithToken.get('/survey-process', {
+    ...params,
+  });

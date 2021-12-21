@@ -37,6 +37,7 @@
 import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import { setDate } from '../../services/auth';
 
 export default {
   components: { HeaderMenu },
@@ -57,8 +58,12 @@ export default {
   },
   methods: {
     setDate() {
-      console.log(moment(this.ranges[0]).format());
-      console.log(moment(this.ranges[1]).format());
+      // console.log(moment(this.ranges[0]).format());
+      // console.log(moment(this.ranges[1]).format());
+      // const startTime = moment(this.ranges[0]).format();
+      // const endTime = moment(this.ranges[1]).format();
+      // setDate({}).then()
+      console.log(getUser());
     },
   },
   mounted() {
