@@ -52,11 +52,11 @@
           </a-tooltip>
         </p>
       </span>
-      <span slot="quater" slot-scope="quater">
-        <p class="blue" @click="() => handleClickQuater(quater.name)">
+      <span slot="quarter" slot-scope="quarter">
+        <p class="blue" @click="() => handleClickQuarter(quarter.name)">
           <a-tooltip>
-            <template slot="title"> Đi đến {{ quater.name }} </template>
-            {{ quater.name }}
+            <template slot="title"> Đi đến {{ quarter.name }} </template>
+            {{ quarter.name }}
           </a-tooltip>
         </p>
       </span>
@@ -76,13 +76,7 @@
           "
           @click="() => confirmForm(data.code)"
         >
-          {{
-            data.status == null
-              ? 'Chưa mở'
-              : data.status == 1
-              ? 'Hoàn thành'
-              : 'Chưa xong'
-          }}
+          {{ data.status }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">
@@ -144,11 +138,11 @@ export default {
         },
       });
     },
-    handleClickQuater(quaterName) {
+    handleClickQuarter(quarterName) {
       this.$router.push({
         query: {
           ...this.$route.query,
-          quaterName,
+          quarterName,
         },
       });
     },

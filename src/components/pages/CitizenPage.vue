@@ -22,7 +22,7 @@
           v-if="level >= 3"
         />
         <ButtonBackDrillDown
-          :text="$route.query.quaterName"
+          :text="$route.query.quarterName"
           :disable="userLevel > 4"
           :onClick="() => getBack(3)"
           v-if="level >= 4"
@@ -158,7 +158,7 @@ import {
   columnDistrict,
   columnWard,
   addSTTcolumns,
-  columnQuater,
+  columnQuarter,
   columnsCitizen,
 } from '../utilities/constTableData';
 import { getName, level } from '../utilities/queryExtraction';
@@ -246,7 +246,7 @@ export default {
         this.scroll = {};
       });
     },
-    fetchQuaterData(params = {}) {
+    fetchQuarterData(params = {}) {
       getQuarter({
         ...params,
         wardName: this.queries.wardName,
@@ -261,7 +261,7 @@ export default {
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
-        this.columns = columnQuater;
+        this.columns = columnQuarter;
         this.scroll = {};
       });
     },
@@ -284,7 +284,7 @@ export default {
       } else if (this.level == 2) {
         return this.fetchWardData(params);
       } else if (this.level == 3) {
-        return this.fetchQuaterData(params);
+        return this.fetchQuarterData(params);
       } else {
         return this.fetchCitizenData(params);
       }
@@ -371,7 +371,7 @@ export default {
             provinceName: this.user.provinceName,
             districtName: this.user.districtName,
             wardName: this.user.wardName,
-            quaterName: this.user.name,
+            quarterName: this.user.name,
           },
         });
         return;
@@ -451,7 +451,7 @@ export default {
         this.$router.push({
           query: {
             ...this.$route.query,
-            quaterName: value,
+            quarterName: value,
           },
         });
       }
@@ -465,7 +465,7 @@ export default {
       columnProvince,
       columnDistrict,
       columnWard,
-      columnQuater,
+      columnQuarter,
       columnsCitizen,
     );
   },

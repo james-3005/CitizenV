@@ -169,7 +169,7 @@ const columnWard = [
     scopedSlots: { customRender: 'code' },
   },
 ];
-const columnQuater = [
+const columnQuarter = [
   {
     className: 'Table-add',
     slots: { title: 'customTitle' },
@@ -183,8 +183,8 @@ const columnQuater = [
   },
   {
     title: 'Thôn / Bản / Tổ dân phố',
-    slots: { title: 'quater' },
-    scopedSlots: { customRender: 'quater' },
+    slots: { title: 'quarter' },
+    scopedSlots: { customRender: 'quarter' },
   },
   {
     title: 'Trạng thái',
@@ -202,7 +202,7 @@ function addSTTcolumns(
   columnDistrict,
   columnProvince,
   columnWard,
-  columnQuater,
+  columnQuarter,
 ) {
   (columnDistrict[1] = {
     ...columnDistrict[1],
@@ -222,8 +222,8 @@ function addSTTcolumns(
         return index + (this.pagination.current - 1) * perPage + 1;
       },
     });
-  columnQuater[1] = {
-    ...columnQuater[1],
+  columnQuarter[1] = {
+    ...columnQuarter[1],
     customRender: (text, record, index) => {
       return index + (this.pagination.current - 1) * perPage + 1;
     },
@@ -287,7 +287,7 @@ module.exports = {
   columnDistrict,
   columnWard,
   addSTTcolumns,
-  columnQuater,
+  columnQuarter,
   columnsAccount,
   addSTTcolumnsAccount,
 };

@@ -1,12 +1,14 @@
-import { forEach } from 'core-js';
 import req from './axios';
 import 'core-js';
 const { requestWithToken, request } = req;
 const perPage = 7;
-const getStatus = (resourceCode) =>
+const getStatus = (resourceCode, loading = true) =>
   request.get('/survey-process', {
     params: {
       resourceCode: resourceCode,
+    },
+    headers: {
+      loading,
     },
   });
 
@@ -20,7 +22,7 @@ const getProvince = (params, loading = true) =>
       loading,
     },
   });
-// rows = axios.get(''').then(res => resBody).then(res => res.map(addStatus))
+
 const getDistrict = (params, loading = true) =>
   request.get('/district', {
     params: {
@@ -63,6 +65,14 @@ const getCitizen = (params, loading = true) =>
       loading,
     },
   });
+const getQuarterCode = (params) =>
+  request.get('/quarter', {
+    params: {
+      perPage: 9999,
+      ...params,
+      name: params.quarterName,
+    },
+  });
 
 const getGroupCitizen = (params) => {
   requestWithToken.get('/form', {
@@ -88,4 +98,5 @@ export {
   getWard,
   getQuarter,
   getNameFromCode,
+  getQuarterCode,
 };
