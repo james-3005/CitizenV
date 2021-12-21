@@ -17,7 +17,7 @@
         />
         <ButtonBackDrillDown
           :text="$route.query.wardName"
-          :disable="userLevel > 4"
+          :disable="userLevel > 3"
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
@@ -36,7 +36,7 @@
 
       <div class="div-button">
         <a-button
-          v-if="userLevel - 1 == level"
+          v-if="userLevel - 1 == level && userLevel < 5"
           type="primary"
           class="addUnitButton"
           @click="openUnitForm"
@@ -73,7 +73,7 @@
           </a-badge>
         </a-dropdown-button>
         <a-button
-          v-if="level >= 4"
+          v-if="level >= 4 && userLevel >= 4"
           type="primary"
           icon="user-add"
           size="small"
@@ -133,7 +133,7 @@
       class="drawer"
       @close="closeCitizenForm"
     >
-      <form-add-citizen :address="queries" />
+      <form-add-citizen :address="queries" :data="data" />
     </a-drawer>
   </div>
 </template>
@@ -312,6 +312,7 @@ export default {
     },
     openCitizenForm() {
       this.form_citizen_visible = true;
+      console.log(this.data);
     },
     closeCitizenForm() {
       this.form_citizen_visible = false;

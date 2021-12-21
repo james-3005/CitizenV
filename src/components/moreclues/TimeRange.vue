@@ -6,7 +6,7 @@
         <a-range-picker
           show-time
           format="YYYY-MM-DD HH:mm:ss"
-          :value="value3"
+          :value="appointedRange"
           disabled
         />
       </a-space>
@@ -24,7 +24,7 @@
           type="primary"
           size="small"
           class="ListCitizen-header-button"
-          @click="setDate"
+          @click="handleSetDate"
         >
           Set date
         </a-button>
@@ -37,6 +37,8 @@
 import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import { setDate } from '../../services/auth';
+import { getDate } from '../../services/getUser';
 
 export default {
   components: { HeaderMenu },
@@ -45,20 +47,47 @@ export default {
       level: getUser().level,
       ranges: [],
       boundedRanges: {
-        Today: [moment(), moment()],
-        'This Month': [moment(), moment().endOf('month')],
-        // 'This Month': [moment(getUser().startDate), moment(getUser().endDate)],
+        // "Hợp lệ": [moment(), moment().endOf("month")],
+        // 'Hợp lệ': [moment(getUser().startDate), moment(getUser().endDate)],
       },
-      value3: [
+      appointedRange: [
         moment('2015-06-06', 'YYYY-MM-DD'),
         moment('2015-06-06', 'YYYY-MM-DD'),
       ],
+      startValue: '',
+      endValue: '',
+      boundedStart: '',
     };
   },
   methods: {
-    setDate() {
-      console.log(moment(this.ranges[0]).format());
-      console.log(moment(this.ranges[1]).format());
+    disabledStartDate() {
+      return this.startValue < this.appointedRange[0];
+    },
+    handleSetDate() {
+      // console.log(moment(this.ranges[0]).format());
+      // console.log(moment(this.ranges[1]).format());
+      const startTime = moment(this.ranges[0]).format();
+      const endTime = moment(this.ranges[1]).format();
+      if (
+        startTime >= moment(this.appointedRange[0]).format() &&
+        endTime <= moment(this.appointedRange[1]).format()
+      ) {
+        setDate({
+          resourceCode: getUser().resourceCode,
+          createdAt: startTime,
+          expiresAt: endTime,
+        }).then((res) => console.log(res.data));
+      } else {
+        this.$message.warning('Vui lòng chọn khoảng thời gian hợp lệ.');
+        console.log(startTime, this.appointedRange[0]);
+      }
+    },
+
+    handleGetDate() {
+      getDate().then((res) => console.log(res.data[0].createdAt));
+      const startTime = moment(this.ranges[0]).format();
+      const endTime = moment(this.ranges[1]).format();
+      console.log(startTime < this.appointedRange[0]);
     },
   },
   mounted() {
@@ -69,6 +98,15 @@ export default {
         console.log(query);
       },
     );
+    getDate().then((res) => {
+      this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
+      this.boundedRanges = {
+        'Hợp lệ': [
+          moment(res.data[0].createdAt),
+          moment(res.data[0].expiresAt),
+        ],
+      };
+    });
   },
   updated() {
     console.log('updated');
