@@ -17,7 +17,7 @@
         />
         <ButtonBackDrillDown
           :text="$route.query.wardName"
-          :disable="userLevel > 4"
+          :disable="userLevel > 3"
           :onClick="() => getBack(2)"
           v-if="level >= 3"
         />
@@ -73,7 +73,7 @@
           </a-badge>
         </a-dropdown-button>
         <a-button
-          v-if="localStorage.user.level >= 4"
+          v-if="userLevel >= 4"
           type="primary"
           icon="user-add"
           size="small"
@@ -163,8 +163,6 @@ import {
 } from '../utilities/constTableData';
 import { getName, level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
-import req from '../../services/axios';
-const perPage = 7;
 export default {
   components: {
     HeaderMenu,
