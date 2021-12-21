@@ -7,9 +7,7 @@
       <a-input
         placeholder="Ex: huytn@gov.com.vn"
         class="FormAddAccount-pair-input"
-        id="username"
         v-model="username"
-        disabled
       />
     </div>
     <div class="FormAddAccount-pair">
@@ -174,9 +172,6 @@ export default {
       }
     },
     handleRegister() {
-      this.$router.go();
-      //  return;
-      this.permissions = this.getPermissions();
       if (this.password !== this.passwordRetype) {
         this.$message.error(message.RE_PASS);
       } else {
@@ -194,7 +189,7 @@ export default {
         }).then((res) => {
           if (res.success) {
             this.$message.info(message.REGISTER_SUCCESS);
-            this.$router.push('/conference/accountManager');
+            this.$router.go();
           } else {
             if (res.message === message.VALIDATOR_ERR)
               this.$message.error(message.VALIDATOR_ERR2);
@@ -204,11 +199,9 @@ export default {
       }
     },
     onSelect(value) {
-      console.log(value);
       this.resourceCode = this.units.find(
         (item) => item.name == this.resourceName,
       ).code;
-      this.username = this.resourceCode + '@gov.com.vn';
     },
     onChange2(searchText) {
       this.unitsName = this.units

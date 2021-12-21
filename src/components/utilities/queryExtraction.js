@@ -14,3 +14,16 @@ export const level = (params) => {
   }
   return 0;
 };
+
+export const getName = (name) => {
+  switch (name) {
+    case 0:
+      return 'ProvinceCode';
+    case 1:
+      return 'DistrictCode';
+    case 2:
+      return 'WardCode';
+    default:
+      return 'QuarterCode';
+  }
+};

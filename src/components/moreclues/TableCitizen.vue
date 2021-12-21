@@ -17,7 +17,7 @@
           type="plus-circle"
           theme="twoTone"
           class="add"
-          @click="() => handleAddGroup(data.name)"
+          @click="() => handleAddGroup({ name: data.name, code: data.code })"
         />
       </span>
       <span slot="province" slot-scope="province">
@@ -41,7 +41,7 @@
       </span>
       <span slot="dob" slot-scope="data">
         <p>
-          {{ moment(data.dob).format('DD-MM-YY') }}
+          {{ moment(data.dob).format('DD-MM-YYYY') }}
         </p>
       </span>
       <span slot="ward" slot-scope="ward">

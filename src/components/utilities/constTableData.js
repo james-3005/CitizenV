@@ -2,12 +2,8 @@ const perPage = 7;
 const columnsCitizen = [
   {
     title: 'STT',
-    // key: 'key',
     dataIndex: 'key',
-    // className: 'Table-key',
-    // slots: { title: 'STT' },
-    // scopedSlots: { customRender: 'key' },
-    width: 100,
+    className: 'Table-key',
     fixed: 'left',
   },
   {
@@ -15,7 +11,7 @@ const columnsCitizen = [
     key: 'fullname',
     dataIndex: 'fullname',
     sorter: (a, b) => {
-      const [a1, b1] = [a.surname + a.lastname, b.surname + b.lastname];
+      const [a1, b1] = [a.fullname, b.fullname];
       return a1.localeCompare(b1);
     },
     className: 'Table-fullname',
@@ -24,13 +20,16 @@ const columnsCitizen = [
   {
     title: 'Giới tính',
     dataIndex: 'gender',
-    width: 100,
+    customRender: (text, record, index) => {
+      return record.gender === 'male' ? 'Nam' : 'Nữ';
+    },
+    className: 'Table-gender',
   },
   {
     title: 'Ngày sinh',
     slots: { title: 'dob' },
     scopedSlots: { customRender: 'dob' },
-    width: 100,
+    className: 'Table-dob',
   },
   {
     title: 'CMND/CCCD',
@@ -41,34 +40,28 @@ const columnsCitizen = [
   {
     title: 'Quê quán',
     dataIndex: 'placeOfOrigin',
-    // key: 'address',
     className: 'Table-address',
-    width: 300,
   },
   {
     title: 'Địa chỉ thường trú',
     dataIndex: 'placeOfResidence',
     // key: 'address',
     className: 'Table-address',
-    width: 300,
   },
   {
     title: 'Địa chỉ tạm trú',
     dataIndex: 'shelterAddress',
     className: 'Table-address',
-    width: 300,
   },
   {
     title: 'Tôn giáo',
     dataIndex: 'religion',
     className: 'Table-religion',
-    width: 100,
   },
   {
     title: 'Nghề nghiệp',
     dataIndex: 'job',
     className: 'Table-job',
-    width: 120,
   },
   {
     title: 'Trạng thái',

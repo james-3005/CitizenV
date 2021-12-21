@@ -5,12 +5,17 @@ import Antd from 'ant-design-vue';
 import { MotionPlugin } from '@vueuse/motion';
 import VueCompositionAPI from '@vue/composition-api';
 import VueRouter from 'vue-router';
-import { getToken, getUser } from './components/utilities/localStorage';
 import store from './store';
 import i18n from './langs/i18';
+import VueApexCharts from 'vue-apexcharts';
 
-Vue.use(VueRouter);
 Vue.use(VueCompositionAPI);
+
+Vue.use(VueApexCharts);
+
+Vue.component('apexchart', VueApexCharts);
+Vue.use(VueRouter);
+
 Vue.use(Antd);
 Vue.use(MotionPlugin);
 

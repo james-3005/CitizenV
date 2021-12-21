@@ -27,6 +27,11 @@
           :onClick="() => getBack(3)"
           v-if="level >= 4"
         />
+        <ButtonBackDrillDown
+          text="Nhóm"
+          :onClick="() => getBack(10)"
+          v-if="isSearchingGroup"
+        />
       </div>
 
       <div class="div-button">
@@ -44,13 +49,17 @@
           v-if="level < 4"
         >
           Tìm kiếm theo nhóm
-          <a-menu slot="overlay">
+          <a-menu slot="overlay" v-if="groupSearch.length !== 0">
+            <a-menu-item @click="clearGroup">
+              Xoá hết
+              <a-icon type="close" />
+            </a-menu-item>
             <a-menu-item
               v-for="unit in this.groupSearch"
-              :key="unit"
-              @click="() => deleteItemGroup(unit)"
+              :key="unit.name"
+              @click="() => deleteItemGroup(unit.name)"
             >
-              {{ unit }}
+              {{ unit.name }}
               <a-icon type="close" />
             </a-menu-item>
           </a-menu>
@@ -152,7 +161,7 @@ import {
   columnQuater,
   columnsCitizen,
 } from '../utilities/constTableData';
-import { level } from '../utilities/queryExtraction';
+import { getName, level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
 import req from '../../services/axios';
 const perPage = 7;
@@ -180,6 +189,7 @@ export default {
     timeOutSearch: null,
     unitsName: [],
     localStorage: localStorage,
+    isSearchingGroup: false,
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -258,14 +268,14 @@ export default {
       });
     },
     fetchCitizenData(params = {}) {
-      getCitizen().then((data) => {
+      getCitizen(params).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnsCitizen;
-        this.scroll = { x: 1500 };
+        this.scroll = { x: 2000 };
       });
     },
     fetchData(params = {}) {
@@ -311,6 +321,10 @@ export default {
             wardName: this.$route.query.wardName,
           },
         });
+      if (level === 10) {
+        this.fetchData(this.queries);
+        this.isSearchingGroup = false;
+      }
     },
     openUnitForm() {
       this.form_unit_visible = true;
@@ -378,10 +392,14 @@ export default {
       this.groupSearch = [];
     },
     searchGroup() {
-      console.log(this.groupSearch);
+      const param = getName(this.level);
+      this.fetchCitizenData({
+        [param]: this.groupSearch.map((item) => item.code).toString(),
+      });
+      this.isSearchingGroup = true;
     },
     deleteItemGroup(value) {
-      this.groupSearch = this.groupSearch.filter((item) => item !== value);
+      this.groupSearch = this.groupSearch.filter((item) => item.name !== value);
     },
     getText(text) {
       clearTimeout(this.timeOutSearch);

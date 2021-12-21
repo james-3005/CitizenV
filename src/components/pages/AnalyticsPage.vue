@@ -1,36 +1,85 @@
 <template>
-  <div class="HomePage">
+  <div class="AnalyticsPage">
     <HeaderMenu header="Thống kê" type="default" :notShow="true" />
-    <a-space direction="vertical">
-      <a-space direction="horizontal" class="timeRange">
-        <div class="rangeTitle">My appointed time range:</div>
-        <a-range-picker
-          show-time
-          format="YYYY-MM-DD HH:mm:ss"
-          :value="value3"
-          disabled
-        />
-      </a-space>
-      <a-space direction="horizontal" class="timeRange">
-        <div class="rangeTitle">
-          Set time range for level {{ level + 1 }} units:
-        </div>
-        <a-range-picker
-          show-time
-          format="YYYY-MM-DD HH:mm:ss"
-          :ranges="boundedRanges"
-          v-model="ranges"
-        />
-        <a-button
-          type="primary"
-          size="small"
-          class="ListCitizen-header-button"
-          @click="setDate"
+    <div class="AnalyticsPage-unitsSelectors">
+      <a-select
+        v-model="units_values[0]"
+        mode="multiple"
+        :placeholder="unitTitle.province"
+        default-value="lucy"
+        option-label-prop="label"
+        class="unitsSelector"
+        :disabled="isDisabled[0]"
+        @change="handleUnitsChange(0)"
+      >
+        <a-select-option
+          v-for="province in provinces"
+          :key="province.code"
+          :value="province.code"
+          :label="province.name"
         >
-          Set date
-        </a-button>
-      </a-space>
-    </a-space>
+          {{ province.name }}
+        </a-select-option>
+      </a-select>
+      <a-select
+        v-model="units_values[1]"
+        mode="multiple"
+        :placeholder="unitTitle.district"
+        option-label-prop="label"
+        class="unitsSelector"
+        :disabled="isDisabled[1]"
+        @change="handleUnitsChange(1)"
+      >
+        <a-select-option
+          v-for="district in districts"
+          :key="district.code"
+          :value="district.code"
+          :label="district.name"
+        >
+          {{ district.name }}
+        </a-select-option>
+      </a-select>
+      <a-select
+        v-model="units_values[2]"
+        mode="multiple"
+        :placeholder="unitTitle.ward"
+        option-label-prop="label"
+        :disabled="isDisabled[2]"
+        @change="handleUnitsChange(2)"
+        class="unitsSelector"
+      >
+        <a-select-option
+          v-for="ward in wards"
+          :key="ward.code"
+          :value="ward.code"
+          :label="ward.name"
+        >
+          {{ ward.name }}
+        </a-select-option>
+      </a-select>
+      <a-select
+        v-model="units_values[3]"
+        mode="multiple"
+        :placeholder="unitTitle.quarter"
+        option-label-prop="label"
+        :disabled="isDisabled[3]"
+        @change="handleUnitsChange(3)"
+        class="unitsSelector"
+      >
+        <a-select-option
+          v-for="quarter in quarters"
+          :key="quarter.code"
+          :value="quarter.code"
+          :label="quarter.name"
+        >
+          {{ quarter.name }}
+        </a-select-option>
+      </a-select>
+      <a-button type="primary" @click="handleClick" class="AnalyticsPage-button"
+        >Xem thống kê</a-button
+      >
+    </div>
+    <Chart :names="[1, 2, 3, 4, 5]" :data="[5, 10, 15, 20]" />
   </div>
 </template>
 
@@ -38,28 +87,98 @@
 import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import Chart from '../moreclues/Chart.vue';
+import {
+  getProvince,
+  getDistrict,
+  getWard,
+  getQuarter,
+} from '../../services/getCitizen';
 
 export default {
-  components: { HeaderMenu },
+  components: { HeaderMenu, Chart },
   data: function () {
     return {
       level: getUser().level,
-      ranges: [],
-      boundedRanges: {
-        Today: [moment(), moment()],
-        'This Month': [moment(), moment().endOf('month')],
-        // 'This Month': [moment(getUser().startDate), moment(getUser().endDate)],
+      provinces: [],
+      districts: [],
+      wards: [],
+      quarters: [],
+
+      // units selected
+
+      units_values: [[], [], [], []],
+      // lock
+      isDisabled: [false, false, false, false],
+      levelToSend: -1,
+
+      unitTitle: {
+        province: 'Tỉnh/Thành phố',
+        district: 'Quận/Huyện',
+        ward: 'Phường/Xã',
+        quarter: 'Tổ dân phố',
       },
-      value3: [
-        moment('2015-06-06', 'YYYY-MM-DD'),
-        moment('2015-06-06', 'YYYY-MM-DD'),
-      ],
     };
   },
   methods: {
-    setDate() {
-      console.log(moment(this.ranges[0]).format());
-      console.log(moment(this.ranges[1]).format());
+    getUnit(level, resourceCode) {
+      switch (level) {
+        case 1:
+          getProvince({ perPage: 99999 }).then((res) => {
+            this.provinces = res.data;
+          });
+          break;
+        case 2:
+          getDistrict({ perPage: 99999, provinceCode: resourceCode }).then(
+            (res) => {
+              this.districts = res.data;
+            },
+          );
+          break;
+        case 3:
+          getWard({ perPage: 99999, districtCode: resourceCode }).then(
+            (res) => {
+              this.wards = res.data;
+            },
+          );
+          break;
+        case 4:
+          getQuarter({ perPage: 99999, wardCode: resourceCode }).then((res) => {
+            this.quarters = res.data;
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    handleUnitsChange(level) {
+      this.levelToSend = level;
+      const unitsCount = 4;
+      const unitsSelectedCount = this.units_values[level].length;
+      if (unitsSelectedCount === 1) {
+        this.getUnit(level + 2, this.units_values[level][0]);
+        for (let i = level + 1; i < unitsCount; i++) {
+          this.isDisabled[i] = false;
+        }
+      } else if (unitsSelectedCount === 0) {
+        for (let i = level + 1; i < unitsCount; i++) {
+          this.units_values[i] = [];
+          this.getUnit(i + 1, 'zzzzz');
+          this.isDisabled[i] = false;
+        }
+      } else if (unitsSelectedCount === 2) {
+        for (let i = level + 1; i < unitsCount; i++) {
+          this.units_values[i] = [];
+          this.getUnit(i + 1, 'zzzzz');
+          this.isDisabled[i] = true;
+        }
+      }
+    },
+    handleClick() {
+      console.log('params to send:', this.units_values[this.levelToSend]);
+      var result;
+      // getDistrict({ code: '0102'}).then(res => console.log(res.data[0].name));
+      console.log(getUser().level);
     },
   },
   mounted() {
@@ -70,9 +189,33 @@ export default {
         console.log(query);
       },
     );
+    const userLevel = getUser().level;
+    this.getUnit(getUser().level, getUser().resourceCode);
+    const unitCodes = getUser().resourceCode.match(/(.{1,2})/g);
+    if (userLevel >= 1) {
+      getProvince({ code: unitCodes[0] }).then((res) => {
+        this.unitTitle.province = res.data[0].name;
+        this.isDisabled[0] = true;
+      });
+    }
+    if (userLevel >= 2) {
+      getDistrict({ code: unitCodes[0] + unitCodes[1] }).then((res) => {
+        this.unitTitle.district = res.data[0].name;
+        this.isDisabled[1] = true;
+      });
+    }
+    if (userLevel >= 3) {
+      getWard({ code: unitCodes[0] + unitCodes[1] + unitCodes[3] }).then(
+        (res) => {
+          this.unitTitle.ward = res.data[0].name;
+          this.isDisabled[2] = true;
+        },
+      );
+    }
   },
   updated() {
     console.log('updated');
   },
+  watch: {},
 };
 </script>

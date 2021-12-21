@@ -35,11 +35,11 @@
     // width: auto;
     // text-align: left !important;
   }
-  &-sex {
-    width: 6%;
+  &-gender {
+    width: 100px !important;
   }
   &-address {
-    text-align: left !important;
+    width: 400px !important;
   }
   &-status {
     width: 80px;
@@ -63,6 +63,16 @@
   }
   &-action {
     width: 150px !important;
+  }
+  &-dob {
+    width: 200px !important;
+    text-align: center !important;
+  }
+  &-religion {
+    width: 160px !important;
+  }
+  &-job {
+    width: 160px !important;
   }
 }
 .blue {
