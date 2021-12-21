@@ -10,6 +10,6 @@ export const message = {
   UPDATE_PERMISSION_SUCCESS: 'Cập nhật quyền thành công',
   UPDATE_PERMISSION_FALIL: 'Cập nhật quyền thất bại',
   UPDATE_PASSWORD_SUCCESS: 'Cập nhật mật khẩu thành công',
-  TOKEN_EXPIRED: 'jwt expired',
+  TOKEN_EXPIRED: 'TOKEN_EXPIRED',
   DELETE_USER_SUCCESS: 'Xoá tài khoản thành công',
 };

@@ -20,7 +20,7 @@ requestWithToken.interceptors.request.use((config) => {
 requestWithToken.interceptors.response.use(
   (response) => {
     store.commit('turnOffLoading');
-    if (_.get(response, 'data.message') === message.TOKEN_EXPIRED)
+    if (_.get(response, 'data.code') === message.TOKEN_EXPIRED)
       store.commit('turnOnErr', 404);
     return response.data;
   },
@@ -50,7 +50,7 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   (response) => {
     store.commit('turnOffLoading');
-    if (_.get(response, 'data.message') === message.TOKEN_EXPIRED)
+    if (_.get(response, 'data.code') === message.TOKEN_EXPIRED)
       store.commit('turnOnErr', 404);
     return response.data;
   },

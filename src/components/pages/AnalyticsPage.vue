@@ -1,7 +1,6 @@
 <template>
   <div class="AnalyticsPage">
     <HeaderMenu header="Thống kê" type="default" :notShow="true" />
-    <h2>Chọn đơn vị</h2>
     <div class="AnalyticsPage-unitsSelectors">
       <a-select
         v-model="units_values[0]"
@@ -80,6 +79,7 @@
         >Xem thống kê</a-button
       >
     </div>
+    <Chart :names="[1, 2, 3, 4, 5]" :data="[5, 10, 15, 20]" />
   </div>
 </template>
 
@@ -87,6 +87,7 @@
 import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
+import Chart from '../moreclues/Chart.vue';
 import {
   getProvince,
   getDistrict,
@@ -95,7 +96,7 @@ import {
 } from '../../services/getCitizen';
 
 export default {
-  components: { HeaderMenu },
+  components: { HeaderMenu, Chart },
   data: function () {
     return {
       level: getUser().level,

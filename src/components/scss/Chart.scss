@@ -1,5 +1,6 @@
 .Chart {
-  width: 100%;
-  height: 100%;
-  border: 1px solid blue;
+  flex: 1;
+}
+.apexcharts-legend.apexcharts-align-center.apx-legend-position-bottom {
+  display: none;
 }

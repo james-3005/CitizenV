@@ -29,31 +29,29 @@
     width: 100px !important;
     text-align: center !important;
   }
-  &-name {
+  &-fullname {
+    width: 250px;
     // max-width: 20% !important;
     // width: auto;
     // text-align: left !important;
   }
-  &-sex {
-    // width: 5%;
-  }
-  &-dob {
-    // width: 10%;
-  }
-  &-identification {
-    // width: 10%;
+  &-gender {
+    width: 100px !important;
   }
   &-address {
-    text-align: left !important;
+    width: 400px !important;
   }
   &-status {
-    // width: 10%;
+    width: 80px;
+    // display: flex;
+    justify-content: center;
+    align-items: center;
   }
   &-action {
-    width: 200px;
+    width: 7%;
   }
   &-code {
-    width: 200px !important;
+    width: 10% !important;
     text-align: center !important;
   }
   &-permission {
@@ -65,6 +63,16 @@
   }
   &-action {
     width: 150px !important;
+  }
+  &-dob {
+    width: 200px !important;
+    text-align: center !important;
+  }
+  &-religion {
+    width: 160px !important;
+  }
+  &-job {
+    width: 160px !important;
   }
 }
 .blue {

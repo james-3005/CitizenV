@@ -11,7 +11,17 @@
 import Error from './components/moreclues/Error.vue';
 import Expired from './components/moreclues/Expired.vue';
 import Loading from './components/moreclues/Loading.vue';
+import { defineComponent, computed, ref } from '@vue/composition-api';
 export default {
+  setup() {
+    const store = ref();
+    import('@/store').then((mod) => (store.value = mod.default));
+
+    return {
+      counter: computed(() => store.value?.state.counter),
+      increment: () => store.value && store.value.state.counter++,
+    };
+  },
   name: 'App',
   components: {
     Loading,
