@@ -65,10 +65,10 @@ export default {
     levelName: '',
     user: getUser(),
   }),
+  created() {
+    if (getUser().level == 5) options = options.filter((item) => item.id !== 4);
+  },
   methods: {
-    expand_sidebar: function () {
-      this.isExpanded = !this.isExpanded;
-    },
     handleLogout() {
       deleteToken();
       deleteUser();
@@ -96,6 +96,10 @@ export default {
     },
   },
   components: {},
+  beforeMount() {
+    if (getUser().level == 5)
+      this.options = this.options.filter((item) => item.id != 4);
+  },
   mounted() {
     this.level = this.user.level;
     this.levelName = this.formatLevelName(this.level);

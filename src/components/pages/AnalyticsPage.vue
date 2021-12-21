@@ -192,20 +192,20 @@ export default {
     const userLevel = getUser().level;
     this.getUnit(getUser().level, getUser().resourceCode);
     const unitCodes = getUser().resourceCode.match(/(.{1,2})/g);
-    if (userLevel >= 1) {
+    if (userLevel >= 2) {
       getProvince({ code: unitCodes[0] }).then((res) => {
         this.unitTitle.province = res.data[0].name;
         this.isDisabled[0] = true;
       });
     }
-    if (userLevel >= 2) {
+    if (userLevel >= 3) {
       getDistrict({ code: unitCodes[0] + unitCodes[1] }).then((res) => {
         this.unitTitle.district = res.data[0].name;
         this.isDisabled[1] = true;
       });
     }
-    if (userLevel >= 3) {
-      getWard({ code: unitCodes[0] + unitCodes[1] + unitCodes[3] }).then(
+    if (userLevel >= 4) {
+      getWard({ code: unitCodes[0] + unitCodes[1] + unitCodes[2] }).then(
         (res) => {
           this.unitTitle.ward = res.data[0].name;
           this.isDisabled[2] = true;

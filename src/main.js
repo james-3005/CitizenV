@@ -29,6 +29,7 @@ import CitizenPage from './components/pages/CitizenPage';
 import SettingPage from './components/pages/SettingPage';
 import FormAddAccountPage from './components/pages/FormAddAccountPage';
 import { checkToken } from './services/auth';
+import { getUser } from './components/utilities/localStorage';
 const routes = [
   {
     path: '/',
@@ -94,6 +95,9 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') {
       next('/conference/home');
     } else {
+      if (to.path === '/conference/accountManager') {
+        if (getUser().level === 5) next('/conference/home');
+      }
       next();
     }
   } else {

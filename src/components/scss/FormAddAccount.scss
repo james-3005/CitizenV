@@ -21,6 +21,12 @@
       align-items: center;
       width: 300px !important;
       height: 35px !important;
+      &-tohide {
+        opacity: 0;
+        pointer-events: none;
+        height: 0px;
+        overflow: hidden;
+      }
     }
   }
   &-submit {
