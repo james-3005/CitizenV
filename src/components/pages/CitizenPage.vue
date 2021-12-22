@@ -9,6 +9,7 @@
     >
       Hoàn thành
     </a-button>
+    <h2 v-if="permissions === '0100'">Đã hết thời hạn khai báo!</h2>
     <div class="CitizenPage-flex">
       <div class="backButton">
         <ButtonBackDrillDown
@@ -48,6 +49,7 @@
           type="primary"
           class="addUnitButton"
           @click="openUnitForm"
+          :disabled="permissions === '0100'"
         >
           Thêm đơn vị
         </a-button>
@@ -86,6 +88,7 @@
           icon="user-add"
           size="small"
           class="ListCitizen-header-button"
+          :disabled="permissions === '0100'"
           @click="openCitizenForm"
         >
           Thêm người
@@ -124,6 +127,7 @@
       :addGroup="this.addGroup"
       :clearGroup="this.clearGroup"
       :scroll="this.scroll"
+      @adjustCitizen="openAdjustCitizenForm($event)"
     />
     <a-drawer
       title="Nhập thông tin don vi"
@@ -141,7 +145,26 @@
       class="drawer"
       @close="closeCitizenForm"
     >
-      <form-add-citizen :address="queries" :data="data" />
+      <form-add-citizen
+        :address="queries"
+        :data="data"
+        :toAdd="true"
+        :toAdjust="false"
+      />
+    </a-drawer>
+    <a-drawer
+      title="Sửa thông tin công dân"
+      width="auto"
+      :visible="form_adjust_citizen_visible"
+      class="drawer"
+      @close="closeAdjustCitizenForm"
+    >
+      <form-add-citizen
+        :address="queries"
+        :data="selectedRowData"
+        :toAdd="false"
+        :toAdjust="true"
+      />
     </a-drawer>
   </div>
 </template>
@@ -183,6 +206,7 @@ export default {
   data: () => ({
     form_citizen_visible: false,
     form_unit_visible: false,
+    form_adjust_citizen_visible: false,
     columns: [],
     data: [],
     pagination: { pageSize: 7 },
@@ -191,6 +215,7 @@ export default {
     level,
     user: getUser().levelInfo,
     userLevel: getUser().level,
+    permissions: getUser().permissions,
     search: '',
     groupSearch: [],
     timeOutSearch: null,
@@ -199,6 +224,7 @@ export default {
     isSearchingGroup: false,
     backupFetch: null,
     resourceCode: '',
+    selectedRowData: null,
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -355,6 +381,15 @@ export default {
     closeCitizenForm() {
       this.form_citizen_visible = false;
     },
+    openAdjustCitizenForm(data) {
+      console.log('got the data', data);
+      this.selectedRowData = data;
+      console.log('selected row data', this.selectedRowData);
+      this.form_adjust_citizen_visible = true;
+    },
+    closeAdjustCitizenForm() {
+      this.form_adjust_citizen_visible = false;
+    },
     navigate() {
       if (_.get(this, 'user.code.length') == 2) {
         this.$router.push({
@@ -390,6 +425,7 @@ export default {
             districtName: this.user.districtName,
             wardName: this.user.wardName,
             quarterName: this.user.name,
+            resourceCode: this.user.code,
           },
         });
         return;

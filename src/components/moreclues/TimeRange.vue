@@ -48,13 +48,10 @@ export default {
       level: getUser().level,
       ranges: [],
       boundedRanges: {
-        // "Hợp lệ": [moment(), moment().endOf("month")],
+        'Hợp lệ': [moment(), moment().endOf('year')],
         // 'Hợp lệ': [moment(getUser().startDate), moment(getUser().endDate)],
       },
-      appointedRange: [
-        moment('2015-06-06', 'YYYY-MM-DD'),
-        moment('2015-06-06', 'YYYY-MM-DD'),
-      ],
+      appointedRange: [moment().startOf('year'), moment().endOf('year')],
       startValue: '',
       endValue: '',
       boundedStart: '',
@@ -78,6 +75,7 @@ export default {
         }).then((res) => {
           if (res.success) this.$message.info(message.TIME_SET_SUCCESS);
           else this.$message.error(message.TIME_SET_FAIL);
+          console.log(res.data);
         });
       } else {
         this.$message.error(message.TIME_INVALID);
@@ -109,13 +107,17 @@ export default {
   },
   mounted() {
     getDate().then((res) => {
-      this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
-      this.boundedRanges = {
-        'Hợp lệ': [
-          moment(res.data[0].createdAt),
-          moment(res.data[0].expiresAt),
-        ],
-      };
+      if (getUser().level != 1) {
+        console.log('accccc');
+        this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
+        console.log(res.data);
+        this.boundedRanges = {
+          'Hợp lệ': [
+            moment(res.data[0].createdAt),
+            moment(res.data[0].expiresAt),
+          ],
+        };
+      }
     });
   },
   updated() {},
