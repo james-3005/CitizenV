@@ -216,30 +216,44 @@ export default {
     },
     handleClick() {
       console.log('params to send:', this.units_values[this.levelToSend]);
+      var codes;
+      if (this.units_values[this.levelToSend] === undefined) {
+        codes = getUser().resourceCode;
+      } else {
+        codes = this.units_values[this.levelToSend];
+      }
       Promise.all([
         getAgeStat({
-          resourceCode: this.units_values[this.levelToSend],
+          resourceCode: codes,
           gender: 'male',
         }),
         getAgeStat({
-          resourceCode: this.units_values[this.levelToSend],
+          resourceCode: codes,
           gender: 'female',
         }),
       ])
         .then((res) => {
           const maleData = res[0].data;
           const femaleData = res[1].data;
+          const totalForms = maleData[0].totalForms + femaleData[0].totalForms;
           // update data
+          console.log(maleData);
+          console.log(femaleData);
           const categories = maleData
             .map(function (e) {
               return String(e.ageFrom) + '-' + String(e.ageTo);
             })
             .reverse();
-          const maleAges = maleData.map((e) => e.percentage * 100).reverse();
+
+          // calculate percentage and smoothing
+          const maleAges = maleData
+            .map((e) => (e.numForms * 100) / (totalForms + 1))
+            .reverse();
           const femaleAges = femaleData
-            .map((e) => e.percentage * -100)
+            .map((e) => (e.numForms * -100) / (totalForms + 1))
             .reverse();
 
+          console.log('total', totalForms);
           this.ageCategories = categories;
           this.maleAges = maleAges;
           this.femaleAges = femaleAges;
