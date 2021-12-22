@@ -53,10 +53,13 @@
         </p>
       </span>
       <span slot="quater" slot-scope="quater">
-        <p class="blue" @click="() => handleClickQuater(quater.name)">
+        <p
+          class="blue"
+          @click="() => handleClickQuater(quater.code, quater.name)"
+        >
           <a-tooltip>
-            <template slot="title"> Đi đến {{ quater.name }} </template>
-            {{ quater.name }}
+            <template slot="title"> Đi đến {{ quarter.name }} </template>
+            {{ quarter.name }}
           </a-tooltip>
         </p>
       </span>
@@ -65,9 +68,24 @@
           {{ code }}
         </a-tag>
       </span>
-      <span slot="status" slot-scope="status">
-        <a-tag :color="status ? 'green' : 'volcano'">
-          {{ status ? 'Hoàn thành' : 'Còn thiếu' }}
+      <span slot="status" slot-scope="data">
+        <a-tag
+          :color="
+            data.survey == null
+              ? 'grey'
+              : data.survey.status == 'DOING'
+              ? 'green'
+              : 'volcanic'
+          "
+          @click="() => confirmForm(data.survey)"
+        >
+          {{
+            data.survey == null
+              ? 'Chưa mở'
+              : data.survey.status == 'DOING'
+              ? 'Chưa xong'
+              : 'Hoàn thành'
+          }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">
@@ -129,16 +147,20 @@ export default {
         },
       });
     },
-    handleClickQuater(quaterName) {
+    handleClickQuater(resourceCode, quarterName) {
       this.$router.push({
         query: {
           ...this.$route.query,
-          quaterName,
+          quarterName,
+          resourceCode,
         },
       });
     },
     handleAddGroup(name) {
       this.$props.addGroup(name);
+    },
+    confirmForm(code) {
+      console.log(code);
     },
   },
 };

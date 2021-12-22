@@ -1,6 +1,14 @@
 <template>
   <div class="CitizenPage">
     <HeaderMenu header="Danh sách" type="default" :notShow="true" />
+    <a-button
+      v-if="level == 3 && userLevel == 4"
+      type="primary"
+      class="doneButton"
+      @click="doneSurvey"
+    >
+      Hoàn thành
+    </a-button>
     <div class="CitizenPage-flex">
       <div class="backButton">
         <ButtonBackDrillDown
@@ -22,7 +30,7 @@
           v-if="level >= 3"
         />
         <ButtonBackDrillDown
-          :text="$route.query.quaterName"
+          :text="$route.query.quarterName"
           :disable="userLevel > 4"
           :onClick="() => getBack(3)"
           v-if="level >= 4"
@@ -41,8 +49,8 @@
           class="addUnitButton"
           @click="openUnitForm"
         >
-          Thêm đơn vị</a-button
-        >
+          Thêm đơn vị
+        </a-button>
         <a-dropdown-button
           style="margin-right: 10px"
           @click="searchGroup"
@@ -151,18 +159,19 @@ import {
   getCitizen,
   getWard,
   getQuarter,
+  getQuarterCode,
 } from '../../services/getCitizen';
+import { B1Approve, getStatus } from '../../services/survey';
 import {
   columnProvince,
   columnDistrict,
   columnWard,
   addSTTcolumns,
-  columnQuater,
+  columnQuarter,
   columnsCitizen,
 } from '../utilities/constTableData';
 import { getName, level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
-const perPage = 7;
 export default {
   components: {
     HeaderMenu,
@@ -186,14 +195,21 @@ export default {
     groupSearch: [],
     timeOutSearch: null,
     unitsName: [],
+    localStorage: localStorage,
     isSearchingGroup: false,
+    backupFetch: null,
+    resourceCode: '',
   }),
   methods: {
     fetchProvinceData(params = {}) {
       getProvince({
         ...params,
       }).then((data) => {
-        console.log;
+        data.data.forEach((row) => {
+          getStatus(row.code).then((res) => {
+            row['survey'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = 63;
         pagination.current = data.page;
@@ -201,6 +217,7 @@ export default {
         this.pagination = pagination;
         this.columns = columnProvince;
         this.scroll = {};
+        console.log(this.data);
       });
     },
     fetchDistrictData(params = {}) {
@@ -208,6 +225,11 @@ export default {
         ...params,
         provinceName: this.queries.provinceName,
       }).then((data) => {
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -222,6 +244,11 @@ export default {
         ...params,
         districtName: this.queries.districtName,
       }).then((data) => {
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -231,22 +258,30 @@ export default {
         this.scroll = {};
       });
     },
-    fetchQuaterData(params = {}) {
+    fetchQuarterData(params = {}) {
       getQuarter({
         ...params,
         wardName: this.queries.wardName,
       }).then((data) => {
+        data.data.forEach((row) => {
+          getStatus(row.resourceCode).then((res) => {
+            row['status'] = res.data;
+          });
+        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
-        this.columns = columnQuater;
+        this.columns = columnQuarter;
         this.scroll = {};
       });
     },
     fetchCitizenData(params = {}) {
-      getCitizen(params).then((data) => {
+      getCitizen({
+        // ...params,
+        resourceCode: this.queries.resourceCode || this.resourceCode,
+      }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -264,8 +299,8 @@ export default {
       } else if (this.level == 2) {
         return this.fetchWardData(params);
       } else if (this.level == 3) {
-        return this.fetchQuaterData(params);
-      } else {
+        return this.fetchQuarterData(params);
+      } else if (this.level == 4) {
         return this.fetchCitizenData(params);
       }
     },
@@ -300,7 +335,10 @@ export default {
           },
         });
       if (level === 10) {
+        this.fetchData = this.backupFetch;
         this.fetchData(this.queries);
+        this.clearGroup();
+        this.resourceCode = '';
         this.isSearchingGroup = false;
       }
     },
@@ -351,7 +389,7 @@ export default {
             provinceName: this.user.provinceName,
             districtName: this.user.districtName,
             wardName: this.user.wardName,
-            quaterName: this.user.name,
+            quarterName: this.user.name,
           },
         });
         return;
@@ -371,10 +409,12 @@ export default {
       this.groupSearch = [];
     },
     searchGroup() {
-      const param = getName(this.level);
+      this.resourceCode = this.groupSearch.map((item) => item.code).toString();
       this.fetchCitizenData({
-        [param]: this.groupSearch.map((item) => item.code).toString(),
+        resourceCode: this.resourceCode,
       });
+      this.backupFetch = this.fetchData;
+      this.fetchData = this.fetchCitizenData;
       this.isSearchingGroup = true;
     },
     deleteItemGroup(value) {
@@ -431,10 +471,25 @@ export default {
         this.$router.push({
           query: {
             ...this.$route.query,
-            quaterName: value,
+            quarterName: value,
           },
         });
       }
+    },
+    doneSurvey() {
+      getWard({
+        provinceName: this.queries.provinceName,
+        districtName: this.queries.districtName,
+        name: this.queries.wardName,
+      }).then((data) => {
+        B1Approve(data.data[0].code)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     },
   },
   mounted() {
@@ -445,7 +500,7 @@ export default {
       columnProvince,
       columnDistrict,
       columnWard,
-      columnQuater,
+      columnQuarter,
       columnsCitizen,
     );
   },

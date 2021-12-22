@@ -1,6 +1,7 @@
 import req from './axios';
 const { requestWithToken, request } = req;
 const perPage = 7;
+
 const getProvince = (params, loading = true) =>
   request.get('/province', {
     params: {
@@ -29,6 +30,9 @@ const getWard = (params, loading = true) =>
       perPage,
       ...params,
     },
+    headers: {
+      loading,
+    },
   });
 
 const getQuarter = (params, loading = true) =>
@@ -49,6 +53,14 @@ const getCitizen = (params, loading = true) =>
     },
     headers: {
       loading,
+    },
+  });
+const getQuarterCode = (params) =>
+  request.get('/quarter', {
+    params: {
+      perPage: 9999,
+      ...params,
+      name: params.quarterName,
     },
   });
 
@@ -75,4 +87,5 @@ export {
   getWard,
   getQuarter,
   getNameFromCode,
+  getQuarterCode,
 };

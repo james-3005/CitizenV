@@ -3,7 +3,7 @@ export const level = (params) => {
   if (_.get(params, 'provinceName')) {
     if (_.get(params, 'districtName')) {
       if (_.get(params, 'wardName')) {
-        if (_.get(params, 'quaterName')) {
+        if (_.get(params, 'resourceCode')) {
           return 4;
         }
         return 3;
@@ -18,12 +18,12 @@ export const level = (params) => {
 export const getName = (name) => {
   switch (name) {
     case 0:
-      return 'ProvinceCode';
+      return 'provinceCode';
     case 1:
-      return 'DistrictCode';
+      return 'districtCode';
     case 2:
-      return 'WardCode';
+      return 'wardCode';
     default:
-      return 'QuarterCode';
+      return 'quarterCode';
   }
 };

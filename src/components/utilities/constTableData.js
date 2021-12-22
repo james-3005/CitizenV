@@ -76,6 +76,7 @@ const columnsCitizen = [
     // key: 'action',
     scopedSlots: { customRender: 'action' },
     className: 'Table-action',
+    fixed: 'right',
   },
 ];
 
@@ -84,29 +85,21 @@ const columnProvince = [
     className: 'Table-add',
     slots: { title: 'customTitle' },
     scopedSlots: { customRender: 'add' },
-    // width: 100,
   },
   {
     title: 'STT',
     slots: { title: 'stt' },
     className: 'Table-key',
-    // width: 100,
   },
   {
     title: 'Tỉnh / Thành phố',
-    // dataIndex: 'name',
     slots: { title: 'province' },
     scopedSlots: { customRender: 'province' },
-    // className: 'Table-name',
-    // width: 500
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
-    // width: 200
   },
   {
     title: 'Mã',
@@ -131,15 +124,11 @@ const columnDistrict = [
   },
   {
     title: 'Quận / Huyện',
-    // dataIndex: 'name',
     slots: { title: 'district' },
     scopedSlots: { customRender: 'district' },
-    // className: 'Table-name',
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
   },
@@ -165,14 +154,11 @@ const columnWard = [
   },
   {
     title: 'Phường / Xã',
-    // dataIndex: 'name',
     slots: { title: 'ward' },
     scopedSlots: { customRender: 'ward' },
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
   },
@@ -183,7 +169,7 @@ const columnWard = [
     scopedSlots: { customRender: 'code' },
   },
 ];
-const columnQuater = [
+const columnQuarter = [
   {
     className: 'Table-add',
     slots: { title: 'customTitle' },
@@ -197,14 +183,11 @@ const columnQuater = [
   },
   {
     title: 'Thôn / Bản / Tổ dân phố',
-    // dataIndex: 'name',
-    slots: { title: 'quater' },
-    scopedSlots: { customRender: 'quater' },
+    slots: { title: 'quarter' },
+    scopedSlots: { customRender: 'quarter' },
   },
   {
     title: 'Trạng thái',
-    // key: 'status',
-    dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
   },
@@ -219,7 +202,7 @@ function addSTTcolumns(
   columnDistrict,
   columnProvince,
   columnWard,
-  columnQuater,
+  columnQuarter,
 ) {
   (columnDistrict[1] = {
     ...columnDistrict[1],
@@ -239,8 +222,8 @@ function addSTTcolumns(
         return index + (this.pagination.current - 1) * perPage + 1;
       },
     });
-  columnQuater[1] = {
-    ...columnQuater[1],
+  columnQuarter[1] = {
+    ...columnQuarter[1],
     customRender: (text, record, index) => {
       return index + (this.pagination.current - 1) * perPage + 1;
     },
@@ -270,7 +253,6 @@ const columnsAccount = [
   {
     title: 'Họ và Tên',
     dataIndex: 'name',
-    // className: 'Table-fullname',
   },
   {
     title: 'Username',
@@ -295,7 +277,6 @@ const columnsAccount = [
   },
   {
     title: 'Hành động',
-    // key: 'action',
     scopedSlots: { customRender: 'action' },
     className: 'Table-action',
   },
@@ -306,7 +287,7 @@ module.exports = {
   columnDistrict,
   columnWard,
   addSTTcolumns,
-  columnQuater,
+  columnQuarter,
   columnsAccount,
   addSTTcolumnsAccount,
 };
