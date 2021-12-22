@@ -119,6 +119,7 @@
       :addGroup="this.addGroup"
       :clearGroup="this.clearGroup"
       :scroll="this.scroll"
+      @adjustCitizen="openAdjustCitizenForm($event)"
     />
     <a-drawer
       title="Nhập thông tin don vi"
@@ -136,7 +137,26 @@
       class="drawer"
       @close="closeCitizenForm"
     >
-      <form-add-citizen :address="queries" :data="data" />
+      <form-add-citizen
+        :address="queries"
+        :data="data"
+        :toAdd="true"
+        :toAdjust="false"
+      />
+    </a-drawer>
+    <a-drawer
+      title="Sửa thông tin công dân"
+      width="auto"
+      :visible="form_adjust_citizen_visible"
+      class="drawer"
+      @close="closeAdjustCitizenForm"
+    >
+      <form-add-citizen
+        :address="queries"
+        :data="selectedRowData"
+        :toAdd="false"
+        :toAdjust="true"
+      />
     </a-drawer>
   </div>
 </template>
@@ -177,6 +197,7 @@ export default {
   data: () => ({
     form_citizen_visible: false,
     form_unit_visible: false,
+    form_adjust_citizen_visible: false,
     columns: [],
     data: [],
     pagination: { pageSize: 7 },
@@ -191,6 +212,7 @@ export default {
     timeOutSearch: null,
     unitsName: [],
     isSearchingGroup: false,
+    selectedRowData: null,
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -320,6 +342,15 @@ export default {
     },
     closeCitizenForm() {
       this.form_citizen_visible = false;
+    },
+    openAdjustCitizenForm(data) {
+      console.log('got the data', data);
+      this.selectedRowData = data;
+      console.log('selected row data', this.selectedRowData);
+      this.form_adjust_citizen_visible = true;
+    },
+    closeAdjustCitizenForm() {
+      this.form_adjust_citizen_visible = false;
     },
     navigate() {
       if (_.get(this, 'user.code.length') == 2) {

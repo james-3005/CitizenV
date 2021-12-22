@@ -71,9 +71,8 @@
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">
-        <a class="adjust" @click="() => handleAdjust(data.key)">Chỉnh sửa</a
-        ><br />
-        <a class="delete" @click="() => handleDelete(data.key)">Xoá</a>
+        <a class="adjust" @click="() => handleAdjust(data)">Chỉnh sửa</a><br />
+        <a class="delete" @click="() => handleDelete(data)">Xoá</a>
       </span>
     </a-table>
   </div>
@@ -82,6 +81,7 @@
 <script>
 import _ from 'lodash';
 import moment from 'moment';
+import { deleteCitizen } from '../../services/auth';
 export default {
   name: 'TableCitizen',
   props: [
@@ -100,6 +100,22 @@ export default {
     };
   },
   methods: {
+    handleAdjust(rowData) {
+      console.log(rowData);
+      this.$emit('adjustCitizen', rowData);
+    },
+    handleDelete(rowData) {
+      console.log(rowData);
+      deleteCitizen(rowData._id).then((res) => {
+        if (res.success) {
+          this.$message.info('Xoa thanh cong');
+          console.log(res.data);
+        } else {
+          this.$message.error('Co loi xay ra');
+          console.log(res.data);
+        }
+      });
+    },
     handleTableChange(pagination, filters, sorter) {
       this.fetch({
         page: pagination.current,
