@@ -46,8 +46,8 @@ export default {
           },
         },
         yaxis: {
-          min: -5,
-          max: 5,
+          min: -10,
+          max: 10,
           title: {
             // text: 'Age',
           },
