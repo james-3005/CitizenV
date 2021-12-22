@@ -70,6 +70,7 @@
       </span>
       <span slot="status" slot-scope="data">
         <a-tag
+          :class="user.level == 4 ? 'clickable' : ''"
           :color="
             data.status == 'CLOSED'
               ? 'grey'
@@ -79,7 +80,7 @@
               ? 'orange'
               : ''
           "
-          @dblclick="() => handleApprove(data)"
+          @click="() => handleApprove(data)"
         >
           {{ data.status }}
         </a-tag>
@@ -181,9 +182,13 @@ export default {
         delete form.__v;
         delete form._id;
         this.status = form.status == 'PENDING' ? 'DONE' : 'PENDING';
-        formApprove(this.id, form, this.status).catch((err) => {
-          console.log(err);
-        });
+        formApprove(this.id, form, this.status)
+          .then((res) => {
+            this.fetch();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
