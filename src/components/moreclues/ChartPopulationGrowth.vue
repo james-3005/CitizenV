@@ -26,7 +26,7 @@ export default {
         plotOptions: {
           bar: {
             borderRadius: 5,
-            distributed: true,
+            distributed: false,
             dataLabels: {
               position: 'top', // top, center, bottom
             },
@@ -128,7 +128,9 @@ export default {
       console.log('recieved: ', e);
     },
   },
-  mounted() {},
+  mounted() {
+    console.log(this.populationYears, this.population);
+  },
   created() {
     EventBus.$on('hello', (args) => {
       this.render(args.populationYears, args.population);
