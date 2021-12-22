@@ -1,6 +1,7 @@
 <template>
   <div class="CitizenPage">
     <HeaderMenu header="Danh sách" type="default" :notShow="true" />
+    <h2 v-if="permissions === '0100'">Đã hết thời hạn khai báo!</h2>
     <div class="CitizenPage-flex">
       <div class="backButton">
         <ButtonBackDrillDown
@@ -40,6 +41,7 @@
           type="primary"
           class="addUnitButton"
           @click="openUnitForm"
+          :disabled="permissions === '0100'"
         >
           Thêm đơn vị</a-button
         >
@@ -78,6 +80,7 @@
           icon="user-add"
           size="small"
           class="ListCitizen-header-button"
+          :disabled="permissions === '0100'"
           @click="openCitizenForm"
         >
           Thêm người
@@ -182,6 +185,7 @@ export default {
     level,
     user: getUser().levelInfo,
     userLevel: getUser().level,
+    permissions: getUser().permissions,
     search: '',
     groupSearch: [],
     timeOutSearch: null,
