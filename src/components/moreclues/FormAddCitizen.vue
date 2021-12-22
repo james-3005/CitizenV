@@ -224,5 +224,21 @@ export default {
       this.resourceCode = this.data.resourceCode;
     }
   },
+  watch: {
+    data(value) {
+      console.log('watch', value);
+      this.citizenId = value.citizenId;
+      this.fullname = value.fullname;
+      this.dob = value.dob;
+      this.gender = value.gender;
+      this.placeOfOrigin = value.placeOfOrigin;
+      this.placeOfResidence = value.placeOfResidence;
+      this.shelterAddress = value.shelterAddress;
+      this.religion = value.religion;
+      this.levelOfEducation = value.levelOfEducation;
+      this.job = value.job;
+      this.resourceCode = value.resourceCode;
+    },
+  },
 };
 </script>

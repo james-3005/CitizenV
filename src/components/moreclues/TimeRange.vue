@@ -7,7 +7,7 @@
           show-time
           format="YYYY-MM-DD"
           :value="appointedRange"
-          disabled
+          :disabled="level != 1"
         />
       </a-space>
       <a-space direction="horizontal" class="timeRange">
@@ -38,7 +38,7 @@ import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
 import { setDate } from '../../services/auth';
-import { getDate } from '../../services/getUser';
+import { getDate, getDateByCode } from '../../services/getUser';
 import { message } from '../utilities/messageValidate';
 
 export default {
@@ -106,19 +106,22 @@ export default {
     },
   },
   mounted() {
-    getDate().then((res) => {
-      if (getUser().level != 1) {
-        console.log('accccc');
-        this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
-        console.log(res.data);
+    var code;
+    if (this.level === 1) {
+      console.log('A1 cut cut');
+    } else {
+      const resourceCode = getUser().resourceCode;
+      code = resourceCode.substring(0, resourceCode.length - 2);
+      if (code === '') code = 'vn';
+      getDateByCode(code).then((res) => {
+        const data = res.data;
+        this.appointedRange = [data.createdAt, data.expiresAt];
         this.boundedRanges = {
-          'Hợp lệ': [
-            moment(res.data[0].createdAt),
-            moment(res.data[0].expiresAt),
-          ],
+          'Hợp lệ': [moment(data.createdAt), moment(data.expiresAt)],
         };
-      }
-    });
+        console.log(this.appointedRange);
+      });
+    }
   },
   updated() {},
 };
