@@ -22,7 +22,7 @@
           v-if="level >= 3"
         />
         <ButtonBackDrillDown
-          :text="$route.query.quaterName"
+          :text="$route.query.quarterName"
           :disable="userLevel > 4"
           :onClick="() => getBack(3)"
           v-if="level >= 4"
@@ -187,6 +187,8 @@ export default {
     timeOutSearch: null,
     unitsName: [],
     isSearchingGroup: false,
+    backupFetch: null,
+    resourceCode: '',
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -246,7 +248,10 @@ export default {
       });
     },
     fetchCitizenData(params = {}) {
-      getCitizen(params).then((data) => {
+      getCitizen({
+        // ...params,
+        resourceCode: this.queries.resourceCode || this.resourceCode,
+      }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -300,7 +305,10 @@ export default {
           },
         });
       if (level === 10) {
+        this.fetchData = this.backupFetch;
         this.fetchData(this.queries);
+        this.clearGroup();
+        this.resourceCode = '';
         this.isSearchingGroup = false;
       }
     },
@@ -371,10 +379,12 @@ export default {
       this.groupSearch = [];
     },
     searchGroup() {
-      const param = getName(this.level);
+      this.resourceCode = this.groupSearch.map((item) => item.code).toString();
       this.fetchCitizenData({
-        [param]: this.groupSearch.map((item) => item.code).toString(),
+        resourceCode: this.resourceCode,
       });
+      this.backupFetch = this.fetchData;
+      this.fetchData = this.fetchCitizenData;
       this.isSearchingGroup = true;
     },
     deleteItemGroup(value) {

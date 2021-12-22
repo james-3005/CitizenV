@@ -3,7 +3,7 @@ export const level = (params) => {
   if (_.get(params, 'provinceName')) {
     if (_.get(params, 'districtName')) {
       if (_.get(params, 'wardName')) {
-        if (_.get(params, 'quaterName')) {
+        if (_.get(params, 'resourceCode')) {
           return 4;
         }
         return 3;

@@ -53,7 +53,10 @@
         </p>
       </span>
       <span slot="quater" slot-scope="quater">
-        <p class="blue" @click="() => handleClickQuater(quater.name)">
+        <p
+          class="blue"
+          @click="() => handleClickQuater(quater.code, quater.name)"
+        >
           <a-tooltip>
             <template slot="title"> Đi đến {{ quater.name }} </template>
             {{ quater.name }}
@@ -129,11 +132,12 @@ export default {
         },
       });
     },
-    handleClickQuater(quaterName) {
+    handleClickQuater(resourceCode, quarterName) {
       this.$router.push({
         query: {
           ...this.$route.query,
-          quaterName,
+          quarterName,
+          resourceCode,
         },
       });
     },
