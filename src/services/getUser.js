@@ -25,3 +25,6 @@ export const getDate = (params) =>
   requestWithToken.get('/survey-process', {
     ...params,
   });
+
+export const getDateByCode = (code) =>
+  requestWithToken.get(`/survey-process/${code}`);

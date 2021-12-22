@@ -66,10 +66,11 @@ const columnsCitizen = [
   {
     title: 'Trạng thái',
     // key: 'status',
-    dataIndex: 'status',
+    // dataIndex: 'status',
     scopedSlots: { customRender: 'status' },
     className: 'Table-status',
     width: 150,
+    fixed: 'right',
   },
   {
     title: 'Hành động',

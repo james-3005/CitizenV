@@ -7,7 +7,7 @@
           show-time
           format="YYYY-MM-DD"
           :value="appointedRange"
-          disabled
+          :disabled="level != 1"
         />
       </a-space>
       <a-space direction="horizontal" class="timeRange">
@@ -38,7 +38,7 @@ import moment from 'moment';
 import HeaderMenu from '../moreclues/HeaderMenu.vue';
 import { getUser } from '../utilities/localStorage';
 import { setDate } from '../../services/auth';
-import { getDate } from '../../services/getUser';
+import { getDate, getDateByCode } from '../../services/getUser';
 import { message } from '../utilities/messageValidate';
 
 export default {
@@ -48,13 +48,10 @@ export default {
       level: getUser().level,
       ranges: [],
       boundedRanges: {
-        // "Hợp lệ": [moment(), moment().endOf("month")],
+        'Hợp lệ': [moment(), moment().endOf('year')],
         // 'Hợp lệ': [moment(getUser().startDate), moment(getUser().endDate)],
       },
-      appointedRange: [
-        moment('2015-06-06', 'YYYY-MM-DD'),
-        moment('2015-06-06', 'YYYY-MM-DD'),
-      ],
+      appointedRange: [moment().startOf('year'), moment().endOf('year')],
       startValue: '',
       endValue: '',
       boundedStart: '',
@@ -78,6 +75,7 @@ export default {
         }).then((res) => {
           if (res.success) this.$message.info(message.TIME_SET_SUCCESS);
           else this.$message.error(message.TIME_SET_FAIL);
+          console.log(res.data);
         });
       } else {
         this.$message.error(message.TIME_INVALID);
@@ -108,15 +106,22 @@ export default {
     },
   },
   mounted() {
-    getDate().then((res) => {
-      this.appointedRange = [res.data[0].createdAt, res.data[0].expiresAt];
-      this.boundedRanges = {
-        'Hợp lệ': [
-          moment(res.data[0].createdAt),
-          moment(res.data[0].expiresAt),
-        ],
-      };
-    });
+    var code;
+    if (this.level === 1) {
+      console.log('A1 cut cut');
+    } else {
+      const resourceCode = getUser().resourceCode;
+      code = resourceCode.substring(0, resourceCode.length - 2);
+      if (code === '') code = 'vn';
+      getDateByCode(code).then((res) => {
+        const data = res.data;
+        this.appointedRange = [data.createdAt, data.expiresAt];
+        this.boundedRanges = {
+          'Hợp lệ': [moment(data.createdAt), moment(data.expiresAt)],
+        };
+        console.log(this.appointedRange);
+      });
+    }
   },
   updated() {},
 };

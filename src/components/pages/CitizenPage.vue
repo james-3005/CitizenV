@@ -9,6 +9,7 @@
     >
       Hoàn thành
     </a-button>
+    <h2 v-if="permissions === '0100'">Đã hết thời hạn khai báo!</h2>
     <div class="CitizenPage-flex">
       <div class="backButton">
         <ButtonBackDrillDown
@@ -48,6 +49,7 @@
           type="primary"
           class="addUnitButton"
           @click="openUnitForm"
+          :disabled="permissions === '0100'"
         >
           Thêm đơn vị
         </a-button>
@@ -86,6 +88,7 @@
           icon="user-add"
           size="small"
           class="ListCitizen-header-button"
+          :disabled="permissions === '0100'"
           @click="openCitizenForm"
         >
           Thêm người
@@ -124,6 +127,7 @@
       :addGroup="this.addGroup"
       :clearGroup="this.clearGroup"
       :scroll="this.scroll"
+      @adjustCitizen="openAdjustCitizenForm($event)"
     />
     <a-drawer
       title="Nhập thông tin don vi"
@@ -141,7 +145,26 @@
       class="drawer"
       @close="closeCitizenForm"
     >
-      <form-add-citizen :address="queries" :data="data" />
+      <form-add-citizen
+        :address="queries"
+        :data="data"
+        :toAdd="true"
+        :toAdjust="false"
+      />
+    </a-drawer>
+    <a-drawer
+      title="Sửa thông tin công dân"
+      width="auto"
+      :visible="form_adjust_citizen_visible"
+      class="drawer"
+      @close="closeAdjustCitizenForm"
+    >
+      <form-add-citizen
+        :address="queries"
+        :data="selectedRowData"
+        :toAdd="false"
+        :toAdjust="true"
+      />
     </a-drawer>
   </div>
 </template>
@@ -160,6 +183,7 @@ import {
   getWard,
   getQuarter,
   getQuarterCode,
+  getNameFromCode,
 } from '../../services/getCitizen';
 import { B1Approve, getStatus } from '../../services/survey';
 import {
@@ -183,6 +207,7 @@ export default {
   data: () => ({
     form_citizen_visible: false,
     form_unit_visible: false,
+    form_adjust_citizen_visible: false,
     columns: [],
     data: [],
     pagination: { pageSize: 7 },
@@ -191,6 +216,7 @@ export default {
     level,
     user: getUser().levelInfo,
     userLevel: getUser().level,
+    permissions: getUser().permissions,
     search: '',
     groupSearch: [],
     timeOutSearch: null,
@@ -199,6 +225,7 @@ export default {
     isSearchingGroup: false,
     backupFetch: null,
     resourceCode: '',
+    selectedRowData: null,
   }),
   methods: {
     fetchProvinceData(params = {}) {
@@ -207,9 +234,10 @@ export default {
       }).then((data) => {
         data.data.forEach((row) => {
           getStatus(row.code).then((res) => {
-            row['survey'] = res.data;
+            row['status'] = res.data.status;
           });
         });
+        console.log(data.data);
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = 63;
         pagination.current = data.page;
@@ -217,7 +245,6 @@ export default {
         this.pagination = pagination;
         this.columns = columnProvince;
         this.scroll = {};
-        console.log(this.data);
       });
     },
     fetchDistrictData(params = {}) {
@@ -226,8 +253,8 @@ export default {
         provinceName: this.queries.provinceName,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['status'] = res.data.status;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -245,8 +272,8 @@ export default {
         districtName: this.queries.districtName,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['status'] = res.data.status;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -264,8 +291,8 @@ export default {
         wardName: this.queries.wardName,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['status'] = res.data.status;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -275,6 +302,7 @@ export default {
         this.pagination = pagination;
         this.columns = columnQuarter;
         this.scroll = {};
+        console.log(this.data);
       });
     },
     fetchCitizenData(params = {}) {
@@ -289,6 +317,7 @@ export default {
         this.pagination = pagination;
         this.columns = columnsCitizen;
         this.scroll = { x: 2000 };
+        console.log(this.data);
       });
     },
     fetchData(params = {}) {
@@ -355,6 +384,15 @@ export default {
     closeCitizenForm() {
       this.form_citizen_visible = false;
     },
+    openAdjustCitizenForm(data) {
+      console.log('got the data', data);
+      this.selectedRowData = data;
+      console.log('selected row data', this.selectedRowData);
+      this.form_adjust_citizen_visible = true;
+    },
+    closeAdjustCitizenForm() {
+      this.form_adjust_citizen_visible = false;
+    },
     navigate() {
       if (_.get(this, 'user.code.length') == 2) {
         this.$router.push({
@@ -390,6 +428,7 @@ export default {
             districtName: this.user.districtName,
             wardName: this.user.wardName,
             quarterName: this.user.name,
+            resourceCode: this.user.code,
           },
         });
         return;
@@ -477,19 +516,13 @@ export default {
       }
     },
     doneSurvey() {
-      getWard({
-        provinceName: this.queries.provinceName,
-        districtName: this.queries.districtName,
-        name: this.queries.wardName,
-      }).then((data) => {
-        B1Approve(data.data[0].code)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
+      B1Approve(this.user.code)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   mounted() {

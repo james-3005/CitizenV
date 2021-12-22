@@ -17,6 +17,13 @@ export const addCitizen = (params) =>
     ...params,
   });
 
+export const updateCitizen = (_id, params) =>
+  requestWithToken.put(`/form/${_id}`, {
+    ...params,
+  });
+
+export const deleteCitizen = (_id) => requestWithToken.delete(`/user/${_id}`);
+
 export const changePassword = (oldPassword, password) =>
   requestWithToken.patch(`/user/${getUser()._id}/change-password`, {
     password,

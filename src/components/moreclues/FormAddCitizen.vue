@@ -93,22 +93,30 @@
       />
     </div>
     <a-button
+      v-if="toAdd"
       type="primary"
       class="FormAddCitizen-submit"
       @click="handleRegister"
       >Gửi</a-button
+    >
+    <a-button
+      v-if="toAdjust"
+      type="primary"
+      class="FormAddCitizen-submit"
+      @click="handleAdjust"
+      >Sửa</a-button
     >
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import { addCitizen } from '../../services/auth';
+import { addCitizen, updateCitizen } from '../../services/auth';
 import { getUser } from '../utilities/localStorage';
 import { getQuarter } from '../../services/getCitizen';
 
 export default {
-  props: ['address', 'data'],
+  props: ['address', 'data', 'toAdd', 'toAdjust'],
   data: function () {
     return {
       moment,
@@ -132,24 +140,9 @@ export default {
       fullname: '',
       dob: '',
       gender: '',
-      placeOfOrigin:
-        this.address.wardName +
-        ', ' +
-        this.address.districtName +
-        ', ' +
-        this.address.provinceName,
-      placeOfResidence:
-        this.address.wardName +
-        ', ' +
-        this.address.districtName +
-        ', ' +
-        this.address.provinceName,
-      shelterAddress:
-        this.address.wardName +
-        ', ' +
-        this.address.districtName +
-        ', ' +
-        this.address.provinceName,
+      placeOfOrigin: '',
+      placeOfResidence: '',
+      shelterAddress: '',
       religion: '',
       levelOfEducation: '',
       job: '',
@@ -173,14 +166,79 @@ export default {
         resourceCode: this.resourceCode,
       }).then((res) => console.log(res));
     },
-    getQuarterCode() {
-      getQuarter({ quarterName: this.address.quarterName }).then((res) =>
-        console.log(res),
-      );
+    handleAdjust() {
+      console.log('dcm');
+      console.log(this.data._id);
+      updateCitizen(this.data._id, {
+        citizenId: this.citizenId,
+        fullname: this.fullname,
+        dob: this.dob,
+        gender: this.gender,
+        placeOfOrigin: this.placeOfOrigin,
+        placeOfResidence: this.placeOfResidence,
+        shelterAddress: this.shelterAddress,
+        religion: this.religion,
+        levelOfEducation: this.levelOfEducation,
+        job: this.job,
+        resourceCode: this.resourceCode,
+        status: 'DONE',
+      }).then((res) => {
+        if (res.success) {
+          this.$message.info('Cap nhat thanh cong');
+          console.log(res.data);
+        } else {
+          this.$message.error('Co loi xay ra');
+          console.log(res.data);
+        }
+      });
     },
   },
   updated() {
     console.log(this.date.format('DD-MM-YYYY'));
+  },
+  mounted() {
+    const citizenAddress =
+      this.address.quarterName +
+      ', ' +
+      this.address.wardName +
+      ', ' +
+      this.address.districtName +
+      ', ' +
+      this.address.provinceName;
+    this.placeOfOrigin = citizenAddress;
+    this.placeOfResidence = citizenAddress;
+    this.shelterAddress = citizenAddress;
+    if (this.toAdjust === true) {
+      console.log('this is to adjust');
+      // console.log(this.data);
+      this.citizenId = this.data.citizenId;
+      this.fullname = this.data.fullname;
+      this.dob = this.data.dob;
+      this.gender = this.data.gender;
+      this.placeOfOrigin = this.data.placeOfOrigin;
+      this.placeOfResidence = this.data.placeOfResidence;
+      this.shelterAddress = this.data.shelterAddress;
+      this.religion = this.data.religion;
+      this.levelOfEducation = this.data.levelOfEducation;
+      this.job = this.data.job;
+      this.resourceCode = this.data.resourceCode;
+    }
+  },
+  watch: {
+    data(value) {
+      console.log('watch', value);
+      this.citizenId = value.citizenId;
+      this.fullname = value.fullname;
+      this.dob = value.dob;
+      this.gender = value.gender;
+      this.placeOfOrigin = value.placeOfOrigin;
+      this.placeOfResidence = value.placeOfResidence;
+      this.shelterAddress = value.shelterAddress;
+      this.religion = value.religion;
+      this.levelOfEducation = value.levelOfEducation;
+      this.job = value.job;
+      this.resourceCode = value.resourceCode;
+    },
   },
 };
 </script>
