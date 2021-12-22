@@ -68,15 +68,21 @@
       <span slot="status" slot-scope="data">
         <a-tag
           :color="
-            data.status == null
+            data.survey == null
               ? 'grey'
-              : data.status == 1
+              : data.survey.status == 'DOING'
               ? 'green'
               : 'volcanic'
           "
-          @click="() => confirmForm(data.code)"
+          @click="() => confirmForm(data.survey)"
         >
-          {{ data.status }}
+          {{
+            data.survey == null
+              ? 'Chưa mở'
+              : data.survey.status == 'DOING'
+              ? 'Chưa xong'
+              : 'Hoàn thành'
+          }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">

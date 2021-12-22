@@ -1,16 +1,6 @@
 import req from './axios';
-import 'core-js';
 const { requestWithToken, request } = req;
 const perPage = 7;
-const getStatus = (resourceCode, loading = true) =>
-  request.get('/survey-process', {
-    params: {
-      resourceCode: resourceCode,
-    },
-    headers: {
-      loading,
-    },
-  });
 
 const getProvince = (params, loading = true) =>
   request.get('/province', {
@@ -91,7 +81,6 @@ const getNameFromCode = (code) => {
   return null;
 };
 export {
-  getStatus,
   getProvince,
   getDistrict,
   getCitizen,

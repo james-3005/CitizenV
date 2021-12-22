@@ -1,6 +1,14 @@
 <template>
   <div class="CitizenPage">
     <HeaderMenu header="Danh sách" type="default" :notShow="true" />
+    <a-button
+      v-if="level == 3 && userLevel == 4"
+      type="primary"
+      class="doneButton"
+      @click="doneSurvey"
+    >
+      Hoàn thành
+    </a-button>
     <div class="CitizenPage-flex">
       <div class="backButton">
         <ButtonBackDrillDown
@@ -41,8 +49,8 @@
           class="addUnitButton"
           @click="openUnitForm"
         >
-          Thêm đơn vị</a-button
-        >
+          Thêm đơn vị
+        </a-button>
         <a-dropdown-button
           style="margin-right: 10px"
           @click="searchGroup"
@@ -151,8 +159,9 @@ import {
   getCitizen,
   getWard,
   getQuarter,
-  getStatus,
+  getQuarterCode,
 } from '../../services/getCitizen';
+import { B1Approve, getStatus } from '../../services/survey';
 import {
   columnProvince,
   columnDistrict,
@@ -195,8 +204,8 @@ export default {
         ...params,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['survey'] = res.data;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -206,6 +215,7 @@ export default {
         this.pagination = pagination;
         this.columns = columnProvince;
         this.scroll = {};
+        console.log(this.data);
       });
     },
     fetchDistrictData(params = {}) {
@@ -266,14 +276,21 @@ export default {
       });
     },
     fetchCitizenData(params = {}) {
-      getCitizen(params).then((data) => {
-        const pagination = _.cloneDeep(this.pagination);
-        pagination.total = data.total;
-        pagination.current = data.page;
-        this.data = data.data;
-        this.pagination = pagination;
-        this.columns = columnsCitizen;
-        this.scroll = { x: 2000 };
+      getQuarterCode(params).then((res) => {
+        if (res.data.length == 1) {
+          params = { resourceCode: res.data[0].code };
+        }
+        getCitizen({
+          ...params,
+        }).then((data) => {
+          const pagination = _.cloneDeep(this.pagination);
+          pagination.total = data.total;
+          pagination.current = data.page;
+          this.data = data.data;
+          this.pagination = pagination;
+          this.columns = columnsCitizen;
+          this.scroll = { x: 2000 };
+        });
       });
     },
     fetchData(params = {}) {
@@ -285,7 +302,7 @@ export default {
         return this.fetchWardData(params);
       } else if (this.level == 3) {
         return this.fetchQuarterData(params);
-      } else {
+      } else if (this.level == 4) {
         return this.fetchCitizenData(params);
       }
     },
@@ -455,6 +472,21 @@ export default {
           },
         });
       }
+    },
+    doneSurvey() {
+      getWard({
+        provinceName: this.queries.provinceName,
+        districtName: this.queries.districtName,
+        name: this.queries.wardName,
+      }).then((data) => {
+        B1Approve(data.data[0].code)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     },
   },
   mounted() {
