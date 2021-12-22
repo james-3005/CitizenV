@@ -18,12 +18,12 @@ export const level = (params) => {
 export const getName = (name) => {
   switch (name) {
     case 0:
-      return 'ProvinceCode';
+      return 'provinceCode';
     case 1:
-      return 'DistrictCode';
+      return 'districtCode';
     case 2:
-      return 'WardCode';
+      return 'wardCode';
     default:
-      return 'QuarterCode';
+      return 'quarterCode';
   }
 };
