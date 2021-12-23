@@ -86,8 +86,19 @@
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">
-        <a class="adjust" @click="() => handleAdjust(data)">Chỉnh sửa</a><br />
-        <a class="delete" @click="() => handleDelete(data)">Xoá</a>
+        <a v-if="data.code" class="adjust" @click="() => handleAdjustUnit(data)"
+          >Chỉnh sửa don vi</a
+        >
+        <a v-if="!data.code" class="adjust" @click="() => handleAdjust(data)"
+          >Chỉnh sửa dan</a
+        >
+        <br />
+        <a v-if="data.code" class="delete" @click="() => handleDeleteUnit(data)"
+          >Xoá don vi</a
+        >
+        <a v-if="!data.code" class="delete" @click="() => handleDelete(data)"
+          >Xoá dan</a
+        >
       </span>
     </a-table>
   </div>
@@ -96,9 +107,17 @@
 <script>
 import _ from 'lodash';
 import moment from 'moment';
-import { deleteCitizen } from '../../services/auth';
+import {
+  deleteCitizen,
+  deleteDistrict,
+  deleteProvince,
+  deleteQuarter,
+  deleteUnit,
+  deleteWard,
+} from '../../services/auth';
 import { formApprove } from '../../services/survey';
 import { getUser } from '../utilities/localStorage';
+import { message } from '../utilities/messageValidate';
 export default {
   name: 'TableCitizen',
   props: [
@@ -136,6 +155,80 @@ export default {
         }
       });
     },
+    handleAdjustUnit(rowData) {
+      console.log(this.data);
+    },
+
+    handleDeleteUnit(rowData) {
+      const self = this;
+      this.$confirm({
+        title: 'Bạn có muốn xoá đơn vị này không',
+        okText: 'Có',
+        okType: 'danger',
+        cancelText: 'Huỷ',
+        onOk() {
+          self.deleteUnit(rowData);
+        },
+        onCancel() {},
+      });
+    },
+    handleDeleteProvince(rowData) {
+      deleteProvince(rowData._id).then((res) => {
+        if (res.success) {
+          this.$message.success(message.DELETE_UNIT_SUCCESS);
+          this.data = this.data.filter((item) => item._id !== rowData._id);
+        } else {
+          this.$message.error(message.DELETE_UNIT_FAIL);
+        }
+      });
+    },
+    handleDeleteDistrict(rowData) {
+      deleteDistrict(rowData._id).then((res) => {
+        if (res.success) {
+          this.$message.success(message.DELETE_UNIT_SUCCESS);
+          this.data = this.data.filter((item) => item._id !== rowData._id);
+        } else {
+          this.$message.error(message.DELETE_UNIT_FAIL);
+        }
+      });
+    },
+    handleDeleteWard(rowData) {
+      deleteWard(rowData._id).then((res) => {
+        if (res.success) {
+          this.$message.success(message.DELETE_UNIT_SUCCESS);
+          this.data = this.data.filter((item) => item._id !== rowData._id);
+        } else {
+          this.$message.error(message.DELETE_UNIT_FAIL);
+        }
+      });
+    },
+    handleDeleteQuarter(rowData) {
+      deleteQuarter(rowData._id).then((res) => {
+        if (res.success) {
+          this.$message.success(message.DELETE_UNIT_SUCCESS);
+          this.data = this.data.filter((item) => item._id !== rowData._id);
+        } else {
+          this.$message.error(message.DELETE_UNIT_FAIL);
+        }
+      });
+    },
+
+    deleteUnit(rowData) {
+      const userLevel = rowData.code.length / 2;
+      switch (userLevel) {
+        case 1:
+          return this.handleDeleteProvince(rowData);
+        case 2:
+          return this.handleDeleteDistrict(rowData);
+        case 3:
+          return this.handleDeleteWard(rowData);
+        case 4:
+          return this.handleDeleteQuarter(rowData);
+        default:
+          break;
+      }
+    },
+
     handleTableChange(pagination, filters, sorter) {
       this.fetch({
         page: pagination.current,

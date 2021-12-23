@@ -17,6 +17,15 @@ export const addUnit = (params) =>
     ...params,
   });
 
+export const deleteUnit = (_id) => requestWithToken.delete(`/province/${_id}`);
+export const deleteProvince = (_id) =>
+  requestWithToken.delete(`/province/${_id}`);
+export const deleteDistrict = (_id) =>
+  requestWithToken.delete(`/district/${_id}`);
+export const deleteWard = (_id) => requestWithToken.delete(`/ward/${_id}`);
+export const deleteQuarter = (_id) =>
+  requestWithToken.delete(`/quarter/${_id}`);
+
 export const addCitizen = (params) =>
   requestWithToken.post('/form', {
     ...params,
