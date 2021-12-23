@@ -128,6 +128,7 @@
       :clearGroup="this.clearGroup"
       :scroll="this.scroll"
       @adjustCitizen="openAdjustCitizenForm($event)"
+      :handleAddAll="handleAddAll"
     />
     <a-drawer
       title="Nhập thông tin don vi"
@@ -183,6 +184,7 @@ import {
   getWard,
   getQuarter,
   getQuarterCode,
+  getNameFromCode,
 } from '../../services/getCitizen';
 import { B1Approve, getStatus } from '../../services/survey';
 import {
@@ -233,17 +235,17 @@ export default {
       }).then((data) => {
         data.data.forEach((row) => {
           getStatus(row.code).then((res) => {
-            row['survey'] = res.data;
+            row['status'] = res.data.status;
           });
         });
+        console.log(data.data);
         const pagination = _.cloneDeep(this.pagination);
-        pagination.total = 63;
+        pagination.total = data.total;
         pagination.current = data.page;
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnProvince;
         this.scroll = {};
-        console.log(this.data);
       });
     },
     fetchDistrictData(params = {}) {
@@ -252,8 +254,8 @@ export default {
         provinceName: this.queries.provinceName,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['status'] = res.data.status;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -271,8 +273,8 @@ export default {
         districtName: this.queries.districtName,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['status'] = res.data.status;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -290,8 +292,8 @@ export default {
         wardName: this.queries.wardName,
       }).then((data) => {
         data.data.forEach((row) => {
-          getStatus(row.resourceCode).then((res) => {
-            row['status'] = res.data;
+          getStatus(row.code).then((res) => {
+            row['status'] = res.data.status;
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -301,6 +303,7 @@ export default {
         this.pagination = pagination;
         this.columns = columnQuarter;
         this.scroll = {};
+        console.log(this.data);
       });
     },
     fetchCitizenData(params = {}) {
@@ -315,6 +318,7 @@ export default {
         this.pagination = pagination;
         this.columns = columnsCitizen;
         this.scroll = { x: 2000 };
+        console.log(this.data);
       });
     },
     fetchData(params = {}) {
@@ -512,19 +516,51 @@ export default {
       }
     },
     doneSurvey() {
-      getWard({
-        provinceName: this.queries.provinceName,
-        districtName: this.queries.districtName,
-        name: this.queries.wardName,
-      }).then((data) => {
-        B1Approve(data.data[0].code)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
+      B1Approve(this.user.code)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleAddAll() {
+      if (this.level === 0) {
+        getProvince({ perPage: 9999 }, false).then((res) => {
+          this.groupSearch = res.data.map((item) => ({
+            name: item.name,
+            code: item.code,
+          }));
+        });
+        return;
+      }
+      if (this.level === 1) {
+        getDistrict({ ...this.queries, perPage: 9999 }, false).then((res) => {
+          this.groupSearch = res.data.map((item) => ({
+            name: item.name,
+            code: item.code,
+          }));
+        });
+        return;
+      }
+      if (this.level === 2) {
+        getWard({ ...this.queries, perPage: 9999 }, false).then((res) => {
+          this.groupSearch = res.data.map((item) => ({
+            name: item.name,
+            code: item.code,
+          }));
+        });
+        return;
+      }
+      if (this.level === 3) {
+        getQuarter({ ...this.queries, perPage: 9999 }, false).then((res) => {
+          this.groupSearch = res.data.map((item) => ({
+            name: item.name,
+            code: item.code,
+          }));
+        });
+        return;
+      }
     },
   },
   mounted() {

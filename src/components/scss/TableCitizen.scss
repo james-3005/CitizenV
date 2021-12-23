@@ -9,6 +9,14 @@
   .delete {
     color: rgb(207, 38, 38);
   }
+  .clickable:hover {
+    cursor: pointer;
+  }
+  .approve {
+    color: #393cf5;
+    display: block;
+    margin-top: auto;
+  }
   .add {
     font-size: 20px;
     transition: 0.4s;
@@ -31,9 +39,6 @@
   }
   &-fullname {
     width: 250px;
-    // max-width: 20% !important;
-    // width: auto;
-    // text-align: left !important;
   }
   &-gender {
     width: 100px !important;
@@ -42,7 +47,7 @@
     width: 400px !important;
   }
   &-status {
-    width: 80px;
+    width: 100px;
     // display: flex;
     justify-content: center;
     align-items: center;

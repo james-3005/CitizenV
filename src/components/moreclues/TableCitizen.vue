@@ -9,9 +9,9 @@
       :row-key="(record) => record._id"
       :scroll="scroll"
     >
-      <span slot="customTitle"
-        ><a-icon type="plus-circle" theme="twoTone" class="add"
-      /></span>
+      <span slot="customTitle" @click="handleAddAll">
+        <a-icon type="plus-circle" theme="twoTone" class="add" />
+      </span>
       <span slot="add" slot-scope="data">
         <a-icon
           type="plus-circle"
@@ -55,7 +55,7 @@
       <span slot="quarter" slot-scope="quarter">
         <p
           class="blue"
-          @click="() => handleClickQuater(quarter.code, quarter.name)"
+          @click="() => handleClickQuarter(quarter.code, quarter.name)"
         >
           <a-tooltip>
             <template slot="title"> Đi đến {{ quarter.name }} </template>
@@ -70,22 +70,19 @@
       </span>
       <span slot="status" slot-scope="data">
         <a-tag
+          :class="user.level == 4 ? 'clickable' : ''"
           :color="
-            data.survey == null
+            data.status == 'CLOSED'
               ? 'grey'
-              : data.survey.status == 'DOING'
+              : data.status == 'DOING' || data.status == 'PENDING'
               ? 'green'
-              : 'volcanic'
+              : data.status == 'DONE'
+              ? 'orange'
+              : ''
           "
-          @click="() => confirmForm(data.survey)"
+          @click="() => handleApprove(data)"
         >
-          {{
-            data.survey == null
-              ? 'Chưa mở'
-              : data.survey.status == 'DOING'
-              ? 'Chưa xong'
-              : 'Hoàn thành'
-          }}
+          {{ data.status }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="data">
@@ -100,6 +97,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { deleteCitizen } from '../../services/auth';
+import { formApprove } from '../../services/survey';
+import { getUser } from '../utilities/localStorage';
 export default {
   name: 'TableCitizen',
   props: [
@@ -111,15 +110,18 @@ export default {
     'addGroup',
     'clearGroup',
     'scroll',
+    'handleAddAll',
   ],
   data: () => {
     return {
       moment: moment,
+      status: '',
+      id: '',
+      user: getUser(),
     };
   },
   methods: {
     handleAdjust(rowData) {
-      console.log(rowData);
       this.$emit('adjustCitizen', rowData);
     },
     handleDelete(rowData) {
@@ -163,7 +165,7 @@ export default {
         },
       });
     },
-    handleClickQuater(resourceCode, quarterName) {
+    handleClickQuarter(resourceCode, quarterName) {
       this.$router.push({
         query: {
           ...this.$route.query,
@@ -175,8 +177,20 @@ export default {
     handleAddGroup(name) {
       this.$props.addGroup(name);
     },
-    confirmForm(code) {
-      console.log(code);
+    handleApprove(form) {
+      if (this.user.level == 4) {
+        this.id = form._id;
+        delete form.__v;
+        delete form._id;
+        this.status = form.status == 'PENDING' ? 'DONE' : 'PENDING';
+        formApprove(this.id, form, this.status)
+          .then((res) => {
+            this.fetch();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
   },
 };
