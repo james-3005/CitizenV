@@ -220,7 +220,7 @@ export default {
       if (this.units_values[this.levelToSend] === undefined) {
         codes = getUser().resourceCode;
       } else {
-        codes = this.units_values[this.levelToSend];
+        codes = this.units_values[this.levelToSend].join(',');
       }
       Promise.all([
         getAgeStat({
