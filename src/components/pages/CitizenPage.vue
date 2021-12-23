@@ -265,15 +265,6 @@ export default {
         ...params,
         provinceName: this.queries.provinceName,
       }).then((data) => {
-        data.data.forEach((row) => {
-          getStatus(row.code).then((res) => {
-            if (_.has(res, 'data')) {
-              row['status'] = res.data.status;
-            } else {
-              row['status'] = 'NOT OPEN';
-            }
-          });
-        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -281,6 +272,25 @@ export default {
         this.pagination = pagination;
         this.columns = columnDistrict;
         this.scroll = {};
+        Promise.all(
+          data.data.map(async (row) => {
+            return getStatus(row.code).then((res) => {
+              if (_.has(res, 'data')) {
+                return {
+                  ...row,
+                  status: res.data.status,
+                };
+              } else {
+                return {
+                  ...row,
+                  status: 'NOT OPEN',
+                };
+              }
+            });
+          }),
+        ).then((res) => {
+          this.data = res;
+        });
       });
     },
     fetchWardData(params = {}) {
@@ -288,15 +298,6 @@ export default {
         ...params,
         districtName: this.queries.districtName,
       }).then((data) => {
-        data.data.forEach((row) => {
-          getStatus(row.code).then((res) => {
-            if (_.has(res, 'data')) {
-              row['status'] = res.data.status;
-            } else {
-              row['status'] = 'NOT OPEN';
-            }
-          });
-        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -304,6 +305,25 @@ export default {
         this.pagination = pagination;
         this.columns = columnWard;
         this.scroll = {};
+        Promise.all(
+          data.data.map(async (row) => {
+            return getStatus(row.code).then((res) => {
+              if (_.has(res, 'data')) {
+                return {
+                  ...row,
+                  status: res.data.status,
+                };
+              } else {
+                return {
+                  ...row,
+                  status: 'NOT OPEN',
+                };
+              }
+            });
+          }),
+        ).then((res) => {
+          this.data = res;
+        });
       });
     },
     fetchQuarterData(params = {}) {
@@ -311,15 +331,6 @@ export default {
         ...params,
         wardName: this.queries.wardName,
       }).then((data) => {
-        data.data.forEach((row) => {
-          getStatus(row.code).then((res) => {
-            if (_.has(res, 'data')) {
-              row['status'] = res.data.status;
-            } else {
-              row['status'] = 'NOT OPEN';
-            }
-          });
-        });
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = data.total;
         pagination.current = data.page;
@@ -327,7 +338,25 @@ export default {
         this.pagination = pagination;
         this.columns = columnQuarter;
         this.scroll = {};
-        console.log(this.data);
+        Promise.all(
+          data.data.map(async (row) => {
+            return getStatus(row.code).then((res) => {
+              if (_.has(res, 'data')) {
+                return {
+                  ...row,
+                  status: res.data.status,
+                };
+              } else {
+                return {
+                  ...row,
+                  status: 'NOT OPEN',
+                };
+              }
+            });
+          }),
+        ).then((res) => {
+          this.data = res;
+        });
       });
     },
     fetchCitizenData(params = {}) {
