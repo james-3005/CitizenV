@@ -12,6 +12,7 @@ export const message = {
   UPDATE_PASSWORD_SUCCESS: 'Cập nhật mật khẩu thành công',
   TOKEN_EXPIRED: 'TOKEN_EXPIRED',
   DELETE_USER_SUCCESS: 'Xoá tài khoản thành công',
+  B1_CONFIRM: 'Hoàn thành khai báo',
   TIME_SET_SUCCESS: '',
   TIME_SET_FAIL: '',
   TIME_INVALID: '',

@@ -1,15 +1,15 @@
 <template>
   <div class="CitizenPage">
     <HeaderMenu header="Danh sách" type="default" :notShow="true" />
+    <h2 v-if="permissions === '0100'">Đã hết thời hạn khai báo!</h2>
     <a-button
-      v-if="level == 3 && userLevel == 4"
+      v-if="level == 3 && userLevel == 4 && permissions == '1111'"
       type="primary"
       class="doneButton"
       @click="doneSurvey"
     >
       Hoàn thành
     </a-button>
-    <h2 v-if="permissions === '0100'">Đã hết thời hạn khai báo!</h2>
     <div class="CitizenPage-flex">
       <div class="backButton">
         <ButtonBackDrillDown
@@ -122,7 +122,7 @@
       :columns="this.columns"
       :data="this.data"
       :pagination="this.pagination"
-      :fetch="this.fetchData"
+      :fetch="() => this.fetchData(this.queries)"
       :groupSearch="this.groupSearch"
       :addGroup="this.addGroup"
       :clearGroup="this.clearGroup"
@@ -196,6 +196,7 @@ import {
 } from '../utilities/constTableData';
 import { getName, level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
+import { message } from '../utilities/messageValidate';
 export default {
   components: {
     HeaderMenu,
@@ -231,13 +232,7 @@ export default {
     fetchProvinceData(params = {}) {
       getProvince({
         ...params,
-      }).then((data) => {
-        data.data.forEach((row) => {
-          getStatus(row.code).then((res) => {
-            row['status'] = res.data.status;
-          });
-        });
-        console.log(data.data);
+      }).then(async (data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = 63;
         pagination.current = data.page;
@@ -245,6 +240,17 @@ export default {
         this.pagination = pagination;
         this.columns = columnProvince;
         this.scroll = {};
+        this.data.forEach((row) => {
+          getStatus(row.code).then((res) => {
+            if (_.has(res, 'data')) {
+              row['status'] = res.data.status;
+            } else {
+              row['status'] = 'NOT OPEN';
+            }
+          });
+        });
+        // this.data = _.cloneDeep(this.data);
+        console.log(this.data);
       });
     },
     fetchDistrictData(params = {}) {
@@ -254,7 +260,11 @@ export default {
       }).then((data) => {
         data.data.forEach((row) => {
           getStatus(row.code).then((res) => {
-            row['status'] = res.data.status;
+            if (_.has(res, 'data')) {
+              row['status'] = res.data.status;
+            } else {
+              row['status'] = 'NOT OPEN';
+            }
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -273,7 +283,11 @@ export default {
       }).then((data) => {
         data.data.forEach((row) => {
           getStatus(row.code).then((res) => {
-            row['status'] = res.data.status;
+            if (_.has(res, 'data')) {
+              row['status'] = res.data.status;
+            } else {
+              row['status'] = 'NOT OPEN';
+            }
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -292,7 +306,11 @@ export default {
       }).then((data) => {
         data.data.forEach((row) => {
           getStatus(row.code).then((res) => {
-            row['status'] = res.data.status;
+            if (_.has(res, 'data')) {
+              row['status'] = res.data.status;
+            } else {
+              row['status'] = 'NOT OPEN';
+            }
           });
         });
         const pagination = _.cloneDeep(this.pagination);
@@ -307,7 +325,6 @@ export default {
     },
     fetchCitizenData(params = {}) {
       getCitizen({
-        // ...params,
         resourceCode: this.queries.resourceCode || this.resourceCode,
       }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
@@ -317,7 +334,6 @@ export default {
         this.pagination = pagination;
         this.columns = columnsCitizen;
         this.scroll = { x: 2000 };
-        console.log(this.data);
       });
     },
     fetchData(params = {}) {
@@ -518,14 +534,16 @@ export default {
     doneSurvey() {
       B1Approve(this.user.code)
         .then((res) => {
-          console.log(res);
+          if (res.success) {
+            this.$message.info(`${message.B1_CONFIRM}`);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     },
   },
-  mounted() {
+  created() {
     this.navigate();
     this.getQueries();
     this.fetchData(this.queries);
@@ -546,6 +564,5 @@ export default {
       this.clearGroup();
     },
   },
-  updated() {},
 };
 </script>
