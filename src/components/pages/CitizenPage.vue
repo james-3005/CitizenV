@@ -122,7 +122,7 @@
       :columns="this.columns"
       :data="this.data"
       :pagination="this.pagination"
-      :fetch="() => this.fetchData(this.queries)"
+      :fetch="this.fetchData"
       :groupSearch="this.groupSearch"
       :addGroup="this.addGroup"
       :clearGroup="this.clearGroup"
