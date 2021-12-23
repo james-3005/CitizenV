@@ -73,7 +73,7 @@ const columnsCitizen = [
     fixed: 'right',
   },
   {
-    title: 'Hành động',
+    title: 'Tác vụ',
     // key: 'action',
     scopedSlots: { customRender: 'action' },
     className: 'Table-action',
@@ -109,6 +109,12 @@ const columnProvince = [
     slots: { title: 'code' },
     scopedSlots: { customRender: 'code' },
   },
+  {
+    title: 'Tác vụ',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
+  },
 ];
 
 const columnDistrict = [
@@ -140,6 +146,12 @@ const columnDistrict = [
     slots: { title: 'code' },
     scopedSlots: { customRender: 'code' },
   },
+  {
+    title: 'Tác vụ',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
+  },
 ];
 const columnWard = [
   {
@@ -169,6 +181,12 @@ const columnWard = [
     className: 'Table-code',
     scopedSlots: { customRender: 'code' },
   },
+  {
+    title: 'Tác vụ',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
+  },
 ];
 const columnQuarter = [
   {
@@ -197,6 +215,12 @@ const columnQuarter = [
     dataIndex: 'code',
     className: 'Table-code',
     scopedSlots: { customRender: 'code' },
+  },
+  {
+    title: 'Tác vụ',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
   },
 ];
 function addSTTcolumns(
@@ -277,7 +301,7 @@ const columnsAccount = [
     className: 'Table-permission',
   },
   {
-    title: 'Hành động',
+    title: 'Tác vụ',
     scopedSlots: { customRender: 'action' },
     className: 'Table-action',
   },
