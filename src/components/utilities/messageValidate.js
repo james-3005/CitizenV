@@ -16,4 +16,6 @@ export const message = {
   TIME_SET_SUCCESS: '',
   TIME_SET_FAIL: '',
   TIME_INVALID: '',
+  DELETE_UNIT_SUCCESS: 'Xóa đơn vị thành công',
+  DELETE_UNIT_FAIL: 'Xóa đơn vị thất bại',
 };
