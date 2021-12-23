@@ -305,7 +305,7 @@ export default {
     },
     fetchCitizenData(params = {}) {
       getCitizen({
-        // ...params,
+        ...params,
         resourceCode: this.queries.resourceCode || this.resourceCode,
       }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
@@ -382,9 +382,7 @@ export default {
       this.form_citizen_visible = false;
     },
     openAdjustCitizenForm(data) {
-      console.log('got the data', data);
       this.selectedRowData = data;
-      console.log('selected row data', this.selectedRowData);
       this.form_adjust_citizen_visible = true;
     },
     closeAdjustCitizenForm() {
@@ -446,11 +444,12 @@ export default {
     },
     searchGroup() {
       this.resourceCode = this.groupSearch.map((item) => item.code).toString();
-      this.fetchCitizenData({
-        resourceCode: this.resourceCode,
-      });
+      // this.fetchCitizenData({
+      //   resourceCode: this.resourceCode,
+      // });
       this.backupFetch = this.fetchData;
       this.fetchData = this.fetchCitizenData;
+      this.fetchData();
       this.isSearchingGroup = true;
     },
     deleteItemGroup(value) {
@@ -549,6 +548,5 @@ export default {
       this.clearGroup();
     },
   },
-  updated() {},
 };
 </script>
