@@ -9,9 +9,9 @@
       :row-key="(record) => record._id"
       :scroll="scroll"
     >
-      <span slot="customTitle"
-        ><a-icon type="plus-circle" theme="twoTone" class="add"
-      /></span>
+      <span slot="customTitle" @click="handleAddAll">
+        <a-icon type="plus-circle" theme="twoTone" class="add" />
+      </span>
       <span slot="add" slot-scope="data">
         <a-icon
           type="plus-circle"
@@ -110,6 +110,7 @@ export default {
     'addGroup',
     'clearGroup',
     'scroll',
+    'handleAddAll',
   ],
   data: () => {
     return {
