@@ -232,25 +232,32 @@ export default {
     fetchProvinceData(params = {}) {
       getProvince({
         ...params,
-      }).then(async (data) => {
+      }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
         pagination.total = 63;
         pagination.current = data.page;
-        this.data = data.data;
         this.pagination = pagination;
         this.columns = columnProvince;
         this.scroll = {};
-        this.data.forEach((row) => {
-          getStatus(row.code).then((res) => {
-            if (_.has(res, 'data')) {
-              row['status'] = res.data.status;
-            } else {
-              row['status'] = 'NOT OPEN';
-            }
-          });
+        Promise.all(
+          data.data.map(async (row) => {
+            return getStatus(row.code).then((res) => {
+              if (_.has(res, 'data')) {
+                return {
+                  ...row,
+                  status: res.data.status,
+                };
+              } else {
+                return {
+                  ...row,
+                  status: 'NOT OPEN',
+                };
+              }
+            });
+          }),
+        ).then((res) => {
+          this.data = res;
         });
-        // this.data = _.cloneDeep(this.data);
-        console.log(this.data);
       });
     },
     fetchDistrictData(params = {}) {
@@ -543,7 +550,7 @@ export default {
         });
     },
   },
-  created() {
+  mounted() {
     this.navigate();
     this.getQueries();
     this.fetchData(this.queries);
