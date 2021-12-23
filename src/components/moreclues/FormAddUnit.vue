@@ -34,6 +34,7 @@
 <script>
 import moment from 'moment';
 import { getUser } from '../utilities/localStorage';
+import { addUnit } from '../../services/auth';
 const plainOptions = ['Thêm', 'Đọc', 'Sửa', 'Xóa'];
 export default {
   data: function () {
@@ -52,8 +53,21 @@ export default {
   },
   methods: {
     handleRegister() {
-      console.log(this.prefixCode + this.unitCode);
-      console.log(this.name);
+      console.log(this.prefixCode + this.unitCode, this.name);
+      const code = this.prefixCode + this.unitCode;
+      const name = this.name;
+      addUnit({
+        code: code,
+        name: name,
+      }).then((res) => {
+        if (res.success) {
+          console.log(res.data);
+          this.$message.success('Thêm đơn vị thành công');
+        } else {
+          console.log(res.data);
+          this.$message.error('Đã xảy ra lỗi, vui lòng thử lại');
+        }
+      });
     },
   },
   updated() {
