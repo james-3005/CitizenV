@@ -109,6 +109,12 @@ const columnProvince = [
     slots: { title: 'code' },
     scopedSlots: { customRender: 'code' },
   },
+  {
+    title: 'Hành động',
+    // key: 'action',
+    scopedSlots: { customRender: 'action' },
+    className: 'Table-action',
+  },
 ];
 
 const columnDistrict = [
