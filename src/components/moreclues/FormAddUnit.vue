@@ -25,7 +25,7 @@
     <a-button
       type="primary"
       class="FormAddAccount-submit"
-      @click="handleRegister"
+      @click="handleRegister()"
       >Tạo</a-button
     >
   </div>
@@ -68,6 +68,9 @@ export default {
           this.$message.error('Đã xảy ra lỗi, vui lòng thử lại');
         }
       });
+    },
+    handleClick() {
+      console.log(getUser().resourceCode, getUser().level);
     },
   },
   updated() {

@@ -35,10 +35,17 @@
           :disabled="userPermission !== '1111'"
         />
       </span>
-      <span slot="action" slot-scope="data">
-        <a class="adjust" @click="() => handleAdjustAccount(data)">Chỉnh sửa</a
-        ><br />
-        <a class="delete" @click="() => handleDeleteAccount(data)">Xoá</a>
+      <span slot="action" slot-scope="data" class="action">
+        <a-icon
+          type="edit"
+          class="adjust"
+          @click="() => handleAdjustAccount(data)"
+        />
+        <a-icon
+          type="delete"
+          class="delete"
+          @click="() => handleDeleteAccount(data)"
+        />
       </span>
     </a-table>
     <a-drawer
@@ -119,7 +126,7 @@ export default {
     onChangeChecked(data, value) {
       updatePermission(data._id, value).then((res) => {
         if (res.success) {
-          this.$message.info(
+          this.$message.success(
             `${message.UPDATE_PERMISSION_SUCCESS} cho ${res.data.name}`,
           );
         } else this.$message.error(message.UPDATE_PERMISSION_FALIL);
@@ -135,7 +142,7 @@ export default {
         onOk() {
           deleteAccountById(user._id).then((res) => {
             if (res.success) {
-              self.$message.info(
+              self.$message.success(
                 `${message.DELETE_USER_SUCCESS}: ${res.data.name}`,
               );
               self.data = self.data.filter((item) => item._id !== user._id);
