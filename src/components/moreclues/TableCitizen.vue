@@ -45,7 +45,7 @@
         </p>
       </span>
       <span slot="ward" slot-scope="ward">
-        <p class="blue" @click="() => handleClickWard(ward.name)">
+        <p class="blue" @click="() => handleClickWard(ward)">
           <a-tooltip>
             <template slot="title"> Đi đến {{ ward.name }} </template>
             {{ ward.name }}
@@ -157,15 +157,26 @@ export default {
       this.$emit('adjustCitizen', rowData);
     },
     handleDelete(rowData) {
+      const self = this;
       console.log(rowData);
-      deleteCitizen(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.info('Xoa thanh cong');
-          console.log(res.data);
-        } else {
-          this.$message.error('Co loi xay ra');
-          console.log(res.data);
-        }
+      this.$confirm({
+        title: 'Bạn có muốn xoá thông tin công dân này không',
+        okText: 'Có',
+        okType: 'danger',
+        cancelText: 'Huỷ',
+        onOk() {
+          deleteCitizen(rowData._id).then((res) => {
+            if (res.success) {
+              self.$message.info(message.DELETE_CITIZEN_SUCCESS);
+              self.removeValue(rowData);
+              console.log(res.data);
+            } else {
+              self.$message.error(message.DELETE_CITIZEN_FAIL);
+              console.log(res.data);
+            }
+          });
+        },
+        onCancel() {},
       });
     },
     handleAdjustUnit(rowData) {
@@ -253,7 +264,9 @@ export default {
         },
       });
     },
-    handleClickWard(wardName) {
+    handleClickWard(ward) {
+      console.log('hi ward', ward);
+      const wardName = ward.name;
       this.$router.push({
         query: {
           ...this.$route.query,

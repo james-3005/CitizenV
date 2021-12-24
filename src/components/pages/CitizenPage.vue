@@ -152,6 +152,7 @@
         :data="data"
         :toAdd="true"
         :toAdjust="false"
+        :addValue="addValue"
       />
     </a-drawer>
     <a-drawer

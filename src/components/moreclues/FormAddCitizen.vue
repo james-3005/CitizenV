@@ -114,9 +114,10 @@ import moment from 'moment';
 import { addCitizen, updateCitizen } from '../../services/auth';
 import { getUser } from '../utilities/localStorage';
 import { getQuarter } from '../../services/getCitizen';
+import { message } from '../utilities/messageValidate';
 
 export default {
-  props: ['address', 'data', 'toAdd', 'toAdjust'],
+  props: ['address', 'data', 'toAdd', 'toAdjust', 'addValue'],
   data: function () {
     return {
       moment,
@@ -164,7 +165,18 @@ export default {
         levelOfEducation: this.levelOfEducation,
         job: this.job,
         resourceCode: this.resourceCode,
-      }).then((res) => console.log(res));
+        // status: getUser().level === 4 ? "DONE" : "PENDING",
+      }).then((res) => {
+        console.log(res);
+        if (res.success) {
+          this.$message.success(message.REGISTER_SUCCESS);
+          this.addValue(res.data);
+          console.log(res.data);
+        } else {
+          this.$message.error(message.REGISTER_FAIL);
+          console.log(res.data);
+        }
+      });
     },
     handleAdjust() {
       console.log('dcm');
@@ -208,6 +220,7 @@ export default {
     this.placeOfOrigin = citizenAddress;
     this.placeOfResidence = citizenAddress;
     this.shelterAddress = citizenAddress;
+    this.resourceCode = getUser().resourceCode;
     if (this.toAdjust === true) {
       console.log('this is to adjust');
       // console.log(this.data);
