@@ -362,6 +362,7 @@ export default {
     },
     fetchCitizenData(params = {}) {
       getCitizen({
+        ...params,
         resourceCode: this.queries.resourceCode || this.resourceCode,
       }).then((data) => {
         const pagination = _.cloneDeep(this.pagination);
