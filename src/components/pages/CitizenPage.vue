@@ -636,10 +636,12 @@ export default {
       this.data = this.data.filter((item) => item._id !== value._id);
     },
   },
-  mounted() {
+  created() {
     this.navigate();
-    this.getQueries();
-    this.fetchData(this.queries);
+    if (this.userLevel == 1) {
+      this.getQueries();
+      this.fetchData(this.queries);
+    }
     addSTTcolumns.bind(this)(
       columnProvince,
       columnDistrict,
