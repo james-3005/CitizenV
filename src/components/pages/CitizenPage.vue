@@ -152,6 +152,7 @@
         :data="data"
         :toAdd="true"
         :toAdjust="false"
+        :addValue="addValue"
       />
     </a-drawer>
     <a-drawer
@@ -571,15 +572,23 @@ export default {
       }
     },
     doneSurvey() {
-      B1Approve(this.user.code)
-        .then((res) => {
-          if (res.success) {
-            this.$message.info(`${message.B1_CONFIRM}`);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const self = this;
+      this.$confirm({
+        title: 'Bạn có xác nhận hoàn thành không',
+        okText: 'Có',
+        okType: 'danger',
+        cancelText: 'Huỷ',
+        onOk() {
+          B1Approve(self.user.code).then((res) => {
+            if (res.success) {
+              self.$message.info(`${message.B1_CONFIRM}`);
+            } else {
+              self.$message.error('Failed');
+            }
+          });
+        },
+        onCancel() {},
+      });
     },
     handleAddAll() {
       if (this.level === 0) {
@@ -629,8 +638,6 @@ export default {
   },
   mounted() {
     this.navigate();
-    this.getQueries();
-    this.fetchData(this.queries);
     addSTTcolumns.bind(this)(
       columnProvince,
       columnDistrict,
@@ -641,6 +648,7 @@ export default {
   },
   watch: {
     $route() {
+      this.data = [];
       this.getQueries();
       this.fetchData(this.queries);
       this.unitsName = [];
