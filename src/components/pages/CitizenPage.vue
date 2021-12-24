@@ -629,8 +629,6 @@ export default {
   },
   mounted() {
     this.navigate();
-    this.getQueries();
-    this.fetchData(this.queries);
     addSTTcolumns.bind(this)(
       columnProvince,
       columnDistrict,
@@ -641,6 +639,7 @@ export default {
   },
   watch: {
     $route() {
+      this.data = [];
       this.getQueries();
       this.fetchData(this.queries);
       this.unitsName = [];
