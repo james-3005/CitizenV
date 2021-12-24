@@ -85,20 +85,32 @@
           {{ data.status }}
         </a-tag>
       </span>
-      <span slot="action" slot-scope="data">
-        <a v-if="data.code" class="adjust" @click="() => handleAdjustUnit(data)"
-          >Chỉnh sửa don vi</a
-        >
-        <a v-if="!data.code" class="adjust" @click="() => handleAdjust(data)"
-          >Chỉnh sửa dan</a
-        >
-        <br />
-        <a v-if="data.code" class="delete" @click="() => handleDeleteUnit(data)"
-          >Xoá don vi</a
-        >
-        <a v-if="!data.code" class="delete" @click="() => handleDelete(data)"
-          >Xoá dan</a
-        >
+      <span slot="action" slot-scope="data" class="action">
+        <a-icon
+          type="edit"
+          v-if="data.code"
+          class="adjust"
+          @click="() => handleAdjustUnit(data)"
+        />
+        <a-icon
+          type="edit"
+          v-if="!data.code"
+          class="adjust"
+          @click="() => handleAdjust(data)"
+        />
+
+        <a-icon
+          type="delete"
+          v-if="data.code"
+          class="delete"
+          @click="() => handleDeleteUnit(data)"
+        />
+        <a-icon
+          type="delete"
+          v-if="!data.code"
+          class="delete"
+          @click="() => handleDelete(data)"
+        />
       </span>
     </a-table>
   </div>
@@ -130,6 +142,7 @@ export default {
     'clearGroup',
     'scroll',
     'handleAddAll',
+    'removeValue',
   ],
   data: () => {
     return {
@@ -173,48 +186,29 @@ export default {
       });
     },
     handleDeleteProvince(rowData) {
+      console.log(rowData);
       deleteProvince(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
     handleDeleteDistrict(rowData) {
       deleteDistrict(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
     handleDeleteWard(rowData) {
       deleteWard(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
     handleDeleteQuarter(rowData) {
       deleteQuarter(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
 
     deleteUnit(rowData) {
-      const userLevel = rowData.code.length / 2;
+      const userLevel = getUser().level;
       switch (userLevel) {
         case 1:
           return this.handleDeleteProvince(rowData);
@@ -226,6 +220,15 @@ export default {
           return this.handleDeleteQuarter(rowData);
         default:
           break;
+      }
+    },
+
+    handleResponse(res, rowData) {
+      if (res.success) {
+        this.$message.success(message.DELETE_UNIT_SUCCESS);
+        this.removeValue(rowData);
+      } else {
+        this.$message.error(message.DELETE_UNIT_FAIL);
       }
     },
 

@@ -16,6 +16,23 @@ export const addUnit = (params) =>
   requestWithToken.post('/province', {
     ...params,
   });
+export const addProvince = (params) =>
+  requestWithToken.post('/province', {
+    ...params,
+  });
+export const addDistrict = (params) =>
+  requestWithToken.post('/district', {
+    ...params,
+  });
+
+export const addWard = (params) =>
+  requestWithToken.post('/ward', {
+    ...params,
+  });
+export const addQuarter = (params) =>
+  requestWithToken.post('/quarter', {
+    ...params,
+  });
 
 export const deleteUnit = (_id) => requestWithToken.delete(`/province/${_id}`);
 export const deleteProvince = (_id) =>
