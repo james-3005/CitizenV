@@ -638,6 +638,8 @@ export default {
   },
   mounted() {
     this.navigate();
+    this.getQueries();
+    this.fetchData(this.queries);
     addSTTcolumns.bind(this)(
       columnProvince,
       columnDistrict,
