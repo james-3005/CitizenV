@@ -1,6 +1,6 @@
 <template>
   <div :class="['SideBar', isExpanded ? 'isExpanded' : '']">
-    <img src="../../assets/svg/appLogo.svg" alt="" class="SideBar-appLogo" />
+    <img src="../../assets/danso.png" alt="" class="SideBar-appLogo" />
     <img src="../../assets/svg/textLogo.svg" alt="" class="SideBar-textLogo" />
     <div class="SideBar-btn">
       <div class="SideBar-btn-logoContent" @click="expand_sidebar">
