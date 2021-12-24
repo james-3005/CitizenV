@@ -142,6 +142,7 @@ export default {
     'clearGroup',
     'scroll',
     'handleAddAll',
+    'removeValue',
   ],
   data: () => {
     return {
@@ -187,42 +188,22 @@ export default {
     handleDeleteProvince(rowData) {
       console.log(rowData);
       deleteProvince(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
     handleDeleteDistrict(rowData) {
       deleteDistrict(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
     handleDeleteWard(rowData) {
       deleteWard(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
     handleDeleteQuarter(rowData) {
       deleteQuarter(rowData._id).then((res) => {
-        if (res.success) {
-          this.$message.success(message.DELETE_UNIT_SUCCESS);
-          this.data = this.data.filter((item) => item._id !== rowData._id);
-        } else {
-          this.$message.error(message.DELETE_UNIT_FAIL);
-        }
+        this.handleResponse(res, rowData);
       });
     },
 
@@ -239,6 +220,15 @@ export default {
           return this.handleDeleteQuarter(rowData);
         default:
           break;
+      }
+    },
+
+    handleResponse(res, rowData) {
+      if (res.success) {
+        this.$message.success(message.DELETE_UNIT_SUCCESS);
+        this.removeValue(rowData);
+      } else {
+        this.$message.error(message.DELETE_UNIT_FAIL);
       }
     },
 

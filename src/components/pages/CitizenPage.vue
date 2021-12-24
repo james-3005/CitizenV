@@ -129,6 +129,7 @@
       :scroll="this.scroll"
       @adjustCitizen="openAdjustCitizenForm($event)"
       :handleAddAll="handleAddAll"
+      :removeValue="removeValue"
     />
     <a-drawer
       title="Nhập thông tin don vi"
@@ -137,7 +138,7 @@
       class="drawer"
       @close="closeUnitForm"
     >
-      <form-add-unit />
+      <form-add-unit :addValue="addValue" />
     </a-drawer>
     <a-drawer
       title="Nhập thông tin công dân"
@@ -617,6 +618,13 @@ export default {
         });
         return;
       }
+    },
+
+    addValue(value) {
+      this.data.push(value);
+    },
+    removeValue(value) {
+      this.data = this.data.filter((item) => item._id !== value._id);
     },
   },
   mounted() {

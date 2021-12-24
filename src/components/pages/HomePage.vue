@@ -18,8 +18,9 @@
             {{ user.username }}
           </a-avatar>
           <div>
-            <p>{{ user.name }}</p>
-            <p>{{ levelName }}</p>
+            <h2>{{ organizationName }}</h2>
+            <h3>{{ user.name }}</h3>
+            <!-- <h3>{{ levelName }}</h3> -->
           </div>
           <router-link to="/conference/citizen">
             <a-button type="primary"
@@ -45,6 +46,7 @@ export default {
       imgs: ['appLogo', 'textLogo'],
       user: getUser(),
       levelName: '',
+      organizationName: '',
     };
   },
   methods: {
@@ -67,9 +69,26 @@ export default {
           return '';
       }
     },
+    formatOrganizationName(level) {
+      switch (level) {
+        case 1:
+          return 'Tổng cục Dân số - Bộ Y tế';
+        case 2:
+          return 'Chi cục dân số  - Sở Y tế  ' + this.user.resourceName;
+        case 3:
+          return 'Phòng Y tế  ' + this.user.resourceName;
+        case 4:
+          return 'Trạm Y tế ' + this.user.resourceName;
+        case 5:
+          return this.user.resourceName;
+        default:
+          return '';
+      }
+    },
   },
   mounted() {
     this.levelName = this.formatLevelName(this.user.level);
+    this.organizationName = this.formatOrganizationName(this.user.level);
   },
 };
 </script>
