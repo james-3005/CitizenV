@@ -12,6 +12,37 @@ export const addAccount = (params) =>
     ...params,
   });
 
+export const addUnit = (params) =>
+  requestWithToken.post('/province', {
+    ...params,
+  });
+export const addProvince = (params) =>
+  requestWithToken.post('/province', {
+    ...params,
+  });
+export const addDistrict = (params) =>
+  requestWithToken.post('/district', {
+    ...params,
+  });
+
+export const addWard = (params) =>
+  requestWithToken.post('/ward', {
+    ...params,
+  });
+export const addQuarter = (params) =>
+  requestWithToken.post('/quarter', {
+    ...params,
+  });
+
+export const deleteUnit = (_id) => requestWithToken.delete(`/province/${_id}`);
+export const deleteProvince = (_id) =>
+  requestWithToken.delete(`/province/${_id}`);
+export const deleteDistrict = (_id) =>
+  requestWithToken.delete(`/district/${_id}`);
+export const deleteWard = (_id) => requestWithToken.delete(`/ward/${_id}`);
+export const deleteQuarter = (_id) =>
+  requestWithToken.delete(`/quarter/${_id}`);
+
 export const addCitizen = (params) =>
   requestWithToken.post('/form', {
     ...params,
@@ -22,7 +53,7 @@ export const updateCitizen = (_id, params) =>
     ...params,
   });
 
-export const deleteCitizen = (_id) => requestWithToken.delete(`/user/${_id}`);
+export const deleteCitizen = (_id) => requestWithToken.delete(`/form/${_id}`);
 
 export const changePassword = (oldPassword, password) =>
   requestWithToken.patch(`/user/${getUser()._id}/change-password`, {

@@ -215,12 +215,11 @@ export default {
       }
     },
     handleClick() {
-      console.log('params to send:', this.units_values[this.levelToSend]);
       var codes;
       if (this.units_values[this.levelToSend] === undefined) {
         codes = getUser().resourceCode;
       } else {
-        codes = this.units_values[this.levelToSend];
+        codes = this.units_values[this.levelToSend].join(',');
       }
       Promise.all([
         getAgeStat({
@@ -237,8 +236,6 @@ export default {
           const femaleData = res[1].data;
           const totalForms = maleData[0].totalForms + femaleData[0].totalForms;
           // update data
-          console.log(maleData);
-          console.log(femaleData);
           const categories = maleData
             .map(function (e) {
               return String(e.ageFrom) + '-' + String(e.ageTo);

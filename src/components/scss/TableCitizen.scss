@@ -3,11 +3,26 @@
   height: 500px;
   // border: 1px solid black
   // overflow-y: scroll;
+  .action {
+    display: flex;
+    justify-content: center;
+  }
   .adjust {
     color: orange;
+    font-size: 1.1rem;
+    padding-right: 0.3rem;
   }
   .delete {
     color: rgb(207, 38, 38);
+    font-size: 1.1rem;
+  }
+  .clickable:hover {
+    cursor: pointer;
+  }
+  .approve {
+    color: #393cf5;
+    display: block;
+    margin-top: auto;
   }
   .clickable:hover {
     cursor: pointer;
@@ -34,17 +49,17 @@
     text-align: center !important;
   }
   &-key {
-    width: 100px !important;
+    width: 50px !important;
     text-align: center !important;
   }
   &-fullname {
-    width: 250px;
+    width: 200px;
   }
   &-gender {
     width: 100px !important;
   }
   &-address {
-    width: 400px !important;
+    width: 300px !important;
   }
   &-status {
     width: 100px;
@@ -53,7 +68,7 @@
     align-items: center;
   }
   &-action {
-    width: 7%;
+    width: 50px;
   }
   &-code {
     width: 10% !important;
@@ -67,20 +82,21 @@
     width: 400px !important;
   }
   &-action {
-    width: 150px !important;
+    width: 80px !important;
   }
   &-dob {
-    width: 200px !important;
+    width: 150px !important;
     text-align: center !important;
   }
   &-religion {
-    width: 160px !important;
+    width: 100px !important;
   }
   &-job {
     width: 160px !important;
   }
   &-status {
-    text-align: center;
+    text-align: center !important;
+    width: 160px;
   }
 }
 .blue {

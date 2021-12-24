@@ -13,7 +13,9 @@ export const message = {
   TOKEN_EXPIRED: 'TOKEN_EXPIRED',
   DELETE_USER_SUCCESS: 'Xoá tài khoản thành công',
   B1_CONFIRM: 'Hoàn thành khai báo',
-  TIME_SET_SUCCESS: '',
-  TIME_SET_FAIL: '',
-  TIME_INVALID: '',
+  TIME_SET_SUCCESS: 'Cấp thời gian khai báo thành công',
+  TIME_SET_FAIL: 'Cấp thời gian khai báo thất bại',
+  TIME_INVALID: 'Vui lòng chọn khoảng thời gian khai báo hợp lệ',
+  DELETE_UNIT_SUCCESS: 'Xóa đơn vị thành công',
+  DELETE_UNIT_FAIL: 'Xóa đơn vị thất bại',
 };

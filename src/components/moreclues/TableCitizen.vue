@@ -9,9 +9,9 @@
       :row-key="(record) => record._id"
       :scroll="scroll"
     >
-      <span slot="customTitle"
-        ><a-icon type="plus-circle" theme="twoTone" class="add"
-      /></span>
+      <span slot="customTitle" @click="handleAddAll">
+        <a-icon type="plus-circle" theme="twoTone" class="add" />
+      </span>
       <span slot="add" slot-scope="data">
         <a-icon
           type="plus-circle"
@@ -85,9 +85,32 @@
           {{ data.status }}
         </a-tag>
       </span>
-      <span slot="action" slot-scope="data">
-        <a class="adjust" @click="() => handleAdjust(data)">Chỉnh sửa</a><br />
-        <a class="delete" @click="() => handleDelete(data)">Xoá</a>
+      <span slot="action" slot-scope="data" class="action">
+        <a-icon
+          type="edit"
+          v-if="data.code"
+          class="adjust"
+          @click="() => handleAdjustUnit(data)"
+        />
+        <a-icon
+          type="edit"
+          v-if="!data.code"
+          class="adjust"
+          @click="() => handleAdjust(data)"
+        />
+
+        <a-icon
+          type="delete"
+          v-if="data.code"
+          class="delete"
+          @click="() => handleDeleteUnit(data)"
+        />
+        <a-icon
+          type="delete"
+          v-if="!data.code"
+          class="delete"
+          @click="() => handleDelete(data)"
+        />
       </span>
     </a-table>
   </div>
@@ -96,9 +119,17 @@
 <script>
 import _ from 'lodash';
 import moment from 'moment';
-import { deleteCitizen } from '../../services/auth';
+import {
+  deleteCitizen,
+  deleteDistrict,
+  deleteProvince,
+  deleteQuarter,
+  deleteUnit,
+  deleteWard,
+} from '../../services/auth';
 import { formApprove } from '../../services/survey';
 import { getUser } from '../utilities/localStorage';
+import { message } from '../utilities/messageValidate';
 export default {
   name: 'TableCitizen',
   props: [
@@ -110,6 +141,8 @@ export default {
     'addGroup',
     'clearGroup',
     'scroll',
+    'handleAddAll',
+    'removeValue',
   ],
   data: () => {
     return {
@@ -135,6 +168,70 @@ export default {
         }
       });
     },
+    handleAdjustUnit(rowData) {
+      console.log(this.data);
+    },
+
+    handleDeleteUnit(rowData) {
+      const self = this;
+      this.$confirm({
+        title: 'Bạn có muốn xoá đơn vị này không',
+        okText: 'Có',
+        okType: 'danger',
+        cancelText: 'Huỷ',
+        onOk() {
+          self.deleteUnit(rowData);
+        },
+        onCancel() {},
+      });
+    },
+    handleDeleteProvince(rowData) {
+      console.log(rowData);
+      deleteProvince(rowData._id).then((res) => {
+        this.handleResponse(res, rowData);
+      });
+    },
+    handleDeleteDistrict(rowData) {
+      deleteDistrict(rowData._id).then((res) => {
+        this.handleResponse(res, rowData);
+      });
+    },
+    handleDeleteWard(rowData) {
+      deleteWard(rowData._id).then((res) => {
+        this.handleResponse(res, rowData);
+      });
+    },
+    handleDeleteQuarter(rowData) {
+      deleteQuarter(rowData._id).then((res) => {
+        this.handleResponse(res, rowData);
+      });
+    },
+
+    deleteUnit(rowData) {
+      const userLevel = getUser().level;
+      switch (userLevel) {
+        case 1:
+          return this.handleDeleteProvince(rowData);
+        case 2:
+          return this.handleDeleteDistrict(rowData);
+        case 3:
+          return this.handleDeleteWard(rowData);
+        case 4:
+          return this.handleDeleteQuarter(rowData);
+        default:
+          break;
+      }
+    },
+
+    handleResponse(res, rowData) {
+      if (res.success) {
+        this.$message.success(message.DELETE_UNIT_SUCCESS);
+        this.removeValue(rowData);
+      } else {
+        this.$message.error(message.DELETE_UNIT_FAIL);
+      }
+    },
+
     handleTableChange(pagination, filters, sorter) {
       this.fetch({
         page: pagination.current,

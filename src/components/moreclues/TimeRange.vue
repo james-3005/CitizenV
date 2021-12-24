@@ -51,7 +51,10 @@ export default {
         'Hợp lệ': [moment(), moment().endOf('year')],
         // 'Hợp lệ': [moment(getUser().startDate), moment(getUser().endDate)],
       },
-      appointedRange: [moment().startOf('year'), moment().endOf('year')],
+      appointedRange: [
+        moment().startOf('year'),
+        moment().add(10, 'years').calendar(),
+      ],
       startValue: '',
       endValue: '',
       boundedStart: '',
@@ -73,7 +76,7 @@ export default {
           createdAt: startTime,
           expiresAt: endTime,
         }).then((res) => {
-          if (res.success) this.$message.info(message.TIME_SET_SUCCESS);
+          if (res.success) this.$message.success(message.TIME_SET_SUCCESS);
           else this.$message.error(message.TIME_SET_FAIL);
           console.log(res.data);
         });
@@ -108,7 +111,12 @@ export default {
   mounted() {
     var code;
     if (this.level === 1) {
-      console.log('A1 cut cut');
+      console.log('A1 cut cutttt');
+      getDateByCode('vn').then((res) => {
+        console.log('A1 info', res.data);
+        const data = res.data;
+        this.ranges = [data.createdAt, data.expiresAt];
+      });
     } else {
       const resourceCode = getUser().resourceCode;
       code = resourceCode.substring(0, resourceCode.length - 2);
@@ -120,6 +128,10 @@ export default {
           'Hợp lệ': [moment(data.createdAt), moment(data.expiresAt)],
         };
         console.log(this.appointedRange);
+      });
+      getDateByCode(resourceCode).then((res) => {
+        const data = res.data;
+        this.ranges = [data.createdAt, data.expiresAt];
       });
     }
   },
