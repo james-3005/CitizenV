@@ -196,10 +196,10 @@ export default {
         status: 'DONE',
       }).then((res) => {
         if (res.success) {
-          this.$message.info('Cap nhat thanh cong');
+          this.$message.success('Cập nhật thành công');
           console.log(res.data);
         } else {
-          this.$message.error('Co loi xay ra');
+          this.$message.error('Có lỗi xảy ra');
           console.log(res.data);
         }
       });
@@ -244,13 +244,9 @@ export default {
       this.fullname = value.fullname;
       this.dob = value.dob;
       this.gender = value.gender;
-      this.placeOfOrigin = value.placeOfOrigin;
-      this.placeOfResidence = value.placeOfResidence;
-      this.shelterAddress = value.shelterAddress;
       this.religion = value.religion;
       this.levelOfEducation = value.levelOfEducation;
       this.job = value.job;
-      this.resourceCode = value.resourceCode;
     },
   },
 };

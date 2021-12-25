@@ -9,10 +9,13 @@
   justify-content: center;
 }
 .adjust {
-  color: orange;
+  color: orange !important;
+  font-size: 1.1rem;
+  padding-right: 0.3rem;
 }
 .delete {
-  color: rgb(207, 38, 38);
+  color: rgb(207, 38, 38) !important;
+  font-size: 1.1rem;
 }
 .TableAccount th {
   text-align: center !important;
