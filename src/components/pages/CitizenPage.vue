@@ -611,7 +611,7 @@ export default {
         onOk() {
           B1Approve(self.user.code).then((res) => {
             if (res.success) {
-              self.$message.info(`${message.B1_CONFIRM}`);
+              self.$message.success(`${message.B1_CONFIRM}`);
             } else {
               self.$message.error('Failed');
             }

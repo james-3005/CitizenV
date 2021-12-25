@@ -220,7 +220,7 @@ export default {
     this.placeOfOrigin = citizenAddress;
     this.placeOfResidence = citizenAddress;
     this.shelterAddress = citizenAddress;
-    this.resourceCode = getUser().resourceCode;
+    this.resourceCode = this.$route.query.resourceCode;
     if (this.toAdjust === true) {
       console.log('this is to adjust');
       // console.log(this.data);

@@ -68,14 +68,14 @@
       </span>
       <span slot="status" slot-scope="data">
         <a-tag
-          :class="user.level == 4 ? 'clickable' : ''"
+          :class="user.level == 4 && this.columns.length > 6 ? 'clickable' : ''"
           :color="
             data.status == 'CLOSED'
               ? 'grey'
               : data.status == 'DOING' || data.status == 'PENDING'
-              ? 'green'
+              ? 'red'
               : data.status == 'DONE'
-              ? 'orange'
+              ? 'green'
               : ''
           "
           @click="() => handleApprove(data)"
