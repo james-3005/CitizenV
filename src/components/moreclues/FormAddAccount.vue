@@ -129,7 +129,7 @@ export default {
     };
   },
   mounted() {
-    this.getUnit(getUser().level, getUser().resourceName);
+    this.getUnit(getUser().level, getUser().resourceCode);
   },
   methods: {
     onChange(checkedList) {
@@ -144,7 +144,7 @@ export default {
         checkAll: e.target.checked,
       });
     },
-    getUnit(level, resourceName) {
+    getUnit(level, resourceCode) {
       switch (level) {
         case 1:
           getProvince({ perPage: 99999 }).then((res) => {
@@ -153,7 +153,7 @@ export default {
           });
           break;
         case 2:
-          getDistrict({ perPage: 99999, provinceName: resourceName }).then(
+          getDistrict({ perPage: 99999, provinceCode: resourceCode }).then(
             (res) => {
               this.units = res.data;
               this.unitsName = this.units.map((item) => item.name);
@@ -161,7 +161,7 @@ export default {
           );
           break;
         case 3:
-          getWard({ perPage: 99999, districtName: resourceName }).then(
+          getWard({ perPage: 99999, districtCode: resourceCode }).then(
             (res) => {
               this.units = res.data;
               this.unitsName = this.units.map((item) => item.name);
@@ -169,7 +169,7 @@ export default {
           );
           break;
         case 4:
-          getQuarter({ perPage: 99999, wardName: resourceName }).then((res) => {
+          getQuarter({ perPage: 99999, wardCode: resourceCode }).then((res) => {
             this.units = res.data;
             this.unitsName = this.units.map((item) => item.name);
           });
@@ -195,7 +195,7 @@ export default {
           permissions: this.permissions ? '1111' : '0100',
         }).then((res) => {
           if (res.success) {
-            this.$message.info(message.REGISTER_SUCCESS);
+            this.$message.success(message.REGISTER_SUCCESS);
             this.addAccount(res.data);
           } else {
             if (res.message === message.VALIDATOR_ERR)

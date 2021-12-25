@@ -43,7 +43,7 @@
         {{ moment(data.dob).format('DD-MM-YYYY') }}
       </span>
       <span slot="ward" slot-scope="ward">
-        <p class="blue" @click="() => handleClickWard(ward.name)">
+        <p class="blue" @click="() => handleClickWard(ward)">
           <a-tooltip>
             <template slot="title"> Đi đến {{ ward.name }} </template>
             {{ ward.name }}
@@ -263,7 +263,9 @@ export default {
         },
       });
     },
-    handleClickWard(wardName) {
+    handleClickWard(ward) {
+      console.log('hi ward', ward);
+      const wardName = ward.name;
       this.$router.push({
         query: {
           ...this.$route.query,

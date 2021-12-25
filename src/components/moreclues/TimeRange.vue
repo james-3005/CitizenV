@@ -48,12 +48,12 @@ export default {
       level: getUser().level,
       ranges: [],
       boundedRanges: {
-        'Hợp lệ': [moment(), moment().endOf('year')],
+        'Hợp lệ': [moment(), moment().add(10, 'years').endOf('year')],
         // 'Hợp lệ': [moment(getUser().startDate), moment(getUser().endDate)],
       },
       appointedRange: [
         moment().startOf('year'),
-        moment().add(10, 'years').calendar(),
+        moment().add(10, 'years').endOf('year'),
       ],
       startValue: '',
       endValue: '',
