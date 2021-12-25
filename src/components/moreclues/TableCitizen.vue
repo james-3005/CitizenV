@@ -68,7 +68,7 @@
       </span>
       <span slot="status" slot-scope="data">
         <a-tag
-          :class="user.level == 4 && this.columns.length > 6 ? 'clickable' : ''"
+          :class="user.level == 4 && columns.length > 6 ? 'clickable' : ''"
           :color="
             data.status == 'CLOSED'
               ? 'grey'
@@ -122,7 +122,6 @@ import {
   deleteDistrict,
   deleteProvince,
   deleteQuarter,
-  deleteUnit,
   deleteWard,
 } from '../../services/auth';
 import { formApprove } from '../../services/survey';
@@ -286,7 +285,7 @@ export default {
       this.$props.addGroup(name);
     },
     handleApprove(form) {
-      if (this.user.level == 4) {
+      if (this.user.level == 4 && this.columns.length > 6) {
         this.id = form._id;
         delete form.__v;
         delete form._id;
