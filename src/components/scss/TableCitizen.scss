@@ -24,6 +24,14 @@
     display: block;
     margin-top: auto;
   }
+  .clickable:hover {
+    cursor: pointer;
+  }
+  .approve {
+    color: #393cf5;
+    display: block;
+    margin-top: auto;
+  }
   .add {
     font-size: 20px;
     transition: 0.4s;
@@ -54,7 +62,7 @@
     width: 300px !important;
   }
   &-status {
-    width: 80px;
+    width: 100px;
     // display: flex;
     justify-content: center;
     align-items: center;
