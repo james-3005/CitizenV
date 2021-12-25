@@ -119,6 +119,7 @@
       </div>
     </div>
     <table-citizen
+      :level="this.level"
       :columns="this.columns"
       :data="this.data"
       :pagination="this.pagination"
@@ -274,6 +275,13 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnDistrict;
+        // if (this.userLevel == 2) {
+        //   this.columns.push({
+        //     title: 'Tác vụ',
+        //     scopedSlots: { customRender: 'action' },
+        //     className: 'Table-action',
+        //   })
+        // }
         this.scroll = {};
         Promise.all(
           data.data.map(async (row) => {
@@ -307,6 +315,13 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnWard;
+        // if (this.userLevel == 3) {
+        //   this.columns.push({
+        //     title: 'Tác vụ',
+        //     scopedSlots: { customRender: 'action' },
+        //     className: 'Table-action',
+        //   })
+        // }
         this.scroll = {};
         Promise.all(
           data.data.map(async (row) => {
@@ -340,6 +355,13 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnQuarter;
+        // if (this.userLevel == 4) {
+        //   this.columns.push({
+        //     title: 'Tác vụ',
+        //     scopedSlots: { customRender: 'action' },
+        //     className: 'Table-action',
+        //   })
+        // }
         this.scroll = {};
         Promise.all(
           data.data.map(async (row) => {
@@ -373,12 +395,20 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnsCitizen;
+        // if (this.userLevel >= 4) {
+        //   this.columns.push({
+        //     title: 'Tác vụ',
+        //     scopedSlots: { customRender: 'action' },
+        //     className: 'Table-action',
+        //     fixed: 'right'
+        //   })
+        // }
         this.scroll = { x: 2000 };
         console.log(this.data);
       });
     },
     fetchData(params = {}) {
-      if (this.level == 0) {
+      if (this.level == 0 && this.userLevel == 1) {
         return this.fetchProvinceData(params);
       } else if (this.level == 1) {
         return this.fetchDistrictData(params);
@@ -638,10 +668,8 @@ export default {
   },
   created() {
     this.navigate();
-    if (this.userLevel == 1) {
-      this.getQueries();
-      this.fetchData(this.queries);
-    }
+    this.getQueries();
+    this.fetchData(this.queries);
     addSTTcolumns.bind(this)(
       columnProvince,
       columnDistrict,

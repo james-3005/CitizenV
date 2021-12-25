@@ -66,7 +66,8 @@ export default {
     user: getUser(),
   }),
   created() {
-    if (getUser().level == 5) options = options.filter((item) => item.id !== 4);
+    if (getUser().level == 5)
+      this.options = options.filter((item) => item.id !== 4);
   },
   methods: {
     handleLogout() {

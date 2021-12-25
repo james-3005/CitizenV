@@ -40,9 +40,7 @@
         </p>
       </span>
       <span slot="dob" slot-scope="data">
-        <p>
-          {{ moment(data.dob).format('DD-MM-YYYY') }}
-        </p>
+        {{ moment(data.dob).format('DD-MM-YYYY') }}
       </span>
       <span slot="ward" slot-scope="ward">
         <p class="blue" @click="() => handleClickWard(ward.name)">
@@ -133,6 +131,7 @@ import { message } from '../utilities/messageValidate';
 export default {
   name: 'TableCitizen',
   props: [
+    'level',
     'columns',
     'data',
     'pagination',

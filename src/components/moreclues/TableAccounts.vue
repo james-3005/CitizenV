@@ -6,6 +6,15 @@
       </div>
       <div>
         <a-button
+          v-if="userLevel == 4"
+          size="small"
+          class="ListCitizen-header-button"
+          onclick="window.open('https://drive.google.com/file/d/1Wb8sjtNAFTmR0LMbUxrWWbT3g52hV7Va/edit', '_blank'); return false;"
+          type="button"
+        >
+          Mẫu phiếu
+        </a-button>
+        <a-button
           v-if="userLevel < 5"
           type="primary"
           icon="user-add"
