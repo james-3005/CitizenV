@@ -80,13 +80,6 @@ const getNameFromCode = (code) => {
   if (code.length === 8) return getQuarter({ code });
   return null;
 };
-
-const getAgeStat = (params, loading = true) =>
-  requestWithToken.get('/analytic/age', {
-    params: {
-      ...params,
-    },
-  });
 export {
   getProvince,
   getDistrict,
@@ -95,5 +88,4 @@ export {
   getQuarter,
   getNameFromCode,
   getQuarterCode,
-  getAgeStat,
 };
