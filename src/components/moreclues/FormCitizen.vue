@@ -49,10 +49,6 @@
 <script>
 import moment from 'moment';
 export default {
-  // props: {
-  //   handleToggleProgress: Function,
-  //   list: Array,
-  // },
   data: function () {
     return {
       moment,
@@ -62,16 +58,5 @@ export default {
   updated() {
     console.log(this.dob.format('DD-MM-YYYY'));
   },
-  // mounted() {
-  //   this.sign =
-  //     (this.list.filter((item) => item.status === 'Đã điền').length /
-  //       this.list.length) *
-  //     100;
-  //   this.notSign = 100 - this.sign;
-  // },
-  // methods: {},
-  // components: {
-  //   HeaderMenu,
-  // },
 };
 </script>

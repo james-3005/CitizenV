@@ -41,7 +41,6 @@ import {
   addUnit,
   addWard,
 } from '../../services/auth';
-const plainOptions = ['Thêm', 'Đọc', 'Sửa', 'Xóa'];
 export default {
   props: ['addValue'],
   data: function () {
@@ -138,9 +137,6 @@ export default {
         this.$message.error('Đã xảy ra lỗi, vui lòng thử lại');
       }
     },
-  },
-  updated() {
-    console.log(this.permissions);
   },
 };
 </script>

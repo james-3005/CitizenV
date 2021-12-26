@@ -112,8 +112,6 @@
 <script>
 import moment from 'moment';
 import { addCitizen, updateCitizen } from '../../services/auth';
-import { getUser } from '../utilities/localStorage';
-import { getQuarter } from '../../services/getCitizen';
 import { message } from '../utilities/messageValidate';
 
 export default {
@@ -165,22 +163,16 @@ export default {
         levelOfEducation: this.levelOfEducation,
         job: this.job,
         resourceCode: this.resourceCode,
-        // status: getUser().level === 4 ? "DONE" : "PENDING",
       }).then((res) => {
-        console.log(res);
         if (res.success) {
           this.$message.success(message.REGISTER_SUCCESS);
           this.addValue(res.data);
-          console.log(res.data);
         } else {
           this.$message.error(message.REGISTER_FAIL);
-          console.log(res.data);
         }
       });
     },
     handleAdjust() {
-      console.log('dcm');
-      console.log(this.data._id);
       updateCitizen(this.data._id, {
         citizenId: this.citizenId,
         fullname: this.fullname,
@@ -205,9 +197,6 @@ export default {
       });
     },
   },
-  updated() {
-    console.log(this.date.format('DD-MM-YYYY'));
-  },
   mounted() {
     const citizenAddress =
       this.address.quarterName +
@@ -223,7 +212,6 @@ export default {
     this.resourceCode = this.$route.query.resourceCode;
     if (this.toAdjust === true) {
       console.log('this is to adjust');
-      // console.log(this.data);
       this.citizenId = this.data.citizenId;
       this.fullname = this.data.fullname;
       this.dob = this.data.dob;

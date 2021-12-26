@@ -186,8 +186,6 @@ import {
   getCitizen,
   getWard,
   getQuarter,
-  getQuarterCode,
-  getNameFromCode,
 } from '../../services/getCitizen';
 import { B1Approve, getStatus } from '../../services/survey';
 import {
@@ -198,7 +196,7 @@ import {
   columnQuarter,
   columnsCitizen,
 } from '../utilities/constTableData';
-import { getName, level } from '../utilities/queryExtraction';
+import { level } from '../utilities/queryExtraction';
 import { getUser } from '../utilities/localStorage';
 import { message } from '../utilities/messageValidate';
 export default {
@@ -275,13 +273,6 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnDistrict;
-        // if (this.userLevel == 2) {
-        //   this.columns.push({
-        //     title: 'Tác vụ',
-        //     scopedSlots: { customRender: 'action' },
-        //     className: 'Table-action',
-        //   })
-        // }
         this.scroll = {};
         Promise.all(
           data.data.map(async (row) => {
@@ -315,13 +306,6 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnWard;
-        // if (this.userLevel == 3) {
-        //   this.columns.push({
-        //     title: 'Tác vụ',
-        //     scopedSlots: { customRender: 'action' },
-        //     className: 'Table-action',
-        //   })
-        // }
         this.scroll = {};
         Promise.all(
           data.data.map(async (row) => {
@@ -355,13 +339,6 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnQuarter;
-        // if (this.userLevel == 4) {
-        //   this.columns.push({
-        //     title: 'Tác vụ',
-        //     scopedSlots: { customRender: 'action' },
-        //     className: 'Table-action',
-        //   })
-        // }
         this.scroll = {};
         Promise.all(
           data.data.map(async (row) => {
@@ -395,14 +372,6 @@ export default {
         this.data = data.data;
         this.pagination = pagination;
         this.columns = columnsCitizen;
-        // if (this.userLevel >= 4) {
-        //   this.columns.push({
-        //     title: 'Tác vụ',
-        //     scopedSlots: { customRender: 'action' },
-        //     className: 'Table-action',
-        //     fixed: 'right'
-        //   })
-        // }
         this.scroll = { x: 2000 };
         console.log(this.data);
       });
@@ -466,7 +435,6 @@ export default {
     },
     openCitizenForm() {
       this.form_citizen_visible = true;
-      console.log(this.data);
     },
     closeCitizenForm() {
       this.form_citizen_visible = false;
@@ -524,7 +492,6 @@ export default {
     },
     clearSearch() {
       this.search = '';
-      // this.fetchData(this.queries);
     },
     addGroup(value) {
       this.groupSearch = [...new Set(this.groupSearch).add(value)];
@@ -534,9 +501,6 @@ export default {
     },
     searchGroup() {
       this.resourceCode = this.groupSearch.map((item) => item.code).toString();
-      // this.fetchCitizenData({
-      //   resourceCode: this.resourceCode,
-      // });
       this.backupFetch = this.fetchData;
       this.fetchData = this.fetchCitizenData;
       this.fetchData();
